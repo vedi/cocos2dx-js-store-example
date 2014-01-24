@@ -24,7 +24,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-  require("src/MainScene.js");
   require("src/MainScreen.js");
   require("src/StoreAScene.js");
   require("src/StoreBScene.js");
@@ -45,3 +44,81 @@ testJSB.callback = function (i, j) {
   log("JSB Callback" + i + ", " + j);
 };
 testJSB.functionTest();
+
+function applyScaleForNode(node) {
+  var winSize = cc.Director.getInstance().getWinSize();
+  var scale = winSize.width / node.getContentSize().width < winSize.height / node.getContentSize().height ?
+    winSize.width / node.getContentSize().width : winSize.height / node.getContentSize().height;
+  node.setScale(scale);
+  node.setPosition(cc.p((winSize.width - node.getContentSize().width * scale) / 2,
+    (winSize.height - node.getContentSize().height * scale) / 2));
+
+  return scale;
+}
+
+function fill(targetNode) {
+  var contentPoint = cc.p(targetNode.getContentSize().width, targetNode.getContentSize().height);
+
+  var leftBottom = targetNode.getParent().convertToWorldSpace(targetNode.getPosition());
+  var rightTop =
+    targetNode.getParent().convertToWorldSpace(
+      cc.p(targetNode.getPosition().x + contentPoint.x, targetNode.getPosition().y + contentPoint.y));
+
+  var winSize = cc.Director.getInstance().getWinSize();
+
+  var scaleX = winSize.width / (rightTop.x - leftBottom.x);
+  var scaleY = winSize.height / (rightTop.y - leftBottom.y);
+
+  targetNode.setScale(scaleX > scaleY ? scaleX : scaleY);
+}
+
+function shiftToLeftBottom(targetNode) {
+  var position = targetNode.getParent().convertToNodeSpace(cc.POINT_ZERO);
+  targetNode.setPosition(position);
+}
+
+function shiftToTop(targetNode) {
+  var winSize = cc.Director.getInstance().getWinSize();
+  var position =
+    targetNode.getParent().convertToNodeSpace(cc.p(winSize.width, winSize.height));
+  targetNode.setPositionY(position.y);
+}
+
+function shiftToBottom(targetNode) {
+  var position = targetNode.getParent().convertToNodeSpace(cc.p(0, 0));
+  targetNode.setPositionY(position.y);
+}
+
+function fillWidth(targetNode) {
+  var leftBottom =
+    targetNode.getParent().convertToWorldSpace(targetNode.getPosition());
+  var contentPoint = cc.p(targetNode.getContentSize().width, targetNode.getContentSize().height);
+  var rightTop =
+    targetNode.getParent().convertToWorldSpace(
+      cc.p(targetNode.getPosition().x + contentPoint.x, targetNode.getPosition().y + contentPoint.y));
+
+  var winSize = cc.Director.getInstance().getWinSize();
+
+  targetNode.setScale(winSize.width / (rightTop.x - leftBottom.x));
+}
+
+function putToCenterMiddleOf(targetNode, anchorNode) {
+
+  var contentPoint = cc.p(anchorNode.getContentSize().width, anchorNode.getContentSize().height);
+  var minusAnchorPoint = cc.p(1 - anchorNode.getAnchorPoint().x, 1 - anchorNode.getAnchorPoint().y);
+
+  var leftBottom =
+    anchorNode.convertToWorldSpaceAR(
+        cc.p(
+          -anchorNode.getAnchorPoint().x * contentPoint.width,
+          -anchorNode.getAnchorPoint().y * contentPoint.height));
+  var rightTop =
+    anchorNode.convertToWorldSpaceAR(
+        cc.p(
+          minusAnchorPoint.x * contentPoint.width,
+          minusAnchorPoint.y * contentPoint.height));
+  var globalPosition = cc.p(leftBottom.x + (rightTop.x - leftBottom.x) / 2, leftBottom.y + (rightTop.y - leftBottom.y) / 2);
+
+  targetNode.setPosition(targetNode.getParent().convertToNodeSpace(globalPosition));
+}
+

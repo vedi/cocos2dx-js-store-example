@@ -6,6 +6,9 @@ var MainScreen = cc.Class.extend({
     var rootNode = this.rootNode;
     rootNode.setTouchEnabled(true);
 
+    applyScaleForNode(this.rootNode);
+    fill(this.mBackgroundNode);
+
     rootNode.onTouchesBegan = function (touches, event) {
       this.controller.onTouchesBegan(touches, event);
       return true;

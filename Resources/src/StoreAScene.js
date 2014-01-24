@@ -9,6 +9,12 @@ var StoreAScene = cc.Class.extend({
   mCacheListItems: [],
 
   onDidLoadFromCCB: function () {
+    applyScaleForNode(this.rootNode);
+    fill(this.mBackgroundNode);
+//    putToCenterMiddleOf(this.mMainNode, this.mBackgroundNode);
+    shiftToTop(this.mTopNode);
+    shiftToBottom(this.mBottomNode);
+
     //  create TableView instead of node-container
     var tableParent = this.mGoodsTableView.getParent();
     tableParent.removeChild(this.mGoodsTableView);

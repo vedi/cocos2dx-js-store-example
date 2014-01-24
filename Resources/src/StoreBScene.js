@@ -8,6 +8,11 @@ var StoreBScene = cc.Class.extend({
   _mPrices: [],
 
   onDidLoadFromCCB: function () {
+    applyScaleForNode(this.rootNode);
+    fill(this.mBackgroundNode);
+    shiftToTop(this.mTopNode);
+    shiftToBottom(this.mBottomNode);
+
     for (var i = 0; i < this.GOODS_NUMBER; i++) {
 
       // TODO: Implement
