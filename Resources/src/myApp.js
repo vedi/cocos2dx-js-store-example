@@ -24,12 +24,47 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+  require("underscore.js");
+  require("soomla.js");
+  require("src/MuffinRushAssets.js");
+  require("src/ExampleEventHandler.js");
   require("src/MainScreen.js");
   require("src/StoreAScene.js");
   require("src/StoreBScene.js");
   require("src/LevelIconWidget.js");
 
 function startApplication(director) {
+
+  var handler = new ExampleEventHandler();
+
+  // We initialize CCStoreController and the event handler before
+  // we open the store.
+  Soomla.soomla.addEventHandler(handler);
+
+  var assets = new MuffinRushAssets();
+  var storeParams = {
+    soomSec: "ExampleSoomSecret",
+    androidPublicKey: "ExamplePublicKey",
+    customSecret: "ExampleCustomSecret"
+  };
+
+  // This is the call to initialize CCStoreController
+  Soomla.StoreController.createShared(assets, storeParams);
+
+  /*
+   * ** Set the amount of each currency to 10,000 if the **
+   * ** balance drops under 1,000                        **
+   *
+   * ** Of course, this is just for testing...           **
+   */
+  var currencies = Soomla.storeInfo.getVirtualCurrencies();
+  _.forEach(currencies, function(vc) {
+    var balance = Soomla.storeInventory.getItemBalance(vc.itemId);
+    if (balance < 1000) {
+      Soomla.storeInventory.giveItem(vc.itemId, 10000 - balance);
+    }
+  });
+
 // create a scene. it's an autorelease object
 //  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScene");
   var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen");

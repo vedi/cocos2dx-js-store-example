@@ -57,7 +57,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     sc->addRegisterCallback(register_all);
 
     sc->start();
-    
+
+#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+    sc->enableDebugger();   // Enable debugger here
+#endif
+
     CCScriptEngineProtocol *pEngine = ScriptingCore::getInstance();
     CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
     ScriptingCore::getInstance()->runScript("cocos2d-jsb.js");

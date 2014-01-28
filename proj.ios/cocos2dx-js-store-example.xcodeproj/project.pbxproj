@@ -238,13 +238,12 @@
 		372B758A5258C2AA90BE4DB9 /* VirtualCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7AD97F36EAAA7F09CD81 /* VirtualCurrency.m */; };
 		372B75B834C7A9F4A1CA9990 /* CCSoomlaNdkBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7F6F0612BBD6FB96BA60 /* CCSoomlaNdkBridge.cpp */; };
 		372B75EE796036CEBB15318F /* CCSoomlaError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B714840219D172D66D659 /* CCSoomlaError.cpp */; };
-		372B76A647CD340481637230 /* models.js in Sources */ = {isa = PBXBuildFile; fileRef = 372B76BFC1D7EA1D1956E9CF /* models.js */; };
+		372B76A647CD340481637230 /* soomla.js in Sources */ = {isa = PBXBuildFile; fileRef = 372B76BFC1D7EA1D1956E9CF /* soomla.js */; };
 		372B76CE4405A9F040AF82A4 /* VirtualGood.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7C6BA64F30B9BDFFB1B3 /* VirtualGood.m */; };
 		372B76E28157F2BF790964FE /* AppStoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B70A065B6EE3E1FD190F6 /* AppStoreItem.m */; };
 		372B76FAA074AACD6D4F1E37 /* StoreInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7E7C8145D7FC72896209 /* StoreInfo.m */; };
 		372B7716038A6A8B879BD5FB /* EquippableVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B717A93F3C9DA6B750CCD /* EquippableVG.m */; };
 		372B774A88D62E735E10F663 /* CCStoreController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7BE077BBB9D622E05F28 /* CCStoreController.cpp */; };
-		372B776CC110EA9CE633CACB /* GameScene.js in Sources */ = {isa = PBXBuildFile; fileRef = 372B70EF279E4E67C3143EAF /* GameScene.js */; };
 		372B778C721D368F832755C3 /* StoreInfoBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 372B78B86759C29B039CF8A4 /* StoreInfoBridge.mm */; };
 		372B77A6EA7614374C8F86DD /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B76D43F820049FBBD1EFD /* value.c */; };
 		372B77AC1F3DFEC95ABBCFA0 /* JSB_AUTO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B70BABE63C46CC7FBAA65 /* JSB_AUTO.cpp */; };
@@ -323,6 +322,8 @@
 		46513EB6187C02A600B5ABE1 /* UITouchGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46513EB4187C02A600B5ABE1 /* UITouchGroup.cpp */; };
 		46513EB8187C034200B5ABE1 /* cocos2d-jsb.js in Sources */ = {isa = PBXBuildFile; fileRef = 46513EB7187C034200B5ABE1 /* cocos2d-jsb.js */; };
 		46513EB9187C03D300B5ABE1 /* cocos2d-jsb.js in Resources */ = {isa = PBXBuildFile; fileRef = 46513EB7187C034200B5ABE1 /* cocos2d-jsb.js */; };
+		9D4045661897EE1B00286243 /* soomla.js in Resources */ = {isa = PBXBuildFile; fileRef = 372B76BFC1D7EA1D1956E9CF /* soomla.js */; };
+		9D4045671897EE1B00286243 /* underscore.js in Resources */ = {isa = PBXBuildFile; fileRef = 372B70902034D19E36FE8794 /* underscore.js */; };
 		A92275421517C094001B78AA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275411517C094001B78AA /* QuartzCore.framework */; };
 		A92275441517C094001B78AA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275431517C094001B78AA /* OpenGLES.framework */; };
 		A92275461517C094001B78AA /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275451517C094001B78AA /* OpenAL.framework */; };
@@ -749,7 +750,6 @@
 		372B70CAE6510ACB35D0A04F /* SingleUseVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleUseVG.m; sourceTree = "<group>"; };
 		372B70DC6BE6B69FB1043687 /* SoomlaVerification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoomlaVerification.m; sourceTree = "<group>"; };
 		372B70E28BB8C5683D4C102B /* CCSoomlaNdkBridgeIos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCSoomlaNdkBridgeIos.mm; sourceTree = "<group>"; };
-		372B70EF279E4E67C3143EAF /* GameScene.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GameScene.js; sourceTree = "<group>"; };
 		372B710323CBAF57E4DB6528 /* strbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strbuffer.h; sourceTree = "<group>"; };
 		372B7113D1D8EAD6F4B55948 /* VirtualItemStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualItemStorage.m; sourceTree = "<group>"; };
 		372B7116E8A18204A78E7130 /* SoomlaNDKGlue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoomlaNDKGlue.h; sourceTree = "<group>"; };
@@ -809,7 +809,7 @@
 		372B765744D4E81FB6E091F6 /* StoreConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreConfig.m; sourceTree = "<group>"; };
 		372B769B28785A506094884A /* CCSoomlaNdkBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSoomlaNdkBridge.h; sourceTree = "<group>"; };
 		372B76A61F14731D4FF66ECC /* StorefrontInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorefrontInfo.m; sourceTree = "<group>"; };
-		372B76BFC1D7EA1D1956E9CF /* models.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = models.js; sourceTree = "<group>"; };
+		372B76BFC1D7EA1D1956E9CF /* soomla.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = soomla.js; sourceTree = "<group>"; };
 		372B76C3217E9B3B15C629A2 /* CCSingleUseVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSingleUseVG.h; sourceTree = "<group>"; };
 		372B76C3905CF0C079DC0660 /* VirtualItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualItem.m; sourceTree = "<group>"; };
 		372B76D0F665A6BD5434D46A /* JSBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBinding.h; sourceTree = "<group>"; };
@@ -2102,7 +2102,7 @@
 		372B7F36B5B8593CE5D58B15 /* js */ = {
 			isa = PBXGroup;
 			children = (
-				372B76BFC1D7EA1D1956E9CF /* models.js */,
+				372B76BFC1D7EA1D1956E9CF /* soomla.js */,
 				372B7F02F3008E60CAD7451A /* test.html */,
 				372B70902034D19E36FE8794 /* underscore.js */,
 			);
@@ -2275,7 +2275,6 @@
 				372B7B74D1C95C1DB74A8B1E /* StoreAScene.cpp */,
 				372B7BF056292AFF33EE79F2 /* ExampleEventHandler.h */,
 				372B7AE520CE8849CDD6DAE4 /* StoreAScene.h */,
-				372B70EF279E4E67C3143EAF /* GameScene.js */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -2348,6 +2347,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D4045661897EE1B00286243 /* soomla.js in Resources */,
+				9D4045671897EE1B00286243 /* underscore.js in Resources */,
 				3EC20B8618331D7400F2C4D6 /* jsb_cocos2d_studio.js in Resources */,
 				1A5E740017F0870800B9ACAE /* jsb_deprecated.js in Resources */,
 				1AA51AEB16F71C3D000FDF05 /* jsb_chipmunk_constants.js in Resources */,
@@ -2581,7 +2582,7 @@
 				1A5E74CA17F0874400B9ACAE /* UISlider.cpp in Sources */,
 				1A5E74CC17F0874400B9ACAE /* UITextField.cpp in Sources */,
 				1A5E74CE17F0874400B9ACAE /* DictionaryHelper.cpp in Sources */,
-				372B76A647CD340481637230 /* models.js in Sources */,
+				372B76A647CD340481637230 /* soomla.js in Sources */,
 				372B729C3211E1CBC603C66D /* underscore.js in Sources */,
 				372B7F3FA3D0E260862A090B /* SoomlaNDKGlue.mm in Sources */,
 				372B778C721D368F832755C3 /* StoreInfoBridge.mm in Sources */,
@@ -2673,7 +2674,6 @@
 				372B7E8E6D4A037E8698EDCE /* StoreBScene.cpp in Sources */,
 				372B77AC1F3DFEC95ABBCFA0 /* JSB_AUTO.cpp in Sources */,
 				372B7FF1C7EA22ECF99D04A2 /* StoreAScene.cpp in Sources */,
-				372B776CC110EA9CE633CACB /* GameScene.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
