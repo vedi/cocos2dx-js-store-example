@@ -24,7 +24,7 @@ var LevelIconWidget = cc.Class.extend({
 
   setProgress: function(progress) {
     if (progress >= 0 && progress <= 5) {
-      mProgressLevel1.setScaleX(progress);
+      this.mProgressLevel1.setScaleX(progress);
     } else {
       cc.log("Sorry UI does not support such progress");
     }
@@ -32,41 +32,38 @@ var LevelIconWidget = cc.Class.extend({
 
   setEquiped: function(equiped) {
     this.mEquiped = equiped;
-    this.mEquipment.setNormalSpriteFrame(cc.SpriteFrameCache.getInstance().spriteFrameByName(
+    this.mEquipment.setNormalSpriteFrame(cc.SpriteFrameCache.getInstance().getSpriteFrame(
       equiped ? "equipped_O.png" : "equip_O.png"));
   },
 
   onBuy: function(pSender) {
     cc.log("onBuy");
-    // TODO: Implement
-//    soomla::CCSoomlaError *soomlaError = NULL;
-//    soomla::CCStoreInventory::sharedStoreInventory()->buyItem(mItemId.c_str(), &soomlaError);
-//    if (soomlaError) {
-//      soomla::CCStoreUtils::logException("LevelIconWidget::onBuy", soomlaError);
-//    }
+    try {
+      Soomla.storeInventory.buyItem(this.mItemId);
+    } catch(e) {
+      Soomla.logError("LevelIconWidget: " + Soomla.dumpError(e));
+    }
   },
 
   onUpgrade: function(pSender) {
     cc.log("onUpgrade");
-    // TODO: Implement
-//    soomla::CCSoomlaError *soomlaError = NULL;
-//    soomla::CCStoreInventory::sharedStoreInventory()->upgradeGood(mItemId.c_str(), &soomlaError);
-//    if (soomlaError) {
-//      soomla::CCStoreUtils::logException("LevelIconWidget::onUpgrade", soomlaError);
-//    }
+    try {
+      Soomla.storeInventory.upgradeGood(this.mItemId);
+    } catch(e) {
+      Soomla.logError("LevelIconWidget: " + Soomla.dumpError(e));
+    }
   },
 
   onEquipment: function(pSender) {
     cc.log("onEquipment");
-    // TODO: Implement
-//  soomla::CCSoomlaError *soomlaError = NULL;
-//  if (!this->mEquiped) {
-//    soomla::CCStoreInventory::sharedStoreInventory()->equipVirtualGood(mItemId.c_str(), &soomlaError);
-//  } else {
-//    soomla::CCStoreInventory::sharedStoreInventory()->unEquipVirtualGood(mItemId.c_str(), &soomlaError);
-//  }
-//  if (soomlaError) {
-//    soomla::CCStoreUtils::logException("LevelIconWidget::onEquipment", soomlaError);
-//  }
+    try {
+      if (!this.mEquiped) {
+        Soomla.storeInventory.equipVirtualGood(this.mItemId);
+      } else {
+        Soomla.storeInventory.unEquipVirtualGood(this.mItemId);
+      }
+    } catch(e) {
+      Soomla.logError("LevelIconWidget: " + Soomla.dumpError(e));
+    }
   }
 });

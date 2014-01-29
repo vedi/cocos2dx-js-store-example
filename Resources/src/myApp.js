@@ -74,11 +74,17 @@ function startApplication(director) {
 }
 
 
-var testJSB = new JSB.JSBinding();
-testJSB.callback = function (i, j) {
-  log("JSB Callback" + i + ", " + j);
-};
-testJSB.functionTest();
+//var jsonString = Soomla.CCSoomlaNdkBridge.callNative(JSON.stringify({method: "test", params: {p1: 1, p2: "2"}}));
+//cc.log("jsonString: " + jsonString);
+//var result = JSON.parse(jsonString);
+//cc.log("result: " + result);
+//if (result) {
+//  cc.log("result.result: " + result.result);
+//}
+//testJSB.callback = function (i, j) {
+//  log("JSB Callback" + i + ", " + j);
+//};
+//testJSB.callNative();
 
 function applyScaleForNode(node) {
   var winSize = cc.Director.getInstance().getWinSize();

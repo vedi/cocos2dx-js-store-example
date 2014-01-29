@@ -246,7 +246,7 @@
 		372B774A88D62E735E10F663 /* CCStoreController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7BE077BBB9D622E05F28 /* CCStoreController.cpp */; };
 		372B778C721D368F832755C3 /* StoreInfoBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 372B78B86759C29B039CF8A4 /* StoreInfoBridge.mm */; };
 		372B77A6EA7614374C8F86DD /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B76D43F820049FBBD1EFD /* value.c */; };
-		372B77AC1F3DFEC95ABBCFA0 /* JSB_AUTO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B70BABE63C46CC7FBAA65 /* JSB_AUTO.cpp */; };
+		372B77AC1F3DFEC95ABBCFA0 /* jsb_soomla.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B70BABE63C46CC7FBAA65 /* jsb_soomla.cpp */; };
 		372B77CB4C0A64330DECE042 /* NonConsumableStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7C067EAF50D3EA48DEF0 /* NonConsumableStorage.m */; };
 		372B77E7ACCA17A6BF9EADCB /* StoreConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B765744D4E81FB6E091F6 /* StoreConfig.m */; };
 		372B7863C7563A1A0E94B343 /* strbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B795F420BC4FF42F5C34A /* strbuffer.c */; };
@@ -746,7 +746,7 @@
 		372B70B0FE16A27B8775D10D /* dump.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dump.c; sourceTree = "<group>"; };
 		372B70B7A106AB6CA50D0ED3 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		372B70B9322A20161A7A3534 /* CCNonConsumableItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNonConsumableItem.h; sourceTree = "<group>"; };
-		372B70BABE63C46CC7FBAA65 /* JSB_AUTO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSB_AUTO.cpp; sourceTree = "<group>"; };
+		372B70BABE63C46CC7FBAA65 /* jsb_soomla.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsb_soomla.cpp; sourceTree = "<group>"; };
 		372B70CAE6510ACB35D0A04F /* SingleUseVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleUseVG.m; sourceTree = "<group>"; };
 		372B70DC6BE6B69FB1043687 /* SoomlaVerification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoomlaVerification.m; sourceTree = "<group>"; };
 		372B70E28BB8C5683D4C102B /* CCSoomlaNdkBridgeIos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCSoomlaNdkBridgeIos.mm; sourceTree = "<group>"; };
@@ -765,7 +765,7 @@
 		372B721677884FB93EF1453B /* jansson_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jansson_config.h; sourceTree = "<group>"; };
 		372B7223B29F1834298DED62 /* KeyValDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValDatabase.h; sourceTree = "<group>"; };
 		372B72505F1247149FC10166 /* CCVirtualItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCVirtualItem.cpp; sourceTree = "<group>"; };
-		372B7253D9997A15F3C46951 /* JSB_AUTO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSB_AUTO.h; sourceTree = "<group>"; };
+		372B7253D9997A15F3C46951 /* jsb_soomla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsb_soomla.h; sourceTree = "<group>"; };
 		372B726D6C1B5BBE9E6A9D86 /* VirtualCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualCategory.h; sourceTree = "<group>"; };
 		372B72AC4BA61FB6F202BA24 /* CCPurchasableVirtualItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPurchasableVirtualItem.h; sourceTree = "<group>"; };
 		372B72E436A6B652A7F0F69B /* CCVirtualItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCVirtualItem.h; sourceTree = "<group>"; };
@@ -2261,7 +2261,7 @@
 				D4545216156E28EF00887EB5 /* AppDelegate.h */,
 				372B704BC7B2F4AF7788B37D /* JSBinding.cpp */,
 				372B79C9FB043C0943624D75 /* MuffinRushAssets.cpp */,
-				372B7253D9997A15F3C46951 /* JSB_AUTO.h */,
+				372B7253D9997A15F3C46951 /* jsb_soomla.h */,
 				372B704B03093FAF27CEFF67 /* StoreBScene.h */,
 				372B7428053A0B58E81062F1 /* LevelIconWidget.h */,
 				372B79F522BE34ECA7C53D91 /* ExampleEventHandler.cpp */,
@@ -2270,7 +2270,7 @@
 				372B7060763904E3E82A0856 /* MainScene.cpp */,
 				372B71EFFD66971900C610CE /* MainScene.h */,
 				372B78622600D55B6F39B508 /* StoreBScene.cpp */,
-				372B70BABE63C46CC7FBAA65 /* JSB_AUTO.cpp */,
+				372B70BABE63C46CC7FBAA65 /* jsb_soomla.cpp */,
 				372B76D0F665A6BD5434D46A /* JSBinding.h */,
 				372B7B74D1C95C1DB74A8B1E /* StoreAScene.cpp */,
 				372B7BF056292AFF33EE79F2 /* ExampleEventHandler.h */,
@@ -2672,7 +2672,7 @@
 				372B78EE4A26C1B02682B656 /* LevelIconWidget.cpp in Sources */,
 				372B7E159181F354BF5AB62E /* MainScene.cpp in Sources */,
 				372B7E8E6D4A037E8698EDCE /* StoreBScene.cpp in Sources */,
-				372B77AC1F3DFEC95ABBCFA0 /* JSB_AUTO.cpp in Sources */,
+				372B77AC1F3DFEC95ABBCFA0 /* jsb_soomla.cpp in Sources */,
 				372B7FF1C7EA22ECF99D04A2 /* StoreAScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2711,6 +2711,7 @@
 					"$(SRCROOT)/../../scripting/javascript/spidermonkey-ios/include1",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-O0";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

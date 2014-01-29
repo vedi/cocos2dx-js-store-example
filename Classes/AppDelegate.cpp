@@ -15,7 +15,7 @@
 #include "jsb_opengl_registration.h"
 #include "XMLHTTPRequest.h"
 #include "jsb_websocket.h"
-#include "JSB_AUTO.h"
+#include "jsb_soomla.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -54,12 +54,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     sc->addRegisterCallback(JSB_register_opengl);
     sc->addRegisterCallback(MinXmlHttpRequest::_js_register);
     sc->addRegisterCallback(register_jsb_websocket);
-    sc->addRegisterCallback(register_all);
+    sc->addRegisterCallback(register_jsb_soomla);
 
     sc->start();
 
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
-    sc->enableDebugger();   // Enable debugger here
+//    sc->enableDebugger();   // Enable debugger here
 #endif
 
     CCScriptEngineProtocol *pEngine = ScriptingCore::getInstance();

@@ -30,8 +30,8 @@ function MuffinRushAssets() {
     name: "10 Muffins",
     description: "Test refund of an item",
     itemId: "muffins_10",
-    currencyAmount: 10,
-    currencyItemId: MUFFIN_CURRENCY_ITEM_ID,
+    currency_amount: 10,
+    currency_itemId: MUFFIN_CURRENCY_ITEM_ID,
     purchasableItem: Soomla.PurchaseWithMarket.createWithMarketItem(TENMUFF_PACK_PRODUCT_ID, 0.99)
   });
 
@@ -39,8 +39,8 @@ function MuffinRushAssets() {
     name: "50 Muffins",
     description: "Test cancellation of an item",
     itemId: "muffins_50",
-    currencyAmount: 50,
-    currencyItemId: MUFFIN_CURRENCY_ITEM_ID,
+    currency_amount: 50,
+    currency_itemId: MUFFIN_CURRENCY_ITEM_ID,
     purchasableItem: Soomla.PurchaseWithMarket.createWithMarketItem(FIFTYMUFF_PACK_PRODUCT_ID, 1.99)
   });
 
@@ -48,8 +48,8 @@ function MuffinRushAssets() {
     name: "400 Muffins",
     description: "Test purchase of an item",
     itemId: "muffins_400",
-    currencyAmount: 400,
-    currencyItemId: MUFFIN_CURRENCY_ITEM_ID,
+    currency_amount: 400,
+    currency_itemId: MUFFIN_CURRENCY_ITEM_ID,
     purchasableItem: Soomla.PurchaseWithMarket.createWithMarketItem(FOURHUNDMUFF_PACK_PRODUCT_ID, 4.99)
   });
 
@@ -57,8 +57,8 @@ function MuffinRushAssets() {
     name: "1000 Muffins",
     description: "Test item unavailable",
     itemId: "muffins_1000",
-    currencyAmount: 1000,
-    currencyItemId: MUFFIN_CURRENCY_ITEM_ID,
+    currency_amount: 1000,
+    currency_itemId: MUFFIN_CURRENCY_ITEM_ID,
     purchasableItem: Soomla.PurchaseWithMarket.createWithMarketItem(THOUSANDMUFF_PACK_PRODUCT_ID, 8.99)
   });
 
@@ -68,8 +68,8 @@ function MuffinRushAssets() {
     description: "Customers buy a double portion on each purchase of this cake",
     itemId: "fruit_cake",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 225
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 225
     })
   });
 
@@ -78,20 +78,20 @@ function MuffinRushAssets() {
     description: "Gives customers a sugar rush and they call their friends",
     itemId: "pavlova",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 175
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 175
     })
   });
 
   var tenPavlovaGoods = Soomla.SingleUsePackVG.create({
-    goodItemId: "pavlova",
-    goodAmount: 10,
+    good_itemId: "pavlova",
+    good_amount: 10,
     name: "10 Pavlova",
     description: "Gives customers a sugar rush and they call their friends",
     itemId: "pavlova_10",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 1750
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 1750
     })
   });
 
@@ -100,8 +100,8 @@ function MuffinRushAssets() {
     description: "A classic cake to maximize customer satisfaction",
     itemId: "chocolate_cake",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 250
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 250
     })
   });
 
@@ -110,20 +110,20 @@ function MuffinRushAssets() {
     description: "Increase bakery reputation with this original pastry",
     itemId: "cream_cup",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 50
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 50
     })
   });
 
   var tenCreamcupGoods = Soomla.SingleUsePackVG.create({
-    goodItemId: "cream_cup",
-    goodAmount: 10,
+    good_itemId: "cream_cup",
+    good_amount: 10,
     name: "10 Cream Cup",
     description: "Increase bakery reputation with this original pastry",
     itemId: "cream_cup_10",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 500
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 500
     })
   });
 
@@ -132,73 +132,73 @@ function MuffinRushAssets() {
     description: "Show Room ",
     itemId: "show_room",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 100
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 100
     })
   });
 
   var showRoomGood0 = Soomla.UpgradeVG.create({
-    goodItemId: "show_room",
-    prevItemId: null,
-    nextItemId: "show_room_1",
+    good_itemId: "show_room",
+    prev_itemId: null,
+    next_itemId: "show_room_1",
     name: "Show Room L0",
     description: "",
     itemId: "show_room_0",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 220
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 220
     })
   });
 
   var showRoomGood1 = Soomla.UpgradeVG.create({
-    goodItemId: "show_room",
-    prevItemId: "show_room_0",
-    nextItemId: "show_room_2",
+    good_itemId: "show_room",
+    prev_itemId: "show_room_0",
+    next_itemId: "show_room_2",
     name: "Show Room L1",
     description: "",
     itemId: "show_room_1",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 220
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 220
     })
   });
 
   var showRoomGood2 = Soomla.UpgradeVG.create({
-    goodItemId: "show_room",
-    prevItemId: "show_room_1",
-    nextItemId: "show_room_3",
+    good_itemId: "show_room",
+    prev_itemId: "show_room_1",
+    next_itemId: "show_room_3",
     name: "Show Room L2",
     description: "",
     itemId: "show_room_2",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 220
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 220
     })
   });
 
   var showRoomGood3 = Soomla.UpgradeVG.create({
-    goodItemId: "show_room",
-    prevItemId: "show_room_2",
-    nextItemId: "show_room_4",
+    good_itemId: "show_room",
+    prev_itemId: "show_room_2",
+    next_itemId: "show_room_4",
     name: "Show Room L3",
     description: "",
     itemId: "show_room_3",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 220
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 220
     })
   });
 
   var showRoomGood4 = Soomla.UpgradeVG.create({
-    goodItemId: "show_room",
-    prevItemId: "show_room_3",
-    nextItemId: null,
+    good_itemId: "show_room",
+    prev_itemId: "show_room_3",
+    next_itemId: null,
     name: "Show Room L4",
     description: "",
     itemId: "show_room_4",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 220
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 220
     })
   });
 
@@ -207,73 +207,73 @@ function MuffinRushAssets() {
     description: "Delivery Vehicle",
     itemId: "delivery_vehicle",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 20
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 20
     })
   });
 
   var deliveryVehicleGood0 = Soomla.UpgradeVG.create({
-    goodItemId: "delivery_vehicle",
-    prevItemId: null,
-    nextItemId: "delivery_vehicle_1",
+    good_itemId: "delivery_vehicle",
+    prev_itemId: null,
+    next_itemId: "delivery_vehicle_1",
     name: "Delivery Vehicle 0",
     description: "",
     itemId: "delivery_vehicle_0",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 20
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 20
     })
   });
 
   var deliveryVehicleGood1 = Soomla.UpgradeVG.create({
-    goodItemId: "delivery_vehicle",
-    prevItemId: "delivery_vehicle_0",
-    nextItemId: "delivery_vehicle_2",
+    good_itemId: "delivery_vehicle",
+    prev_itemId: "delivery_vehicle_0",
+    next_itemId: "delivery_vehicle_2",
     name: "Delivery Vehicle 1",
     description: "",
     itemId: "delivery_vehicle_1",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 20
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 20
     })
   });
 
   var deliveryVehicleGood2 = Soomla.UpgradeVG.create({
-    goodItemId: "delivery_vehicle",
-    prevItemId: "delivery_vehicle_1",
-    nextItemId: "delivery_vehicle_3",
+    good_itemId: "delivery_vehicle",
+    prev_itemId: "delivery_vehicle_1",
+    next_itemId: "delivery_vehicle_3",
     name: "Delivery Vehicle 2",
     description: "",
     itemId: "delivery_vehicle_2",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 20
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 20
     })
   });
 
   var deliveryVehicleGood3 = Soomla.UpgradeVG.create({
-    goodItemId: "delivery_vehicle",
-    prevItemId: "delivery_vehicle_2",
-    nextItemId: "delivery_vehicle_4",
+    good_itemId: "delivery_vehicle",
+    prev_itemId: "delivery_vehicle_2",
+    next_itemId: "delivery_vehicle_4",
     name: "Delivery Vehicle 3",
     description: "",
     itemId: "delivery_vehicle_3",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 20
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 20
     })
   });
 
   var deliveryVehicleGood4 = Soomla.UpgradeVG.create({
-    goodItemId: "delivery_vehicle",
-    prevItemId: "delivery_vehicle_3",
-    nextItemId: null,
+    good_itemId: "delivery_vehicle",
+    prev_itemId: "delivery_vehicle_3",
+    next_itemId: null,
     name: "Delivery Vehicle 4",
     description: "",
     itemId: "delivery_vehicle_4",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 20
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 20
     })
   });
 
@@ -283,8 +283,8 @@ function MuffinRushAssets() {
     description: "Fat cat description",
     itemId: "fat_cat",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 27
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 27
     })
   });
 
@@ -294,8 +294,8 @@ function MuffinRushAssets() {
     description: "Happi Hippo description",
     itemId: "happi_hippo",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 44
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 44
     })
   });
 
@@ -305,8 +305,8 @@ function MuffinRushAssets() {
     description: "Funkey Monkey description",
     itemId: "funkey_monkey",
     purchasableItem: Soomla.PurchaseWithVirtualItem.create({
-      itemId: MUFFIN_CURRENCY_ITEM_ID,
-      amount: 35
+      pvi_itemId: MUFFIN_CURRENCY_ITEM_ID,
+      pvi_amount: 35
     })
   });
 
@@ -314,7 +314,7 @@ function MuffinRushAssets() {
   /** Virtual Categories **/
   var cakes = Soomla.VirtualCategory.create({
     name: "Cakes",
-    goodItemIds: [
+    good_itemIds: [
       MUFFINCAKE_ITEM_ID,
       PAVLOVA_ITEM_ID,
       "pavlova_10",
@@ -326,7 +326,7 @@ function MuffinRushAssets() {
 
   var upgrades = Soomla.VirtualCategory.create({
     name: "Upgrades",
-    goodItemIds: [
+    good_itemIds: [
       "show_room_0",
       "show_room_1",
       "show_room_2",
@@ -342,7 +342,7 @@ function MuffinRushAssets() {
 
   var characters = Soomla.VirtualCategory.create({
     name: "Characters",
-    goodItemIds: [
+    good_itemIds: [
       "fat_cat",
       "happi_hippo",
       "funkey_monkey"

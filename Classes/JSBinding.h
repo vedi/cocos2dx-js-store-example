@@ -10,7 +10,7 @@
 #include "ScriptingCore.h"
 
 // Define a namespace to manage your code and make your code clearly
-namespace JSB {
+namespace Soomla {
     class JSBinding: public cocos2d::CCObject
     {
     public:
@@ -19,7 +19,8 @@ namespace JSB {
         virtual bool init();
         CREATE_FUNC(JSBinding);
 
-        void functionTest();
+        static void callNative(const char *params, std::string &result);
+        static void callCallback(CCDictionary *params);
     };
 }
 

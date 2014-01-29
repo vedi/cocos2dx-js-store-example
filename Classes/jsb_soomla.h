@@ -12,6 +12,6 @@
 #include "ScriptingCore.h"
 #include "JSBinding.h"
 
-void register_all(JSContext* cx, JSObject* obj);
+void register_jsb_soomla(JSContext *cx, JSObject *obj);
 
 #endif //__JSB_AUTO_H_

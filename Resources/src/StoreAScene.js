@@ -30,74 +30,67 @@ var StoreAScene = cc.Class.extend({
     this.mGoodsTableView.setDelegate(this);
     this.mGoodsTableView.reloadData();
 
+    var balance;
+
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
       if (itemId != "ERROR") {
         var name = " ";
         var info = " ";
 
-        //  TODO: Implement
-        var balance = 0;
-        name = "name" + i;
-        info = "info" + i;
-//        CCSoomlaError *soomlaError = NULL;
-//
-//        CCVirtualItem *virtualItem;
-//        virtualItem = CCStoreInfo::sharedStoreInfo()->getItemByItemId(itemId.c_str(), &soomlaError);
-//        if (!soomlaError) {
-//          name = virtualItem->getName()->getCString();
-//          info = virtualItem->getDescription()->getCString();
-//        } else {
-//          CCStoreUtils::logException("StoreAScene::createListViewItem", soomlaError);
-//        }
-//
-//        soomlaError = NULL;
-//        int balance = CCStoreInventory::sharedStoreInventory()->getItemBalance(itemId.c_str(), &soomlaError);
-//        if (soomlaError) {
-//          CCStoreUtils::logException("StoreAScene::getItemBalance", soomlaError);
-//          balance = 0;
-//          CC_ASSERT(false);
-//        }
+        try {
+          var virtualItem;
+          virtualItem = Soomla.storeInfo.getItemByItemId(itemId);
+          name = virtualItem.name;
+          info = virtualItem.description;
+        } catch (e) {
+          Soomla.logError("StoreAScene: " + Soomla.dumpError(e));
+        }
+
+        try {
+          balance = Soomla.storeInventory.getItemBalance(itemId);
+        } catch (e) {
+          Soomla.logError("StoreAScene: " + Soomla.dumpError(e));
+          balance = 0;
+        }
+
         if (itemId == "show_room" || itemId == "delivery_vehicle") {
-          this.setProgressForItem(itemId, this.mListItems[i]);
+          this.setProgressForItem(itemId, this.mListItems[i].controller);
         }
         else if (itemId == "fat_cat"
           || itemId == "happi_hippo"
           || itemId == "funkey_monkey") {
-          this.setEquippedForItem(itemId, this.mListItems[i]);
+          this.setEquippedForItem(itemId, this.mListItems[i].controller);
         }
 
         var price = -1;
-        // TODO: Implement
-//        CCPurchasableVirtualItem *purchasableVirtualItem = dynamic_cast<CCPurchasableVirtualItem *>(virtualItem);
-//        if (purchasableVirtualItem != NULL) {
-//          CCPurchaseType *purchaseType = purchasableVirtualItem->getPurchaseType();
-//          if (dynamic_cast<CCPurchaseWithMarket *>(purchaseType)) {
-//            price = static_cast<CCPurchaseWithMarket *>(purchaseType)->getMarketItem()->getPrice()->getValue();
-//          } else if (dynamic_cast<CCPurchaseWithVirtualItem *>(purchaseType)) {
-//            price = static_cast<CCPurchaseWithVirtualItem *>(purchaseType)->getAmount()->getValue();
-//          } else {
-//            price = -1;
-//          }
-//        } else {
-//          price = -1;
-//        }
+        var purchasableVirtualItem = virtualItem;
+        if (purchasableVirtualItem.purchasableItem) {
+          var purchasableItem = purchasableVirtualItem.purchasableItem;
+          if (purchasableItem.purchaseType == "market") {
+            price = purchasableItem.marketItem.price;
+          } else if (purchasableItem.purchaseType == "virtualItem") {
+            price = purchasableItem.pvi_amount;
+          } else {
+            Soomla.logError("Unsupported purchaseType: " + Soomla.dumpError(purchasableItem));
+            price = -1;
+          }
+        } else {
+          price = -1;
+        }
 
         this.mListItems[i].controller.setData(itemId, name, info, price, balance);
       }
     }
 
-    // TODO: Implement
-    var balance = 0;
-//    CCSoomlaError *soomlaError = NULL;
-//    int balance = CCStoreInventory::sharedStoreInventory()->getItemBalance("currency_muffin", &soomlaError);
-//    if (soomlaError) {
-//      CCStoreUtils::logException("StoreAScene::setCurrencyBalanceLabel", soomlaError);
-//      balance = 0;
-//      CCLog("Soomla balance error");
-//    }
+    try {
+      balance = Soomla.storeInventory.getItemBalance("currency_muffin");
+    } catch (e) {
+      Soomla.logError("StoreAScene: " + Soomla.dumpError(e));
+      balance = 0;
+    }
 
-    this.updateCurrencyBalance(balance);
+    this.setCurrencyBalance(balance);
   },
 
   onMoreMuffins: function(pSender) {
@@ -187,12 +180,11 @@ var StoreAScene = cc.Class.extend({
     }
   },
 
-  updateCurrencyBalance: function(pBalance) {
-    this.mMuffinAmount.setString(pBalance.getValue());
+  setCurrencyBalance: function(balance) {
+    this.mMuffinAmount.setString(balance);
   },
 
   updateCurrencyBalance: function(pParams) {
-    // TODO: Implement
 //    soomla::CCVirtualGood *virtualGood = (CCVirtualGood *) pParams->objectAtIndex(0);
 //    CCInteger *balance = (CCInteger *) pParams->objectAtIndex(1);
 //
@@ -207,36 +199,33 @@ var StoreAScene = cc.Class.extend({
   },
 
   onGoodEquipped: function(virtualGood) {
-    // TODO: Implement
-//    for (unsigned int i = 0; i < NUMBER_OF_ROWS; i++) {
-//      string itemId = itemIdFromTag(i);
-//      if (virtualGood->getItemId()->compare(itemId.c_str()) == 0) {
-//        mListItem[i]->setEquiped(true);
-//        break;
-//      }
-//    }
+    for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
+      var itemId = this.itemIdFromTag(i);
+      if (virtualGood.itemId == itemId) {
+        this.mListItems[i].controller.setEquiped(true);
+        break;
+      }
+    }
   },
 
   onGoodUnEquipped: function(virtualGood) {
-    // TODO: Implement
-//    for (unsigned int i = 0; i < NUMBER_OF_ROWS; i++) {
-//      string itemId = itemIdFromTag(i);
-//      if (virtualGood->getItemId()->compare(itemId.c_str()) == 0) {
-//        mListItem[i]->setEquiped(false);
-//        break;
-//      }
-//    }
+    for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
+      var itemId = this.itemIdFromTag(i);
+      if (virtualGood.itemId == itemId) {
+        this.mListItems[i].controller.setEquiped(false);
+        break;
+      }
+    }
   },
 
   onGoodUpgrade: function(virtualGood) {
-  // TODO: Implement
-//    for (unsigned int i = 0; i < NUMBER_OF_ROWS; i++) {
-//      string itemId = itemIdFromTag(i);
-//      if (virtualGood->getItemId()->compare(itemId.c_str()) == 0) {
-//        setProgressForItem(itemId, mListItem[i]);
-//        break;
-//      }
-//    }
+    for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
+      var itemId = this.itemIdFromTag(i);
+      if (virtualGood.itemId == itemId) {
+        this.setProgressForItem(itemId, this.mListItems[i].controller);
+        break;
+      }
+    }
   },
 
   //  CCTableViewCell delegate
@@ -254,27 +243,25 @@ var StoreAScene = cc.Class.extend({
   //  \CCTableViewCell delegate
 
   setProgressForItem: function(itemId, pWidget) {
-    // TODO: Implement
-//    CCSoomlaError *soomlaError = NULL;
-//    int progress = CCStoreInventory::sharedStoreInventory()->getGoodUpgradeLevel(itemId.c_str(), &soomlaError);
-//    if (soomlaError) {
-//      CCStoreUtils::logException("StoreAScene::setProgressForItem", soomlaError);
-//      progress = 0;
-//      CC_ASSERT(false);
-//    }
-//    pWidget->setProgress(progress);
+    var progress;
+    try {
+      progress = Soomla.storeInventory.getGoodUpgradeLevel(itemId);
+    } catch (e) {
+      progress = 0;
+      Soomla.logError("StoreAScene::getItemBalance: " + Soomla.dumpError(e));
+    }
+    pWidget.setProgress(progress);
   },
 
   setEquippedForItem: function(itemId, pWidget) {
-    // TODO: Implement
-//    CCSoomlaError *soomlaError = NULL;
-//    bool equipped = CCStoreInventory::sharedStoreInventory()->isVirtualGoodEquipped(itemId.c_str(), &soomlaError);
-//    if (soomlaError) {
-//      CCStoreUtils::logException("StoreAScene::setEquippedForItem", soomlaError);
-//      equipped = false;
-//      CC_ASSERT(false);
-//    }
-//    pWidget->setEquiped(equipped);
+    var equipped;
+    try {
+      equipped = Soomla.storeInventory.isVirtualGoodEquipped(itemId);
+    } catch (e) {
+      Soomla.logError("StoreAScene: " + Soomla.dumpError(e));
+      equipped = false;
+    }
+    pWidget.setEquiped(equipped);
   }
 });
 

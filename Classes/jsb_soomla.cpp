@@ -2,7 +2,7 @@
 // Created by Fedor Shubin on 1/22/14.
 //
 
-#include "JSB_AUTO.h"
+#include "jsb_soomla.h"
 #include "cocos2d.h"
 #include "cocos2d_specifics.hpp"
 
@@ -10,19 +10,25 @@
 JSClass*        jsb_class;
 JSObject*       jsb_prototype;
 
-// This function is mapping the function “functionTest” in “JSBinding.cpp”
-JSBool js_functionTest(JSContext* cx, uint32_t argc, jsval* vp){
-    JSBool ok = JS_TRUE;
-    JSObject* obj = NULL;
-    JSB::JSBinding* cobj = NULL;
-    obj = JS_THIS_OBJECT(cx, vp);
-    js_proxy_t* proxy = jsb_get_js_proxy(obj);
-    cobj = (JSB::JSBinding* )(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2(cobj, cx, JS_FALSE, "Invalid Native Object");
+// This function is mapping the function “callNative” in “JSBinding.cpp”
+JSBool js_callNative(JSContext* cx, uint32_t argc, jsval* vp){
+    jsval *argv = JS_ARGV(cx, vp);
 
-    if (argc == 0) {
-        cobj->functionTest();
-        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+    JSBool ok = JS_TRUE;
+
+    if (argc == 1) {
+        const char* arg0;
+        std::string arg0_tmp; ok &= jsval_to_std_string(cx, argv[0], &arg0_tmp); arg0 = arg0_tmp.c_str();
+//    JSObject* obj = NULL;
+//    JSB::JSBinding* cobj = NULL;
+//    obj = JS_THIS_OBJECT(cx, vp);
+//    js_proxy_t* proxy = jsb_get_js_proxy(obj);
+//    cobj = (JSB::JSBinding* )(proxy ? proxy->ptr : NULL);
+//    JSB_PRECONDITION2(cobj, cx, JS_FALSE, "Invalid Native Object");
+        std::string result;
+        Soomla::JSBinding::callNative(arg0, result);
+        jsval ret_jsval = std_string_to_jsval(cx, result);
+        JS_SET_RVAL(cx, vp, ret_jsval);
         return ok;
     }
     JS_ReportError(cx, "Wrong number of arguments");
@@ -32,12 +38,12 @@ JSBool js_functionTest(JSContext* cx, uint32_t argc, jsval* vp){
 JSBool js_constructor(JSContext* cx, uint32_t argc, jsval* vp){
     cocos2d::CCLog("JS Constructor...");
     if (argc == 0) {
-        JSB::JSBinding* cobj = new JSB::JSBinding();
+        Soomla::JSBinding* cobj = new Soomla::JSBinding();
         cocos2d::CCObject* ccobj = dynamic_cast<cocos2d::CCObject*>(cobj);
         if (ccobj) {
             ccobj->autorelease();
         }
-        TypeTest<JSB::JSBinding> t;
+        TypeTest<Soomla::JSBinding> t;
         js_type_class_t* typeClass;
         uint32_t typeId = t.s_id();
         HASH_FIND_INT(_js_global_type_ht, &typeId, typeClass);
@@ -60,11 +66,11 @@ JSBool js_constructor(JSContext* cx, uint32_t argc, jsval* vp){
 JSBool js_create(JSContext* cx, uint32_t argc, jsval* vp){
     cocos2d::CCLog("js is creating...");
     if (argc == 0) {
-        JSB::JSBinding* ret = JSB::JSBinding::create();
+        Soomla::JSBinding* ret = Soomla::JSBinding::create();
         jsval jsret;
         do{
             if (ret) {
-                js_proxy_t* proxy = js_get_or_create_proxy<JSB::JSBinding>(cx, ret);
+                js_proxy_t* proxy = js_get_or_create_proxy<Soomla::JSBinding>(cx, ret);
                 jsret = OBJECT_TO_JSVAL(proxy->obj);
             }
             else{
@@ -87,7 +93,7 @@ void js_finalize(JSFreeOp* fop, JSObject* obj){
 // Binding JSB type
 void js_register(JSContext* cx, JSObject* global){
     jsb_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_class->name = "JSBinding";
+    jsb_class->name = "CCSoomlaNdkBridge";
     jsb_class->addProperty = JS_PropertyStub;
     jsb_class->delProperty = JS_PropertyStub;
     jsb_class->getProperty = JS_PropertyStub;
@@ -102,17 +108,16 @@ void js_register(JSContext* cx, JSObject* global){
             {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
     };
 
-    // Binding functionTest function
+    // Binding callNative function
 
     static JSFunctionSpec funcs[] = {
-            JS_FN("functionTest", js_functionTest, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
             JS_FS_END
     };
 
     // Binding create() function
 
     static JSFunctionSpec st_funcs[] = {
-            JS_FN("create", js_create, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+            JS_FN("callNative", js_callNative, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
             JS_FS_END
     };
 
@@ -129,7 +134,7 @@ void js_register(JSContext* cx, JSObject* global){
     JSBool found;
     JS_SetPropertyAttributes(cx, global, "JSB", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    TypeTest<JSB::JSBinding> t;
+    TypeTest<Soomla::JSBinding> t;
     js_type_class_t* p;
     uint32_t typeId = t.s_id();
     HASH_FIND_INT(_js_global_type_ht, &typeId, p);
@@ -178,7 +183,7 @@ JSBool JSB_cocos2dx_release(JSContext* cx, uint32_t argc, jsval *vp){
 }
 
 // Binding JSB namespace so in JavaScript code JSB namespce can be recognized
-void register_all(JSContext* cx, JSObject* obj){
+void register_jsb_soomla(JSContext *cx, JSObject *obj){
     jsval nsval;
     JSObject* ns;
     JS_GetProperty(cx, obj, "JS", &nsval);
@@ -186,7 +191,7 @@ void register_all(JSContext* cx, JSObject* obj){
     if (nsval == JSVAL_VOID) {
         ns = JS_NewObject(cx, NULL, NULL, NULL);
         nsval = OBJECT_TO_JSVAL(ns);
-        JS_SetProperty(cx, obj, "JSB", &nsval);
+        JS_SetProperty(cx, obj, "Soomla", &nsval);
     }
     else{
         JS_ValueToObject(cx, nsval, &ns);
