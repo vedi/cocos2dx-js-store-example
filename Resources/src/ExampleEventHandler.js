@@ -22,10 +22,6 @@ function ExampleEventHandler() {
       Soomla.logDebug("CurrencyBalanceChanged");
 //      cc.NotificationCenter.getInstance().postNotification(EVENT_ON_CURRENCY_BALANCE_CHANGED, CCInteger::create(balance));
     },
-    onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
-      Soomla.logDebug("CurrencyBalanceChanged");
-//    CCNotificationCenter::sharedNotificationCenter()->postNotification(EVENT_ON_CURRENCY_BALANCE_CHANGED, CCInteger::create(balance));
-    },
     onGoodBalanceChanged: function(virtualCurrency, balance, amountAdded) {
       Soomla.logDebug("GoodBalanceChanged");
 //    CCNotificationCenter::sharedNotificationCenter()->postNotification(EVENT_ON_GOOD_BALANCE_CHANGED, CCArray::create(virtualGood, CCInteger::create(balance), NULL));

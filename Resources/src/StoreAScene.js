@@ -7,8 +7,10 @@ var StoreAScene = cc.Class.extend({
   _mListRows: [],
   _mListItems: [],
   mCacheListItems: [],
+  eventHandler: null,
 
   onDidLoadFromCCB: function () {
+    this.eventHandler = this.createEventHandler();
     applyScaleForNode(this.rootNode);
     fill(this.mBackgroundNode);
 //    putToCenterMiddleOf(this.mMainNode, this.mBackgroundNode);
@@ -90,42 +92,23 @@ var StoreAScene = cc.Class.extend({
       balance = 0;
     }
 
-    this.setCurrencyBalance(balance);
+    this.updateCurrencyBalance(balance);
+
+    var superOnEnter = this.rootNode.onEnter;
+    this.rootNode.onEnter = function() {
+      superOnEnter();
+      Soomla.soomla.addEventHandler(this.controller.eventHandler);
+    }
+    var superOnExit = this.rootNode.onExit;
+    this.rootNode.onExit = function() {
+      superOnExit();
+      Soomla.soomla.removeEventHandler(this.controller.eventHandler);
+    }
   },
 
   onMoreMuffins: function(pSender) {
     var scene = cc.BuilderReader.loadAsScene("ccb/StoreBScene");
     cc.Director.getInstance().replaceScene(cc.TransitionMoveInR.create(0.8, scene));
-  },
-
-  onEnter: function () {
-    // TODO: Implement
-//    CCLayer::onEnter();
-//    CCNotificationCenter::sharedNotificationCenter() - > addObserver(this,
-//      callfuncO_selector(StoreAScene::updateCurrencyBalance),
-//      EVENT_ON_CURRENCY_BALANCE_CHANGED, NULL);
-//    CCNotificationCenter::sharedNotificationCenter() - > addObserver(this,
-//      callfuncO_selector(StoreAScene::updateGoodBalance),
-//      EVENT_ON_GOOD_BALANCE_CHANGED, NULL);
-//    CCNotificationCenter::sharedNotificationCenter() - > addObserver(this,
-//      callfuncO_selector(StoreAScene::onGoodEquipped),
-//      EVENT_ON_GOOD_EQUIPPED, NULL);
-//    CCNotificationCenter::sharedNotificationCenter() - > addObserver(this,
-//      callfuncO_selector(StoreAScene::onGoodUnEquipped),
-//      EVENT_ON_GOOD_UNEQUIPPED, NULL);
-//    CCNotificationCenter::sharedNotificationCenter() - > addObserver(this,
-//      callfuncO_selector(StoreAScene::onGoodUpgrade),
-//      EVENT_ON_GOOD_UPGRADE, NULL);
-  },
-
-  onExit: function() {
-    // TODO: Implement
-//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, EVENT_ON_CURRENCY_BALANCE_CHANGED);
-//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, EVENT_ON_GOOD_BALANCE_CHANGED);
-//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, EVENT_ON_GOOD_EQUIPPED);
-//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, EVENT_ON_GOOD_UNEQUIPPED);
-//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, EVENT_ON_GOOD_UPGRADE);
-//    CCLayer::onExit();
   },
 
   onBack: function(pSender) {
@@ -180,22 +163,18 @@ var StoreAScene = cc.Class.extend({
     }
   },
 
-  setCurrencyBalance: function(balance) {
+  updateCurrencyBalance: function(balance) {
     this.mMuffinAmount.setString(balance);
   },
 
-  updateCurrencyBalance: function(pParams) {
-//    soomla::CCVirtualGood *virtualGood = (CCVirtualGood *) pParams->objectAtIndex(0);
-//    CCInteger *balance = (CCInteger *) pParams->objectAtIndex(1);
-//
-//    ////*****
-//    for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
-//      var itemId = this.itemIdFromTag(i);
-//      if (virtualGood->getItemId()->compare(itemId.c_str()) == 0) {
-//        mListItem[i]->setBalance(balance->getValue());
-//        break;
-//      }
-//    }
+  updateGoodBalance: function(virtualCurrency, balance) {
+    for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
+      var itemId = this.itemIdFromTag(i);
+      if (virtualCurrency.itemId == itemId) {
+        this.mListItems[i].controller.setBalance(balance);
+        break;
+      }
+    }
   },
 
   onGoodEquipped: function(virtualGood) {
@@ -262,7 +241,34 @@ var StoreAScene = cc.Class.extend({
       equipped = false;
     }
     pWidget.setEquiped(equipped);
+  },
+
+  createEventHandler: function () {
+    var that = this;
+    return Soomla.EventHandler.create({
+      onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
+        Soomla.logDebug("CurrencyBalanceChanged: 3: " + balance);
+        that.updateCurrencyBalance(balance);
+      },
+      onGoodBalanceChanged: function(virtualGood, balance, amountAdded) {
+        Soomla.logDebug("GoodBalanceChanged");
+        that.updateGoodBalance(virtualGood, balance);
+      },
+      onGoodEquipped: function(equippableVG) {
+        Soomla.logDebug("GoodEquipped");
+        that.onGoodEquipped(equippableVG);
+      },
+      onGoodUnEquipped: function(equippableVG) {
+        Soomla.logDebug("GoodUnEquipped");
+        that.onGoodUnEquipped(equippableVG);
+      },
+      onGoodUpgrade: function(virtualGood, upgradeVG) {
+        Soomla.logDebug("GoodUpgrade");
+        that.onGoodUpgrade(virtualGood);
+      }
+    })
   }
+
 });
 
 Object.defineProperty(StoreAScene.prototype, "mListRows", {

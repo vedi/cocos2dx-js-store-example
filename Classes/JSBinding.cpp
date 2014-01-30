@@ -21,8 +21,6 @@ bool Soomla::JSBinding::init(){
 }
 
 void Soomla::JSBinding::callNative(const char *params, std::string &result) {
-    cocos2d::CCLog("Call native - in: %s", params);
-
     json_error_t error;
     json_t *root;
     root = json_loads(params, 0, &error);
@@ -54,19 +52,21 @@ void Soomla::JSBinding::callNative(const char *params, std::string &result) {
     root = CCSoomlaJsonHelper::getJsonFromCCObject(resultParams);
     char *dump = json_dumps(root, JSON_COMPACT | JSON_ENSURE_ASCII);
     result = dump;
-    cocos2d::CCLog("Call native - out: %s", dump);
     free(dump);
 }
 
 void Soomla::JSBinding::callCallback(CCDictionary *params) {
+    json_t *root = CCSoomlaJsonHelper::getJsonFromCCObject(params);
+    char *dump = json_dumps(root, JSON_COMPACT | JSON_ENSURE_ASCII);
+    std::string jsonParams = dump;
+    free(dump);
 
+    JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
 
-    js_proxy_t* p = jsb_get_native_proxy(this);
     jsval retval;
     jsval v[] = {
-            v[0] = UINT_TO_JSVAL(32),
-            v[1] = UINT_TO_JSVAL(88)
+            v[0] = STRING_TO_JSVAL(JS_NewStringCopyZ(cx, jsonParams.c_str()))
     };
-    ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(p->obj),
-            "callback", 2, v, &retval);
+    ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(ScriptingCore::getInstance()->getGlobalObject()),
+            "easyNDKCallBack", 1, v, &retval);
 }

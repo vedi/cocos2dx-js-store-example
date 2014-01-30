@@ -35,12 +35,7 @@
 
 function startApplication(director) {
 
-  var handler = new ExampleEventHandler();
-
-  // We initialize CCStoreController and the event handler before
-  // we open the store.
-  Soomla.soomla.addEventHandler(handler);
-
+  // We initialize CCStoreController before we open the store.
   var assets = new MuffinRushAssets();
   var storeParams = {
     soomSec: "ExampleSoomSecret",
@@ -72,19 +67,6 @@ function startApplication(director) {
 // run
   director.runWithScene(mainScene);
 }
-
-
-//var jsonString = Soomla.CCSoomlaNdkBridge.callNative(JSON.stringify({method: "test", params: {p1: 1, p2: "2"}}));
-//cc.log("jsonString: " + jsonString);
-//var result = JSON.parse(jsonString);
-//cc.log("result: " + result);
-//if (result) {
-//  cc.log("result.result: " + result.result);
-//}
-//testJSB.callback = function (i, j) {
-//  log("JSB Callback" + i + ", " + j);
-//};
-//testJSB.callNative();
 
 function applyScaleForNode(node) {
   var winSize = cc.Director.getInstance().getWinSize();

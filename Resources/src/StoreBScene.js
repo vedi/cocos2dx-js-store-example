@@ -8,6 +8,7 @@ var StoreBScene = cc.Class.extend({
   _mPrices: [],
 
   onDidLoadFromCCB: function () {
+    this.eventHandler = this.createEventHandler();
     applyScaleForNode(this.rootNode);
     fill(this.mBackgroundNode);
     shiftToTop(this.mTopNode);
@@ -35,6 +36,17 @@ var StoreBScene = cc.Class.extend({
     }
 
     this.updateCurrencyBalance(balance);
+
+    var superOnEnter = this.rootNode.onEnter;
+    this.rootNode.onEnter = function() {
+      superOnEnter();
+      Soomla.soomla.addEventHandler(this.controller.eventHandler);
+    }
+    var superOnExit = this.rootNode.onExit;
+    this.rootNode.onExit = function() {
+      superOnExit();
+      Soomla.soomla.removeEventHandler(this.controller.eventHandler);
+    }
   },
 
   onBack: function (pSender) {
@@ -66,22 +78,17 @@ var StoreBScene = cc.Class.extend({
     }
   },
 
-  onEnter: function () {
-    // TODO: Implement
-//    CCLayer::onEnter();
-//    CCNotificationCenter::sharedNotificationCenter()->addObserver(this,
-//      callfuncO_selector(StoreBScene::updateCurrencyBalance),
-//      EVENT_ON_CURRENCY_BALANCE_CHANGED, NULL);
-  },
-
-  onExit: function () {
-  // TODO: Implement
-//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, EVENT_ON_CURRENCY_BALANCE_CHANGED);
-//    CCLayer::onExit();
-  },
-
   updateCurrencyBalance: function (pBalance) {
     this.mMuffinAmount.setString(pBalance);
+  },
+  createEventHandler: function () {
+    var that = this;
+    return Soomla.EventHandler.create({
+      onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
+        Soomla.logDebug("CurrencyBalanceChanged: " + balance);
+        that.updateCurrencyBalance(balance);
+      }
+    })
   }
 
 });
