@@ -53,6 +53,9 @@ function ExampleEventHandler() {
     onMarketPurchaseStarted: function(purchasableVirtualItem) {
       Soomla.logDebug("MarketPurchaseStarted");
     },
+    onMarketPurchaseVerification: function(purchasableVirtualItem) {
+      Soomla.logDebug("MarketPurchaseVerification");
+    },
     onRestoreTransactions: function(success) {
       Soomla.logDebug("RestoreTransactions");
     },
