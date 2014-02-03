@@ -63,6 +63,7 @@ function startApplication(director) {
 // create a scene. it's an autorelease object
 //  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScene");
   var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen");
+  mainScene.retain();
 
 // run
   director.runWithScene(mainScene);

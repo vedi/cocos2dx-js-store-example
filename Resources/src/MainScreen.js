@@ -3,7 +3,11 @@
 //
 var MainScreen = cc.Class.extend({
   onDidLoadFromCCB: function () {
+    sys.garbageCollect();
+
     var rootNode = this.rootNode;
+    this.mUnlocker.retain();
+    rootNode.retain();
     rootNode.setTouchEnabled(true);
 
     applyScaleForNode(this.rootNode);
@@ -40,7 +44,7 @@ var MainScreen = cc.Class.extend({
     }
     else {
       // Snap
-      this.mUnlocker.runAction(cc.MoveTo.create(0.2, this.mOriginalPos));
+      this.mUnlocker.setPosition(this.mOriginalPos);
     }
   }
 });
