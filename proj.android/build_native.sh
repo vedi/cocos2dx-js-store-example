@@ -49,6 +49,7 @@ COCOS2DX_ROOT="$DIR/../../.."
 APP_ROOT="$DIR/.."
 APP_ANDROID_ROOT="$DIR"
 BINDINGS_JS_ROOT="$APP_ROOT/../../scripting/javascript/bindings/js"
+SOOMLA_JS_ROOT="$APP_ROOT/../../extensions/cocos2dx-store/js/"
 
 echo
 echo "Paths"
@@ -75,6 +76,9 @@ cp -rf "$APP_ROOT"/Resources/* "$APP_ANDROID_ROOT"/assets
 
 # copy bindings/*.js into assets' root
 cp -f "$BINDINGS_JS_ROOT"/* "$APP_ANDROID_ROOT"/assets
+
+# copy soomla js-file into assets' root
+cp -f "$SOOMLA_JS_ROOT"/* "$APP_ANDROID_ROOT"/assets
 
 echo "Using prebuilt externals"
 echo

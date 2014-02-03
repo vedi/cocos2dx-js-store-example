@@ -278,7 +278,7 @@ function MuffinRushAssets() {
   });
 
   var fatCatGood = Soomla.EquippableVG.create({
-    equippingModel: Soomla.EquippableVG.EquippingModel.CATEGORY,
+    equipping: Soomla.EquippableVG.EquippingModel.CATEGORY,
     name: "Fat Cat",
     description: "Fat cat description",
     itemId: "fat_cat",
@@ -289,7 +289,7 @@ function MuffinRushAssets() {
   });
 
   var happiHippoGood = Soomla.EquippableVG.create({
-    equippingModel: Soomla.EquippableVG.EquippingModel.CATEGORY,
+    equipping: Soomla.EquippableVG.EquippingModel.CATEGORY,
     name: "Happi Hippo",
     description: "Happi Hippo description",
     itemId: "happi_hippo",
@@ -300,7 +300,7 @@ function MuffinRushAssets() {
   });
 
   var funkeyMonkeyGood = Soomla.EquippableVG.create({
-    equippingModel: Soomla.EquippableVG.EquippingModel.CATEGORY,
+    equipping: Soomla.EquippableVG.EquippingModel.CATEGORY,
     name: "Funkey Monkey",
     description: "Funkey Monkey description",
     itemId: "funkey_monkey",
@@ -314,7 +314,7 @@ function MuffinRushAssets() {
   /** Virtual Categories **/
   var cakes = Soomla.VirtualCategory.create({
     name: "Cakes",
-    good_itemIds: [
+    goods_itemIds: [
       MUFFINCAKE_ITEM_ID,
       PAVLOVA_ITEM_ID,
       "pavlova_10",
@@ -326,7 +326,7 @@ function MuffinRushAssets() {
 
   var upgrades = Soomla.VirtualCategory.create({
     name: "Upgrades",
-    good_itemIds: [
+    goods_itemIds: [
       "show_room_0",
       "show_room_1",
       "show_room_2",
@@ -342,7 +342,7 @@ function MuffinRushAssets() {
 
   var characters = Soomla.VirtualCategory.create({
     name: "Characters",
-    good_itemIds: [
+    goods_itemIds: [
       "fat_cat",
       "happi_hippo",
       "funkey_monkey"
