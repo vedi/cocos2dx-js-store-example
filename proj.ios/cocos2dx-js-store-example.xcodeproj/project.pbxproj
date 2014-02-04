@@ -252,7 +252,6 @@
 		372B7863C7563A1A0E94B343 /* strbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B795F420BC4FF42F5C34A /* strbuffer.c */; };
 		372B787FD243B9A1DEE61534 /* ccb in Resources */ = {isa = PBXBuildFile; fileRef = 372B7AAD4138B911FD1FC577 /* ccb */; };
 		372B78DE84E563D960D693E5 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B7A7BF39F32A2669E883F /* error.c */; };
-		372B78EE4A26C1B02682B656 /* LevelIconWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7B604ED35401FC57FABF /* LevelIconWidget.cpp */; };
 		372B79344496AB47B6738626 /* StoreEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7C0D747872CD20751B6A /* StoreEncryptor.m */; };
 		372B79B8F8799C2C5D6A77B7 /* JSONConsts.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7A87EC13DE4AE85137FA /* JSONConsts.m */; };
 		372B7A375DBEDF5703F7A870 /* CCStoreInventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7DB57DD338A3F63F281E /* CCStoreInventory.cpp */; };
@@ -284,13 +283,9 @@
 		372B7DBB8E6B978C11D2B9FF /* PurchaseType.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7B38436ABA32F38054E6 /* PurchaseType.m */; };
 		372B7DBEB4C9A430083C1475 /* VirtualCurrencyStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B78CBD902A6BC50E815E9 /* VirtualCurrencyStorage.m */; };
 		372B7DDD88F32FBF428A8C0A /* CCSingleUseVG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7917136C37D228D71D5F /* CCSingleUseVG.cpp */; };
-		372B7E159181F354BF5AB62E /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7060763904E3E82A0856 /* MainScene.cpp */; };
 		372B7E254D5BBB339AD264DB /* SingleUsePackVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7952C9F64A31E3E9DC24 /* SingleUsePackVG.m */; };
 		372B7E28111641D85D37B0A0 /* StorefrontInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B76A61F14731D4FF66ECC /* StorefrontInfo.m */; };
 		372B7E2A355E00E30A83F5EB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 372B7E15168B4E307FDD1CAB /* AdSupport.framework */; };
-		372B7E764B1B254F9AA1C6DF /* ExampleEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B79F522BE34ECA7C53D91 /* ExampleEventHandler.cpp */; };
-		372B7E8E6D4A037E8698EDCE /* StoreBScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B78622600D55B6F39B508 /* StoreBScene.cpp */; };
-		372B7E9B8F3745AD204D0CD6 /* MuffinRushAssets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B79C9FB043C0943624D75 /* MuffinRushAssets.cpp */; };
 		372B7EE0344347365566E5FB /* CCVirtualCurrencyPack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7A0262F4B9AF16D3DACF /* CCVirtualCurrencyPack.cpp */; };
 		372B7F0A430BE47327F474DD /* StoreControllerBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 372B772A75463D17C142B6D1 /* StoreControllerBridge.mm */; };
 		372B7F0FE79F92D8D7DB7461 /* CCPurchasableVirtualItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B750AB95F5C52D4CB2C21 /* CCPurchasableVirtualItem.cpp */; };
@@ -299,7 +294,6 @@
 		372B7F49838807E2FD7D474B /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 372B7F02F3008E60CAD7451A /* test.html */; };
 		372B7FB08BC4FB7CB64B13D9 /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 372B7C9FF87E2D197699945D /* StorageManager.m */; };
 		372B7FBE2F3E2B844C570D53 /* CCSoomlaJsonHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B78326B35CD908CD32740 /* CCSoomlaJsonHelper.cpp */; };
-		372B7FF1C7EA22ECF99D04A2 /* StoreAScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372B7B74D1C95C1DB74A8B1E /* StoreAScene.cpp */; };
 		375BD523186845B00024609E /* CCActionEaseEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 375BD517186845B00024609E /* CCActionEaseEx.cpp */; };
 		375BD524186845B00024609E /* CCActionFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 375BD519186845B00024609E /* CCActionFrame.cpp */; };
 		375BD525186845B00024609E /* CCActionFrameEasing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 375BD51B186845B00024609E /* CCActionFrameEasing.cpp */; };
@@ -735,8 +729,6 @@
 		1AE4B40216D1FECD003C6D1C /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../Resources/src; sourceTree = "<group>"; };
 		372B700B7CD8789A289BAF0F /* JSONConsts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONConsts.h; sourceTree = "<group>"; };
 		372B7012898B73A3FF22D15F /* StorefrontInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorefrontInfo.h; sourceTree = "<group>"; };
-		372B704B03093FAF27CEFF67 /* StoreBScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreBScene.h; sourceTree = "<group>"; };
-		372B7060763904E3E82A0856 /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
 		372B70902034D19E36FE8794 /* underscore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = underscore.js; sourceTree = "<group>"; };
 		372B7098B080A647C9824D56 /* CCMarketItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMarketItem.cpp; sourceTree = "<group>"; };
 		372B709CD6A33A8DEF950576 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -758,7 +750,6 @@
 		372B7195B766B729DA83FCD4 /* IStoreAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IStoreAssets.h; sourceTree = "<group>"; };
 		372B71E29DD3F03DEB6E025E /* utf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf.h; sourceTree = "<group>"; };
 		372B71E402AFA2E59F6B80C9 /* CCPurchaseType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPurchaseType.cpp; sourceTree = "<group>"; };
-		372B71EFFD66971900C610CE /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
 		372B7200186592B323A9EC47 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		372B721677884FB93EF1453B /* jansson_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jansson_config.h; sourceTree = "<group>"; };
 		372B7223B29F1834298DED62 /* KeyValDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValDatabase.h; sourceTree = "<group>"; };
@@ -773,7 +764,6 @@
 		372B733633077DB4A1D34BA2 /* FBEncryptorAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBEncryptorAES.m; sourceTree = "<group>"; };
 		372B7352B2FEF1A25D07F76F /* StoreConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreConfig.h; sourceTree = "<group>"; };
 		372B7356C1FC16E7D298705B /* StoreInventoryBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = StoreInventoryBridge.mm; sourceTree = "<group>"; };
-		372B7428053A0B58E81062F1 /* LevelIconWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelIconWidget.h; sourceTree = "<group>"; };
 		372B7438DE6624436281A5CD /* EventHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventHandling.m; sourceTree = "<group>"; };
 		372B7441CE1D9A655E8DFF10 /* ObscuredNSUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObscuredNSUserDefaults.h; sourceTree = "<group>"; };
 		372B74489685DC33B8398F11 /* LifetimeVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LifetimeVG.m; sourceTree = "<group>"; };
@@ -792,7 +782,6 @@
 		372B751068C5C3C26CC3E242 /* NonConsumableItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonConsumableItem.h; sourceTree = "<group>"; };
 		372B75116481189EEB4286EE /* Soomla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Soomla.h; sourceTree = "<group>"; };
 		372B7516B3A35596BEB55087 /* CCStoreUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStoreUtils.h; sourceTree = "<group>"; };
-		372B7534066DF7CB66D124C2 /* MuffinRushAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuffinRushAssets.h; sourceTree = "<group>"; };
 		372B7544A270D13D3BF129D3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = file.md; path = README.md; sourceTree = "<group>"; };
 		372B7544A6B756D36BC70A10 /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageManager.h; sourceTree = "<group>"; };
 		372B756763D1A04CCA91BD6E /* CCSoomla.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSoomla.cpp; sourceTree = "<group>"; };
@@ -829,7 +818,6 @@
 		372B78402A31C8B4B4761C5F /* JSBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBinding.h; sourceTree = "<group>"; };
 		372B78447A3873EC586DE67A /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hashtable.h; sourceTree = "<group>"; };
 		372B78462B1353F288DD8810 /* StoreUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreUtils.h; sourceTree = "<group>"; };
-		372B78622600D55B6F39B508 /* StoreBScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StoreBScene.cpp; sourceTree = "<group>"; };
 		372B787CB62AB655A33D0454 /* VirtualCurrencyPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualCurrencyPack.h; sourceTree = "<group>"; };
 		372B78B86759C29B039CF8A4 /* StoreInfoBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = StoreInfoBridge.mm; sourceTree = "<group>"; };
 		372B78C0DF17106D95BAF29A /* utf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utf.c; sourceTree = "<group>"; };
@@ -850,10 +838,8 @@
 		372B797E1912677B8F600B77 /* AppStoreItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStoreItem.h; sourceTree = "<group>"; };
 		372B79A44A72457A39CD0A7C /* KeyValueStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyValueStorage.m; sourceTree = "<group>"; };
 		372B79ABD9CD6330A51FF1E4 /* PurchaseWithVirtualItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseWithVirtualItem.m; sourceTree = "<group>"; };
-		372B79C9FB043C0943624D75 /* MuffinRushAssets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MuffinRushAssets.cpp; sourceTree = "<group>"; };
 		372B79D89220FBDB7448FED9 /* VirtualCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualCategory.m; sourceTree = "<group>"; };
 		372B79ED73F19192F9759B6A /* CCStoreInventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStoreInventory.h; sourceTree = "<group>"; };
-		372B79F522BE34ECA7C53D91 /* ExampleEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExampleEventHandler.cpp; sourceTree = "<group>"; };
 		372B7A0262F4B9AF16D3DACF /* CCVirtualCurrencyPack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCVirtualCurrencyPack.cpp; sourceTree = "<group>"; };
 		372B7A03D0B9631B54C80DA3 /* UpgradeVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpgradeVG.h; sourceTree = "<group>"; };
 		372B7A34101697499AD31466 /* VirtualGood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualGood.h; sourceTree = "<group>"; };
@@ -864,7 +850,6 @@
 		372B7AA513470B1BB7DF32F5 /* CCPurchaseWithMarket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPurchaseWithMarket.cpp; sourceTree = "<group>"; };
 		372B7AAD4138B911FD1FC577 /* ccb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = ccb; path = ../Resources/ccb; sourceTree = "<group>"; };
 		372B7AD97F36EAAA7F09CD81 /* VirtualCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualCurrency.m; sourceTree = "<group>"; };
-		372B7AE520CE8849CDD6DAE4 /* StoreAScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreAScene.h; sourceTree = "<group>"; };
 		372B7AEEBEF225A3A617C3F4 /* SoomlaiOSStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SoomlaiOSStore-Prefix.pch"; sourceTree = "<group>"; };
 		372B7B059328AF4B87F052D3 /* jansson_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jansson_private.h; sourceTree = "<group>"; };
 		372B7B122E5F26679B444776 /* CCStoreInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCStoreInfo.cpp; sourceTree = "<group>"; };
@@ -873,13 +858,10 @@
 		372B7B38436ABA32F38054E6 /* PurchaseType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseType.m; sourceTree = "<group>"; };
 		372B7B3F30A734B37D22F0BA /* SoomlaJSONConsts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoomlaJSONConsts.h; sourceTree = "<group>"; };
 		372B7B592B9F9AA7C2B68496 /* VirtualItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualItem.h; sourceTree = "<group>"; };
-		372B7B604ED35401FC57FABF /* LevelIconWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelIconWidget.cpp; sourceTree = "<group>"; };
-		372B7B74D1C95C1DB74A8B1E /* StoreAScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StoreAScene.cpp; sourceTree = "<group>"; };
 		372B7B96E7DB1F9CA34D533B /* KeyValDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyValDatabase.m; sourceTree = "<group>"; };
 		372B7BBFC09E25343CCACBF6 /* StoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreController.m; sourceTree = "<group>"; };
 		372B7BC00397559D10D5F4AD /* StoreUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreUtils.m; sourceTree = "<group>"; };
 		372B7BE077BBB9D622E05F28 /* CCStoreController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCStoreController.cpp; sourceTree = "<group>"; };
-		372B7BF056292AFF33EE79F2 /* ExampleEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleEventHandler.h; sourceTree = "<group>"; };
 		372B7BFCA4E972C8AECD837F /* StoreAssetsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreAssetsBridge.h; sourceTree = "<group>"; };
 		372B7BFE9E0512519C55A120 /* CCVirtualCurrencyPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCVirtualCurrencyPack.h; sourceTree = "<group>"; };
 		372B7C067EAF50D3EA48DEF0 /* NonConsumableStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NonConsumableStorage.m; sourceTree = "<group>"; };
@@ -2271,18 +2253,6 @@
 			children = (
 				D4545215156E28EF00887EB5 /* AppDelegate.cpp */,
 				D4545216156E28EF00887EB5 /* AppDelegate.h */,
-				372B79C9FB043C0943624D75 /* MuffinRushAssets.cpp */,
-				372B704B03093FAF27CEFF67 /* StoreBScene.h */,
-				372B7428053A0B58E81062F1 /* LevelIconWidget.h */,
-				372B79F522BE34ECA7C53D91 /* ExampleEventHandler.cpp */,
-				372B7534066DF7CB66D124C2 /* MuffinRushAssets.h */,
-				372B7B604ED35401FC57FABF /* LevelIconWidget.cpp */,
-				372B7060763904E3E82A0856 /* MainScene.cpp */,
-				372B71EFFD66971900C610CE /* MainScene.h */,
-				372B78622600D55B6F39B508 /* StoreBScene.cpp */,
-				372B7B74D1C95C1DB74A8B1E /* StoreAScene.cpp */,
-				372B7BF056292AFF33EE79F2 /* ExampleEventHandler.h */,
-				372B7AE520CE8849CDD6DAE4 /* StoreAScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -2674,12 +2644,6 @@
 				372B7B855C714D4B321A994C /* hashtable.c in Sources */,
 				372B7863C7563A1A0E94B343 /* strbuffer.c in Sources */,
 				372B7196ADA5811DF216844E /* pack_unpack.c in Sources */,
-				372B7E9B8F3745AD204D0CD6 /* MuffinRushAssets.cpp in Sources */,
-				372B7E764B1B254F9AA1C6DF /* ExampleEventHandler.cpp in Sources */,
-				372B78EE4A26C1B02682B656 /* LevelIconWidget.cpp in Sources */,
-				372B7E159181F354BF5AB62E /* MainScene.cpp in Sources */,
-				372B7E8E6D4A037E8698EDCE /* StoreBScene.cpp in Sources */,
-				372B7FF1C7EA22ECF99D04A2 /* StoreAScene.cpp in Sources */,
 				372B786150B7C3D7454AC5B2 /* jsb_soomla.cpp in Sources */,
 				372B721AC1402263EEAC9E19 /* JSBinding.cpp in Sources */,
 			);
