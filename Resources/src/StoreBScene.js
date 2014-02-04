@@ -40,12 +40,12 @@ var StoreBScene = cc.Class.extend({
     var superOnEnter = this.rootNode.onEnter;
     this.rootNode.onEnter = function() {
       superOnEnter();
-      Soomla.soomla.addEventHandler(this.controller.eventHandler);
+      Soomla.addEventHandler(this.controller.eventHandler);
     }
     var superOnExit = this.rootNode.onExit;
     this.rootNode.onExit = function() {
       superOnExit();
-      Soomla.soomla.removeEventHandler(this.controller.eventHandler);
+      Soomla.removeEventHandler(this.controller.eventHandler);
     }
   },
 
