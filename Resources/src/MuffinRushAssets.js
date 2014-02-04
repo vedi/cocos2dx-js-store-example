@@ -3,17 +3,17 @@
  */
 function MuffinRushAssets() {
 
-  var MUFFIN_CURRENCY_ITEM_ID = "currency_muffin";
-  var TENMUFF_PACK_PRODUCT_ID = "android.test.refunded";
-  var FIFTYMUFF_PACK_PRODUCT_ID = "android.test.canceled";
-  var FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
-  var THOUSANDMUFF_PACK_PRODUCT_ID = "android.test.item_unavailable";
-  var NO_ADDS_NONCONS_PRODUCT_ID = "no_ads";
+  const MUFFIN_CURRENCY_ITEM_ID = "currency_muffin";
+  const TENMUFF_PACK_PRODUCT_ID = "android.test.refunded";
+  const FIFTYMUFF_PACK_PRODUCT_ID = "android.test.canceled";
+  const FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
+  const THOUSANDMUFF_PACK_PRODUCT_ID = "android.test.item_unavailable";
+  const NO_ADDS_NONCONS_PRODUCT_ID = "no_ads";
 
-  var MUFFINCAKE_ITEM_ID = "fruit_cake";
-  var PAVLOVA_ITEM_ID = "pavlova";
-  var CHOCLATECAKE_ITEM_ID = "chocolate_cake";
-  var CREAMCUP_ITEM_ID = "cream_cup";
+  const MUFFINCAKE_ITEM_ID = "fruit_cake";
+  const PAVLOVA_ITEM_ID = "pavlova";
+  const CHOCLATECAKE_ITEM_ID = "chocolate_cake";
+  const CREAMCUP_ITEM_ID = "cream_cup";
 
 
   /** Virtual Currencies **/
@@ -25,7 +25,6 @@ function MuffinRushAssets() {
 
 
   /** Virtual Currency Packs **/
-
   var tenmuffPack = Soomla.VirtualCurrencyPack.create({
     name: "10 Muffins",
     description: "Test refund of an item",
