@@ -245,7 +245,7 @@ var StoreAScene = cc.Class.extend({
 
   createEventHandler: function () {
     var that = this;
-    return Soomla.EventHandler.create({
+    return {
       onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
         Soomla.logDebug("CurrencyBalanceChanged: 3: " + balance);
         that.updateCurrencyBalance(balance);
@@ -266,7 +266,7 @@ var StoreAScene = cc.Class.extend({
         Soomla.logDebug("GoodUpgrade");
         that.onGoodUpgrade(virtualGood);
       }
-    })
+    };
   }
 
 });
