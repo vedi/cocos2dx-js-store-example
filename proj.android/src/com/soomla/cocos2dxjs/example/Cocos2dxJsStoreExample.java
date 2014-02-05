@@ -43,6 +43,8 @@ public class Cocos2dxJsStoreExample extends Cocos2dxActivity {
 
         StoreControllerBridge.setGLView(glSurfaceView);
 
+        SoomlaApp.setExternalContext(getApplicationContext());
+
         return glSurfaceView;
     }
 
