@@ -31,7 +31,8 @@ import com.soomla.cocos2dx.store.*;
 import android.os.Bundle;
 
 public class Cocos2dxJsStoreExample extends Cocos2dxActivity {
-	
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 	}
