@@ -34,39 +34,43 @@
   require("src/LevelIconWidget.js");
 
 function startApplication(director) {
+  try {
+    // We initialize CCStoreController before we open the store.
+    var assets = new MuffinRushAssets();
+    var storeParams = {
+      soomSec: "ExampleSoomSecret",
+      androidPublicKey: "ExamplePublicKey",
+      customSecret: "ExampleCustomSecret"
+    };
 
-  // We initialize CCStoreController before we open the store.
-  var assets = new MuffinRushAssets();
-  var storeParams = {
-    soomSec: "ExampleSoomSecret",
-    androidPublicKey: "ExamplePublicKey",
-    customSecret: "ExampleCustomSecret"
-  };
+    // This is the call to initialize CCStoreController
+    Soomla.StoreController.createShared(assets, storeParams);
 
-  // This is the call to initialize CCStoreController
-  Soomla.StoreController.createShared(assets, storeParams);
+    /*
+     * ** Set the amount of each currency to 10,000 if the **
+     * ** balance drops under 1,000                        **
+     *
+     * ** Of course, this is just for testing...           **
+     */
+    var currencies = Soomla.storeInfo.getVirtualCurrencies();
+    _.forEach(currencies, function(vc) {
+      var balance = Soomla.storeInventory.getItemBalance(vc.itemId);
+      if (balance < 1000) {
+        Soomla.storeInventory.giveItem(vc.itemId, 10000 - balance);
+      }
+    });
 
-  /*
-   * ** Set the amount of each currency to 10,000 if the **
-   * ** balance drops under 1,000                        **
-   *
-   * ** Of course, this is just for testing...           **
-   */
-  var currencies = Soomla.storeInfo.getVirtualCurrencies();
-  _.forEach(currencies, function(vc) {
-    var balance = Soomla.storeInventory.getItemBalance(vc.itemId);
-    if (balance < 1000) {
-      Soomla.storeInventory.giveItem(vc.itemId, 10000 - balance);
-    }
-  });
+  } catch (e) {
+    Soomla.logError(Soomla.dumpError(e));
+  }
 
-// create a scene. it's an autorelease object
-//  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScene");
-  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen");
-  mainScene.retain();
+  // create a scene. it's an autorelease object
+  //  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScene");
+    var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen");
+    mainScene.retain();
 
-// run
-  director.runWithScene(mainScene);
+  // run
+    director.runWithScene(mainScene);
 }
 
 function applyScaleForNode(node) {
