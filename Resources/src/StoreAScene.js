@@ -247,7 +247,7 @@ var StoreAScene = cc.Class.extend({
     var that = this;
     return {
       onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
-        Soomla.logDebug("CurrencyBalanceChanged: 3: " + balance);
+        Soomla.logDebug("CurrencyBalanceChanged: " + balance);
         that.updateCurrencyBalance(balance);
       },
       onGoodBalanceChanged: function(virtualGood, balance, amountAdded) {
