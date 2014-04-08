@@ -13,7 +13,7 @@ Build C/C++ code for $APPNAME using Android NDK
 
 OPTIONS:
 -s	Build externals from source
--p  Run make with -j8 option to take advantage of multiple processors
+-p	Run make with -j8 option to take advantage of multiple processors
 -h	this help
 EOF
 }
@@ -62,7 +62,7 @@ echo
 # Debug
 set -x
 
-# make sure assets is exist
+# Make sure assets exists
 if [ -d "$APP_ANDROID_ROOT"/assets ]; then
     rm -rf "$APP_ANDROID_ROOT"/assets
 fi
