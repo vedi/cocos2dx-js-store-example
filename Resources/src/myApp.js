@@ -27,7 +27,6 @@
   require("underscore.js");
   require("soomla.js");
   require("src/MuffinRushAssets.js");
-  require("src/ExampleEventHandler.js");
   require("src/MainScreen.js");
   require("src/StoreAScene.js");
   require("src/StoreBScene.js");
