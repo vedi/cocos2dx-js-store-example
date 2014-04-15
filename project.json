@@ -1,0 +1,23 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d", "extensions"],
+
+    "jsList" : [
+      "underscore.js",
+      "soomla.js",
+      "src/resource.js",
+      "src/ListItem.js",
+      "src/StoreA.js",
+      "src/StoreB.js",
+      "src/MuffinRushAssets.js",
+      "src/app.js"
+    ]
+}
