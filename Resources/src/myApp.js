@@ -24,26 +24,25 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-  require("underscore.js");
-  require("soomla.js");
-  require("src/MuffinRushAssets.js");
-  require("src/MainScreen.js");
-  require("src/StoreAScene.js");
-  require("src/StoreBScene.js");
-  require("src/LevelIconWidget.js");
+require("underscore.js");
+require("soomla.js");
+require("src/MuffinRushAssets.js");
+require("src/MainScreen.js");
+require("src/StoreAScene.js");
+require("src/StoreBScene.js");
+require("src/LevelIconWidget.js");
 
 function startApplication(director) {
   try {
     // We initialize CCStoreController before we open the store.
     var assets = new MuffinRushAssets();
     var storeParams = {
-      soomSec: "ExampleSoomSecret",
       androidPublicKey: "ExamplePublicKey",
       customSecret: "ExampleCustomSecret"
     };
 
     // This is the call to initialize CCStoreController
-    Soomla.StoreController.createShared(assets, storeParams);
+    Soomla.SoomlaStore.createShared(assets, storeParams);
 
     /*
      * ** Set the amount of each currency to 10,000 if the **
@@ -52,7 +51,7 @@ function startApplication(director) {
      * ** Of course, this is just for testing...           **
      */
     var currencies = Soomla.storeInfo.getVirtualCurrencies();
-    _.forEach(currencies, function(vc) {
+    _.forEach(currencies, function (vc) {
       var balance = Soomla.storeInventory.getItemBalance(vc.itemId);
       if (balance < 1000) {
         Soomla.storeInventory.giveItem(vc.itemId, 10000 - balance);
@@ -65,17 +64,17 @@ function startApplication(director) {
 
   // create a scene. it's an autorelease object
   //  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScene");
-    var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen");
-    mainScene.retain();
+  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen", null, null);
+  mainScene.retain();
 
   // run
-    director.runWithScene(mainScene);
+  director.runWithScene(mainScene);
 }
 
 function applyScaleForNode(node) {
   var winSize = cc.Director.getInstance().getWinSize();
   var scale = winSize.width / node.getContentSize().width < winSize.height / node.getContentSize().height ?
-    winSize.width / node.getContentSize().width : winSize.height / node.getContentSize().height;
+  winSize.width / node.getContentSize().width : winSize.height / node.getContentSize().height;
   node.setScale(scale);
   node.setPosition(cc.p((winSize.width - node.getContentSize().width * scale) / 2,
     (winSize.height - node.getContentSize().height * scale) / 2));
@@ -136,14 +135,14 @@ function putToCenterMiddleOf(targetNode, anchorNode) {
 
   var leftBottom =
     anchorNode.convertToWorldSpaceAR(
-        cc.p(
-          -anchorNode.getAnchorPoint().x * contentPoint.width,
-          -anchorNode.getAnchorPoint().y * contentPoint.height));
+      cc.p(
+        -anchorNode.getAnchorPoint().x * contentPoint.width,
+        -anchorNode.getAnchorPoint().y * contentPoint.height));
   var rightTop =
     anchorNode.convertToWorldSpaceAR(
-        cc.p(
-          minusAnchorPoint.x * contentPoint.width,
-          minusAnchorPoint.y * contentPoint.height));
+      cc.p(
+        minusAnchorPoint.x * contentPoint.width,
+        minusAnchorPoint.y * contentPoint.height));
   var globalPosition = cc.p(leftBottom.x + (rightTop.x - leftBottom.x) / 2, leftBottom.y + (rightTop.y - leftBottom.y) / 2);
 
   targetNode.setPosition(targetNode.getParent().convertToNodeSpace(globalPosition));

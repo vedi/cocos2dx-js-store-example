@@ -6,6 +6,9 @@
 #import "AppDelegate.h"
 
 #import "RootViewController.h"
+#import "CoreService.h"
+#import "ServiceManager.h"
+#import "StoreService.h"
 
 @implementation AppController
 
@@ -23,13 +26,16 @@ static AppDelegate s_sharedApplication;
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     EAGLView *__glView = [EAGLView viewWithFrame: [window bounds]
                                      pixelFormat: kEAGLColorFormatRGBA8
-                                     depthFormat: GL_DEPTH_COMPONENT16 //_OES
+                                     depthFormat: GL_DEPTH24_STENCIL8_OES //_OES
                               preserveBackbuffer: NO
                                       sharegroup: nil
                                    multiSampling: NO
                                  numberOfSamples: 0 ];
     
     [__glView setMultipleTouchEnabled:YES];
+
+    [[ServiceManager sharedServiceManager] registerService:[CoreService sharedCoreService]];
+    [[ServiceManager sharedServiceManager] registerService:[StoreService sharedStoreService]];
 
     // Use RootViewController manage EAGLView
     viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];

@@ -23,7 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 package com.soomla.cocos2dxjs.example;
 
-import com.soomla.store.SoomlaApp;
+import com.soomla.cocos2dx.common.ServiceManager;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 import com.soomla.cocos2dx.store.*;
@@ -42,9 +42,12 @@ public class Cocos2dxJsStoreExample extends Cocos2dxActivity {
         Cocos2dxGLSurfaceView glSurfaceView = super.onCreateView();
         glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
 
-        StoreControllerBridge.setGLView(glSurfaceView);
+        // initialize services
+        final ServiceManager serviceManager = ServiceManager.getInstance();
+        serviceManager.setActivity(this);
+        serviceManager.setGlSurfaceView(glSurfaceView);
+        serviceManager.registerService(StoreService.getInstance());
 
-        SoomlaApp.setExternalContext(getApplicationContext());
 
         return glSurfaceView;
     }

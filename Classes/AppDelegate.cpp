@@ -15,7 +15,7 @@
 #include "jsb_opengl_registration.h"
 #include "XMLHTTPRequest.h"
 #include "jsb_websocket.h"
-#include "jsb_soomla.h"
+#include "Cocos2dxStore.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
