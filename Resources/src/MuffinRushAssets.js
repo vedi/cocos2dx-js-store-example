@@ -350,7 +350,7 @@ function MuffinRushAssets() {
 
   /** Google MANAGED Items **/
 
-  var noAdsNoncons = Soomla.Models.NonConsumableItem.create({
+  var noAdsNoncons = Soomla.Models.LifetimeVG.create({
     name: "No Ads",
     description: "Test purchase of MANAGED item.",
     itemId: "no_ads",
@@ -369,13 +369,12 @@ function MuffinRushAssets() {
     currencyPacks: [tenmuffPack, fiftymuffPack, fourhundmuffPack, thousandmuffPack],
     goods: {
       singleUse: [muffincakeGood, pavlovaGood, choclatecakeGood, creamcupGood],
-      lifetime: [showRoomGood, deliveryVehicleGood],
+      lifetime: [showRoomGood, deliveryVehicleGood, noAdsNoncons],
       equippable: [fatCatGood, happiHippoGood, funkeyMonkeyGood],
       goodUpgrades: [showRoomGood0, showRoomGood1, showRoomGood2, showRoomGood3, showRoomGood4,
         deliveryVehicleGood0, deliveryVehicleGood1, deliveryVehicleGood2, deliveryVehicleGood3, deliveryVehicleGood4],
       goodPacks: [tenPavlovaGoods, tenCreamcupGoods]
     },
-    nonConsumables: [noAdsNoncons],
     version: 1
   });
 
