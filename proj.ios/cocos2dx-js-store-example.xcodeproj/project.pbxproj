@@ -255,8 +255,6 @@
 		3EC20B8618331D7400F2C4D6 /* jsb_cocos2d_studio.js in Resources */ = {isa = PBXBuildFile; fileRef = 3EC20B7C18331CA200F2C4D6 /* jsb_cocos2d_studio.js */; };
 		46513EB8187C034200B5ABE1 /* cocos2d-jsb.js in Sources */ = {isa = PBXBuildFile; fileRef = 46513EB7187C034200B5ABE1 /* cocos2d-jsb.js */; };
 		46513EB9187C03D300B5ABE1 /* cocos2d-jsb.js in Resources */ = {isa = PBXBuildFile; fileRef = 46513EB7187C034200B5ABE1 /* cocos2d-jsb.js */; };
-		9D4A729019DAB18E0033DC46 /* soomla.js in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A728B19DAAF530033DC46 /* soomla.js */; };
-		9D4A729119DAB1910033DC46 /* underscore.js in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A728C19DAAF530033DC46 /* underscore.js */; };
 		9D52643A19DBE02F00BDA0F5 /* libCocos2dXCoreWithJsb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D52643719DBDFF800BDA0F5 /* libCocos2dXCoreWithJsb.a */; };
 		9D52648819DBE08400BDA0F5 /* libCocos2dXStoreWithJsb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D52648719DBE07E00BDA0F5 /* libCocos2dXStoreWithJsb.a */; };
 		9DE3E33A19D93A0000D1D38E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DE3E33919D93A0000D1D38E /* Security.framework */; };
@@ -279,6 +277,8 @@
 		D454520A156E22B400887EB5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D4545209156E22B400887EB5 /* libxml2.dylib */; };
 		D454520C156E22BD00887EB5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D454520B156E22BD00887EB5 /* libz.dylib */; };
 		D4545227156E28EF00887EB5 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4545215156E28EF00887EB5 /* AppDelegate.cpp */; };
+		F83C74151A2E09BD001E23BC /* soomla.js in Resources */ = {isa = PBXBuildFile; fileRef = F83C74091A2E09BD001E23BC /* soomla.js */; };
+		F83C74171A2E09BD001E23BC /* underscore.js in Resources */ = {isa = PBXBuildFile; fileRef = F83C740B1A2E09BD001E23BC /* underscore.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +337,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9D52648219DBE06100BDA0F5;
 			remoteInfo = Cocos2dXStoreWithJsb;
+		};
+		F83C73F71A2E09A2001E23BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D52642F19DBDFF800BDA0F5 /* Cocos2dXCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8694AD91A1CF680001738B4;
+			remoteInfo = "Cocos2dXCore Mac";
+		};
+		F83C73FB1A2E09A2001E23BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D52643B19DBE04B00BDA0F5 /* Cocos2dXStore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F84483F71A2B8AF0002D9EC0;
+			remoteInfo = "Cocos2dXStore Mac";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -824,8 +838,6 @@
 		3EC20B8318331CC100F2C4D6 /* jsb_cocos2dx_studio_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsb_cocos2dx_studio_manual.cpp; sourceTree = "<group>"; };
 		3EC20B8418331CC100F2C4D6 /* jsb_cocos2dx_studio_manual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsb_cocos2dx_studio_manual.h; sourceTree = "<group>"; };
 		46513EB7187C034200B5ABE1 /* cocos2d-jsb.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cocos2d-jsb.js"; path = "../Resources/cocos2d-jsb.js"; sourceTree = "<group>"; };
-		9D4A728B19DAAF530033DC46 /* soomla.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = soomla.js; sourceTree = "<group>"; };
-		9D4A728C19DAAF530033DC46 /* underscore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = underscore.js; sourceTree = "<group>"; };
 		9D52642F19DBDFF800BDA0F5 /* Cocos2dXCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cocos2dXCore.xcodeproj; path = "../../../extensions/soomla-cocos2dx-core/Cocos2dXCore.xcodeproj"; sourceTree = "<group>"; };
 		9D52643B19DBE04B00BDA0F5 /* Cocos2dXStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cocos2dXStore.xcodeproj; path = "../../../extensions/cocos2dx-store/Cocos2dXStore.xcodeproj"; sourceTree = "<group>"; };
 		9DE3E33919D93A0000D1D38E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -854,6 +866,8 @@
 		D454520B156E22BD00887EB5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D4545215156E28EF00887EB5 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		D4545216156E28EF00887EB5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F83C74091A2E09BD001E23BC /* soomla.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = soomla.js; sourceTree = "<group>"; };
+		F83C740B1A2E09BD001E23BC /* underscore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = underscore.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1896,21 +1910,12 @@
 			path = ../../../external/jansson;
 			sourceTree = "<group>";
 		};
-		9D4A728D19DAAF530033DC46 /* js */ = {
-			isa = PBXGroup;
-			children = (
-				9D4A728B19DAAF530033DC46 /* soomla.js */,
-				9D4A728C19DAAF530033DC46 /* underscore.js */,
-			);
-			name = js;
-			path = "/Users/vedi/Projects/soomla/cocos2d-x-v2/extensions/cocos2dx-store/development/../js";
-			sourceTree = "<absolute>";
-		};
 		9D52643019DBDFF800BDA0F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				9D52643519DBDFF800BDA0F5 /* libCocos2dXCore.a */,
 				9D52643719DBDFF800BDA0F5 /* libCocos2dXCoreWithJsb.a */,
+				F83C73F81A2E09A2001E23BC /* libCocos2dXCore Mac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1920,6 +1925,7 @@
 			children = (
 				9D52644019DBE04B00BDA0F5 /* libCocos2dXStore.a */,
 				9D52648719DBE07E00BDA0F5 /* libCocos2dXStoreWithJsb.a */,
+				F83C73FC1A2E09A2001E23BC /* libCocos2dXStore Mac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1930,8 +1936,8 @@
 				9D52643B19DBE04B00BDA0F5 /* Cocos2dXStore.xcodeproj */,
 				9D52642F19DBDFF800BDA0F5 /* Cocos2dXCore.xcodeproj */,
 				15A3D2EC1682F076002FB0C5 /* cocos2dx.xcodeproj */,
+				F83C73FD1A2E09BD001E23BC /* js */,
 				15A3D2F81682F0A0002FB0C5 /* bindings */,
-				9D4A728D19DAAF530033DC46 /* js */,
 				15A3D3311682F0B5002FB0C5 /* chipmunk */,
 				D4545214156E28EF00887EB5 /* Classes */,
 				15A3D3AA1682F0D3002FB0C5 /* CocosDenshion */,
@@ -1997,6 +2003,16 @@
 			);
 			name = Classes;
 			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		F83C73FD1A2E09BD001E23BC /* js */ = {
+			isa = PBXGroup;
+			children = (
+				F83C74091A2E09BD001E23BC /* soomla.js */,
+				F83C740B1A2E09BD001E23BC /* underscore.js */,
+			);
+			name = js;
+			path = "../../../extensions/cocos2dx-store/js";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2097,6 +2113,20 @@
 			remoteRef = 9D52648619DBE07E00BDA0F5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F83C73F81A2E09A2001E23BC /* libCocos2dXCore Mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCocos2dXCore Mac.a";
+			remoteRef = F83C73F71A2E09A2001E23BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F83C73FC1A2E09A2001E23BC /* libCocos2dXStore Mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCocos2dXStore Mac.a";
+			remoteRef = F83C73FB1A2E09A2001E23BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -2104,12 +2134,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D4A729019DAB18E0033DC46 /* soomla.js in Resources */,
-				9D4A729119DAB1910033DC46 /* underscore.js in Resources */,
 				3EC20B8618331D7400F2C4D6 /* jsb_cocos2d_studio.js in Resources */,
 				1A5E740017F0870800B9ACAE /* jsb_deprecated.js in Resources */,
 				1AA51AEB16F71C3D000FDF05 /* jsb_chipmunk_constants.js in Resources */,
 				1AA51AEC16F71C3D000FDF05 /* jsb_cocos2d_constants.js in Resources */,
+				F83C74151A2E09BD001E23BC /* soomla.js in Resources */,
 				1AA51AED16F71C3D000FDF05 /* jsb_opengl_constants.js in Resources */,
 				1A4B645416EE24A80025FE93 /* jsb_cocos2d_extension.js in Resources */,
 				1A4B645516EE24A80025FE93 /* main.debug.js in Resources */,
@@ -2124,6 +2153,7 @@
 				D446FDA316102D7D000ADA7B /* Default.png in Resources */,
 				D446FDA516102D82000ADA7B /* Default@2x.png in Resources */,
 				D446FDA716102D86000ADA7B /* Default-568h@2x.png in Resources */,
+				F83C74171A2E09BD001E23BC /* underscore.js in Resources */,
 				15A3D3231682F0A0002FB0C5 /* README in Resources */,
 				15A3D38D1682F0B6002FB0C5 /* CMakeLists.txt in Resources */,
 				1AE4B40416D1FECD003C6D1C /* res in Resources */,
