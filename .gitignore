@@ -1,5 +1,5 @@
 .DS_Store
-.idea
+*.apk
 proj.android/assets
 proj.android/bin
 proj.android/gen
@@ -10,3 +10,4 @@ proj.android/local.properties
 proj.ios/*.xcodeproj/project.xcworkspace/xcuserdata
 proj.ios/*.xcodeproj/xcuserdata
 proj.ios/cocos2dx-store-example.xcodeproj/project.xcworkspace/xcshareddata/cocos2dx-store-example.xccheckout
+proj.android/.idea/workspace.xml

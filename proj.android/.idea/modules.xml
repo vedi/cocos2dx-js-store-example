@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../../extensions/soomla-cocos2dx-core/development/Cocos2dxCoreFromSources.iml" filepath="$PROJECT_DIR$/../../../extensions/soomla-cocos2dx-core/development/Cocos2dxCoreFromSources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../extensions/cocos2dx-store/development/Cocos2dxStoreFromSources.iml" filepath="$PROJECT_DIR$/../../../extensions/cocos2dx-store/development/Cocos2dxStoreFromSources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cocos2dx-store-js-example.iml" filepath="$PROJECT_DIR$/cocos2dx-store-js-example.iml" />
+    </modules>
+  </component>
+</project>
+
