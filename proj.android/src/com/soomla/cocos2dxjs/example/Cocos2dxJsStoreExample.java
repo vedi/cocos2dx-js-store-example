@@ -23,10 +23,9 @@ THE SOFTWARE.
 ****************************************************************************/
 package com.soomla.cocos2dxjs.example;
 
-import com.soomla.cocos2dx.common.ServiceManager;
+import com.soomla.SoomlaConfig;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
-import com.soomla.cocos2dx.store.*;
 
 import android.os.Bundle;
 
@@ -42,12 +41,8 @@ public class Cocos2dxJsStoreExample extends Cocos2dxActivity {
         Cocos2dxGLSurfaceView glSurfaceView = super.onCreateView();
         glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
 
-        // initialize services
-        final ServiceManager serviceManager = ServiceManager.getInstance();
-        serviceManager.setActivity(this);
-        serviceManager.setGlSurfaceView(glSurfaceView);
-        serviceManager.registerService(StoreService.getInstance());
-
+        // Uncomment this if you need native debug logs
+        //SoomlaConfig.logDebug = true;
 
         return glSurfaceView;
     }
