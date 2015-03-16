@@ -34,7 +34,7 @@ require("src/LevelIconWidget.js");
 
 function startApplication(director) {
   try {
-    Soomla.CoreService.createShared({customSecret: "ExampleCustomSecret"});
+    Soomla.CoreBridge.createShared("ExampleCustomSecret");
 
     // We initialize CCStoreController before we open the store.
     var assets = new MuffinRushAssets();

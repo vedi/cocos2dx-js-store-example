@@ -31,6 +31,10 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
+    // Bind native bridges
+    soomla::CCCoreBridge::getInstance();
+    soomla::CCStoreBridge::getInstance();
+    
     // initialize director
     CCDirector *pDirector = CCDirector::sharedDirector();
     pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
