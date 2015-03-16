@@ -19,9 +19,9 @@ This project contains examples for implementing all of SOOMLA's interfaces and u
     $ git clone --recursive git@github.com:soomla/cocos2dx-store.git extensions/cocos2dx-store
     ```
 
-3. Clone our [fork](https://github.com/vedi/jansson) of the jansson library into the `external` directory in the root of your Cocos2d-x framework.
+3. Clone our [fork](https://github.com/soomla/jansson) of the jansson library into the `external` directory in the root of your Cocos2d-x framework.
     ```
-    $ git clone git@github.com:vedi/jansson.git external/jansson
+    $ git clone git@github.com:soomla/jansson.git external/jansson
     ```
 
 4. Clone cocos2dx-js-store-example into the `projects` directory at the root of the Cocos2d-x framework.
