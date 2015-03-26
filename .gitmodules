@@ -1,0 +1,9 @@
+[submodule "frameworks/runtime-src/Classes/cocos2dx-store"]
+	path = frameworks/runtime-src/Classes/cocos2dx-store
+	url = git@github.com:vedi/cocos2dx-store.git
+[submodule "frameworks/runtime-src/Classes/ssomla-cocos2dx-core"]
+	path = frameworks/runtime-src/Classes/soomla-cocos2dx-core
+	url = git@github.com:vedi/soomla-cocos2dx-core.git
+[submodule "frameworks/runtime-src/Classes/jansson"]
+	path = frameworks/runtime-src/Classes/jansson
+	url = git@github.com:vedi/jansson.git

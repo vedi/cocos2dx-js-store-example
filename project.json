@@ -1,0 +1,23 @@
+{
+  "project_type": "javascript",
+  "debugMode": 1,
+  "showFPS": true,
+  "frameRate": 60,
+  "id": "gameCanvas",
+  "renderMode": 0,
+  "engineDir": "frameworks/cocos2d-html5",
+  "modules": [
+    "cocos2d",
+    "cocostudio"
+  ],
+  "jsList": [
+    "script/soomla/lodash.js",
+    "script/soomla/soomla.js",
+    "src/resource.js",
+    "src/LevelIconWidget.js",
+    "src/MainScene.js",
+    "src/MuffinRushAssets.js",
+    "src/StoreAScene.js",
+    "src/StoreBScene.js"
+  ]
+}

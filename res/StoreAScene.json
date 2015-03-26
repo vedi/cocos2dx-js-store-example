@@ -1,0 +1,225 @@
+{
+  "ID": "071d2068-851f-4304-947a-afdaaaca1e0f",
+  "Version": "2.1.5.0",
+  "Name": "StoreAScene",
+  "Content": {
+    "Content": {
+      "Animation": {
+        "Duration": 0,
+        "Speed": 1.0,
+        "Timelines": [],
+        "ctype": "TimelineActionData"
+      },
+      "AnimationList": [],
+      "ObjectData": {
+        "Tag": 10,
+        "PrePosition": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "PreSize": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "Children": [
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "main/white.png"
+            },
+            "Tag": 12,
+            "PositionPercentXEnabled": true,
+            "PositionPercentYEnabled": true,
+            "PrePosition": {
+              "X": 0.5022,
+              "Y": 0.5
+            },
+            "PreSize": {
+              "X": 0.1563,
+              "Y": 0.1042
+            },
+            "LeftMargin": 271.4114,
+            "RightMargin": 268.5886,
+            "TopMargin": 430.0024,
+            "BottomMargin": 429.9976,
+            "ActionTag": 382067885,
+            "Position": {
+              "X": 321.4114,
+              "Y": 479.9976
+            },
+            "Scale": {
+              "ScaleX": 6.398,
+              "ScaleY": 9.5916
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 100.0,
+              "Y": 100.0
+            },
+            "FrameEvent": "",
+            "Name": "background",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "IsCustomSize": true,
+            "FontSize": 30,
+            "LabelText": "Soomla Test Store",
+            "HorizontalAlignmentType": "HT_Center",
+            "VerticalAlignmentType": "VT_Center",
+            "Tag": 13,
+            "PrePosition": {
+              "X": 0.0094,
+              "Y": 0.9951
+            },
+            "PercentWidthEnable": true,
+            "PreSize": {
+              "X": 0.5,
+              "Y": 0.0667
+            },
+            "HorizontalEdge": "LeftEdge",
+            "VerticalEdge": "TopEdge",
+            "LeftMargin": 6.0252,
+            "RightMargin": 313.9748,
+            "TopMargin": 4.6613,
+            "BottomMargin": 891.3387,
+            "ActionTag": 1756673209,
+            "Position": {
+              "X": 6.0252,
+              "Y": 955.3387
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleY": 1.0
+            },
+            "CColor": {
+              "R": 234,
+              "G": 80,
+              "B": 43
+            },
+            "Size": {
+              "X": 320.0,
+              "Y": 64.0
+            },
+            "FrameEvent": "",
+            "Name": "title",
+            "ctype": "TextObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "main/muffin.png"
+            },
+            "Tag": 14,
+            "PrePosition": {
+              "X": 0.6307,
+              "Y": 0.9669
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "HorizontalEdge": "RightEdge",
+            "VerticalEdge": "TopEdge",
+            "LeftMargin": 353.6658,
+            "RightMargin": 186.3342,
+            "TopMargin": -18.2078,
+            "BottomMargin": 878.2078,
+            "ActionTag": 1250517438,
+            "Position": {
+              "X": 403.6658,
+              "Y": 928.2078
+            },
+            "Scale": {
+              "ScaleX": 0.6043,
+              "ScaleY": 0.6043
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 100.0,
+              "Y": 100.0
+            },
+            "FrameEvent": "",
+            "Name": "muffinIcon",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "IsCustomSize": true,
+            "FontSize": 36,
+            "LabelText": "10000",
+            "VerticalAlignmentType": "VT_Center",
+            "Tag": 15,
+            "PrePosition": {
+              "X": 0.8236,
+              "Y": 0.9671
+            },
+            "PreSize": {
+              "X": 0.3125,
+              "Y": 0.0667
+            },
+            "HorizontalEdge": "RightEdge",
+            "VerticalEdge": "TopEdge",
+            "LeftMargin": 427.0822,
+            "RightMargin": 12.9178,
+            "TopMargin": -0.4027,
+            "BottomMargin": 896.4027,
+            "ActionTag": -39041617,
+            "Position": {
+              "X": 527.0822,
+              "Y": 928.4027
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {
+              "R": 74,
+              "G": 211,
+              "B": 223
+            },
+            "Size": {
+              "X": 200.0,
+              "Y": 64.0
+            },
+            "FrameEvent": "",
+            "Name": "muffinsNumber",
+            "ctype": "TextObjectData"
+          }
+        ],
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "Scale": {
+          "ScaleX": 1.0,
+          "ScaleY": 1.0
+        },
+        "AnchorPoint": {},
+        "CColor": {},
+        "Size": {
+          "X": 640.0,
+          "Y": 960.0
+        },
+        "FrameEvent": "",
+        "Name": "Scene",
+        "ctype": "SingleNodeObjectData"
+      },
+      "ctype": "GameProjectData"
+    }
+  },
+  "Type": "Scene"
+}

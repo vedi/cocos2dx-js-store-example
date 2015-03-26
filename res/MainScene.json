@@ -1,0 +1,342 @@
+{
+  "ID": "a2ee0952-26b5-49ae-8bf9-4f1d6279b798",
+  "Version": "2.1.5.0",
+  "Name": "MainScene",
+  "Content": {
+    "Content": {
+      "Animation": {
+        "Duration": 0,
+        "Speed": 1.0,
+        "Timelines": [],
+        "ctype": "TimelineActionData"
+      },
+      "AnimationList": [],
+      "ObjectData": {
+        "PrePosition": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "PreSize": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "RightMargin": -640.0,
+        "TopMargin": -960.0,
+        "Children": [
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "main/img_direct.jpg"
+            },
+            "Tag": 4,
+            "PrePosition": {
+              "X": 0.5017,
+              "Y": 0.4907
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "HorizontalEdge": "BothEdge",
+            "VerticalEdge": "BothEdge",
+            "LeftMargin": -38.912,
+            "RightMargin": -41.088,
+            "TopMargin": -151.056,
+            "BottomMargin": -168.944,
+            "ActionTag": -1205933625,
+            "Position": {
+              "X": 321.088,
+              "Y": 471.056
+            },
+            "Scale": {
+              "ScaleX": 0.8925,
+              "ScaleY": 0.7578
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 720.0,
+              "Y": 1280.0
+            },
+            "FrameEvent": "",
+            "Name": "background",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "IsCustomSize": true,
+            "FontSize": 48,
+            "LabelText": "SOOMLA Store \nExample",
+            "HorizontalAlignmentType": "HT_Center",
+            "Tag": 7,
+            "PositionPercentXEnabled": true,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.7761
+            },
+            "PreSize": {
+              "X": 0.9375,
+              "Y": 0.1333
+            },
+            "VerticalEdge": "TopEdge",
+            "LeftMargin": 20.0,
+            "RightMargin": 20.0,
+            "TopMargin": 150.947,
+            "BottomMargin": 681.053,
+            "ActionTag": 1135934201,
+            "Position": {
+              "X": 320.0,
+              "Y": 745.053
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 600.0,
+              "Y": 128.0
+            },
+            "FrameEvent": "",
+            "Name": "topTitle",
+            "ctype": "TextObjectData"
+          },
+          {
+            "IsCustomSize": true,
+            "FontSize": 48,
+            "LabelText": "[YOUR GAME HERE]",
+            "HorizontalAlignmentType": "HT_Center",
+            "Tag": 8,
+            "PositionPercentXEnabled": true,
+            "PrePosition": {
+              "X": 0.4961,
+              "Y": 0.5719
+            },
+            "PreSize": {
+              "X": 0.9375,
+              "Y": 0.0562
+            },
+            "VerticalEdge": "BothEdge",
+            "LeftMargin": 17.504,
+            "RightMargin": 22.496,
+            "TopMargin": 383.976,
+            "BottomMargin": 522.024,
+            "ActionTag": -1997996414,
+            "Position": {
+              "X": 317.504,
+              "Y": 549.024
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 600.0,
+              "Y": 54.0
+            },
+            "FrameEvent": "",
+            "Name": "midTitle",
+            "ctype": "TextObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "main/right_bg_hover.png"
+            },
+            "Tag": 6,
+            "PrePosition": {
+              "X": 0.7885,
+              "Y": 0.2238
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "HorizontalEdge": "RightEdge",
+            "VerticalEdge": "BottomEdge",
+            "LeftMargin": 454.6706,
+            "RightMargin": 85.3294,
+            "TopMargin": 695.1938,
+            "BottomMargin": 164.8061,
+            "ActionTag": -567614524,
+            "Position": {
+              "X": 504.6706,
+              "Y": 214.8061
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 100.0,
+              "Y": 100.0
+            },
+            "VisibleForFrame": false,
+            "FrameEvent": "",
+            "Name": "targetHover",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "main/right_bg.png"
+            },
+            "Tag": 5,
+            "PrePosition": {
+              "X": 0.7866,
+              "Y": 0.225
+            },
+            "PreSize": {
+              "X": 0.1563,
+              "Y": 0.1042
+            },
+            "HorizontalEdge": "RightEdge",
+            "VerticalEdge": "BottomEdge",
+            "LeftMargin": 453.4399,
+            "RightMargin": 86.5601,
+            "TopMargin": 694.0,
+            "BottomMargin": 166.0,
+            "ActionTag": 930403158,
+            "Position": {
+              "X": 503.4399,
+              "Y": 216.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 100.0,
+              "Y": 100.0
+            },
+            "FrameEvent": "",
+            "Name": "target",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "main/soomla_logo_new.png"
+            },
+            "Tag": 9,
+            "PrePosition": {
+              "X": 0.2439,
+              "Y": 0.2292
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "HorizontalEdge": "LeftEdge",
+            "VerticalEdge": "BottomEdge",
+            "LeftMargin": 106.1201,
+            "RightMargin": 433.8799,
+            "TopMargin": 691.5,
+            "BottomMargin": 171.5,
+            "ActionTag": 1862427260,
+            "Position": {
+              "X": 156.1201,
+              "Y": 220.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 100.0,
+              "Y": 97.0
+            },
+            "FrameEvent": "",
+            "Name": "logo",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FontSize": 20,
+            "LabelText": "Drag the SooMLA-bot to the box top open store",
+            "Tag": 11,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.0542
+            },
+            "PreSize": {
+              "X": 0.6563,
+              "Y": 0.024
+            },
+            "HorizontalEdge": "BothEdge",
+            "VerticalEdge": "BottomEdge",
+            "LeftMargin": 110.0,
+            "RightMargin": 110.0,
+            "TopMargin": 896.5006,
+            "BottomMargin": 40.4994,
+            "ActionTag": -259028173,
+            "Position": {
+              "X": 320.0,
+              "Y": 51.9994
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "CColor": {},
+            "Size": {
+              "X": 420.0,
+              "Y": 23.0
+            },
+            "FrameEvent": "",
+            "Name": "hint",
+            "ctype": "TextObjectData"
+          }
+        ],
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        },
+        "Scale": {
+          "ScaleX": 1.0,
+          "ScaleY": 1.0
+        },
+        "AnchorPoint": {},
+        "CColor": {},
+        "Size": {
+          "X": 640.0,
+          "Y": 960.0
+        },
+        "FrameEvent": "",
+        "Name": "Scene",
+        "ctype": "SingleNodeObjectData"
+      },
+      "ctype": "GameProjectData"
+    }
+  },
+  "Type": "Scene"
+}

@@ -579,137 +579,15 @@
 							</dict>
 							<dict>
 								<key>baseClass</key>
-								<string>CCMenu</string>
+								<string>CCSprite</string>
 								<key>children</key>
-								<array>
-									<dict>
-										<key>baseClass</key>
-										<string>CCMenuItemImage</string>
-										<key>children</key>
-										<array/>
-										<key>customClass</key>
-										<string></string>
-										<key>displayName</key>
-										<string>buy</string>
-										<key>memberVarAssignmentName</key>
-										<string>mButtonBuy</string>
-										<key>memberVarAssignmentType</key>
-										<integer>1</integer>
-										<key>properties</key>
-										<array>
-											<dict>
-												<key>name</key>
-												<string>position</string>
-												<key>type</key>
-												<string>Position</string>
-												<key>value</key>
-												<array>
-													<real>70</real>
-													<real>50</real>
-													<integer>4</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>anchorPoint</string>
-												<key>type</key>
-												<string>Point</string>
-												<key>value</key>
-												<array>
-													<real>0.5</real>
-													<real>0.5</real>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>scale</string>
-												<key>type</key>
-												<string>ScaleLock</string>
-												<key>value</key>
-												<array>
-													<real>1</real>
-													<real>1</real>
-													<true/>
-													<integer>0</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>tag</string>
-												<key>type</key>
-												<string>Integer</string>
-												<key>value</key>
-												<integer>0</integer>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>ignoreAnchorPointForPosition</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<false/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>block</string>
-												<key>type</key>
-												<string>Block</string>
-												<key>value</key>
-												<array>
-													<string>onBuy</string>
-													<integer>1</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>isEnabled</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<true/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>normalSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>selectedSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>disabledSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-										</array>
-									</dict>
-								</array>
+								<array/>
 								<key>customClass</key>
 								<string></string>
 								<key>displayName</key>
-								<string>CCMenu</string>
+								<string>buy</string>
 								<key>memberVarAssignmentName</key>
-								<string>mMenu</string>
+								<string>mButtonBuy</string>
 								<key>memberVarAssignmentType</key>
 								<integer>1</integer>
 								<key>properties</key>
@@ -721,21 +599,9 @@
 										<string>Position</string>
 										<key>value</key>
 										<array>
-											<real>0.0</real>
-											<real>4</real>
-											<integer>2</integer>
-										</array>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>contentSize</string>
-										<key>type</key>
-										<string>Size</string>
-										<key>value</key>
-										<array>
-											<real>200</real>
 											<real>60</real>
-											<integer>0</integer>
+											<real>34</real>
+											<integer>2</integer>
 										</array>
 									</dict>
 									<dict>
@@ -745,8 +611,8 @@
 										<string>Point</string>
 										<key>value</key>
 										<array>
-											<real>1</real>
-											<real>1</real>
+											<real>0.5</real>
+											<real>0.5</real>
 										</array>
 									</dict>
 									<dict>
@@ -780,23 +646,14 @@
 									</dict>
 									<dict>
 										<key>name</key>
-										<string>touchEnabled</string>
-										<key>platform</key>
-										<string>iOS</string>
+										<string>displayFrame</string>
 										<key>type</key>
-										<string>Check</string>
+										<string>SpriteFrame</string>
 										<key>value</key>
-										<true/>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>mouseEnabled</string>
-										<key>platform</key>
-										<string>Mac</string>
-										<key>type</key>
-										<string>Check</string>
-										<key>value</key>
-										<true/>
+										<array>
+											<string>res/main.plist</string>
+											<string>BUY.png</string>
+										</array>
 									</dict>
 								</array>
 							</dict>
@@ -1492,137 +1349,15 @@
 							</dict>
 							<dict>
 								<key>baseClass</key>
-								<string>CCMenu</string>
+								<string>CCSprite</string>
 								<key>children</key>
-								<array>
-									<dict>
-										<key>baseClass</key>
-										<string>CCMenuItemImage</string>
-										<key>children</key>
-										<array/>
-										<key>customClass</key>
-										<string></string>
-										<key>displayName</key>
-										<string>buy</string>
-										<key>memberVarAssignmentName</key>
-										<string>mButtonBuy</string>
-										<key>memberVarAssignmentType</key>
-										<integer>1</integer>
-										<key>properties</key>
-										<array>
-											<dict>
-												<key>name</key>
-												<string>position</string>
-												<key>type</key>
-												<string>Position</string>
-												<key>value</key>
-												<array>
-													<real>70</real>
-													<real>50</real>
-													<integer>4</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>anchorPoint</string>
-												<key>type</key>
-												<string>Point</string>
-												<key>value</key>
-												<array>
-													<real>0.5</real>
-													<real>0.5</real>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>scale</string>
-												<key>type</key>
-												<string>ScaleLock</string>
-												<key>value</key>
-												<array>
-													<real>1</real>
-													<real>1</real>
-													<true/>
-													<integer>0</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>tag</string>
-												<key>type</key>
-												<string>Integer</string>
-												<key>value</key>
-												<integer>1</integer>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>ignoreAnchorPointForPosition</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<false/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>block</string>
-												<key>type</key>
-												<string>Block</string>
-												<key>value</key>
-												<array>
-													<string>onBuy</string>
-													<integer>1</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>isEnabled</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<true/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>normalSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>selectedSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>disabledSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-										</array>
-									</dict>
-								</array>
+								<array/>
 								<key>customClass</key>
 								<string></string>
 								<key>displayName</key>
-								<string>CCMenu</string>
+								<string>buy</string>
 								<key>memberVarAssignmentName</key>
-								<string>mMenu</string>
+								<string>mButtonBuy</string>
 								<key>memberVarAssignmentType</key>
 								<integer>1</integer>
 								<key>properties</key>
@@ -1634,21 +1369,9 @@
 										<string>Position</string>
 										<key>value</key>
 										<array>
-											<real>0.0</real>
-											<real>4</real>
-											<integer>2</integer>
-										</array>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>contentSize</string>
-										<key>type</key>
-										<string>Size</string>
-										<key>value</key>
-										<array>
-											<real>200</real>
 											<real>60</real>
-											<integer>0</integer>
+											<real>34</real>
+											<integer>2</integer>
 										</array>
 									</dict>
 									<dict>
@@ -1658,8 +1381,8 @@
 										<string>Point</string>
 										<key>value</key>
 										<array>
-											<real>1</real>
-											<real>1</real>
+											<real>0.5</real>
+											<real>0.5</real>
 										</array>
 									</dict>
 									<dict>
@@ -1681,7 +1404,7 @@
 										<key>type</key>
 										<string>Integer</string>
 										<key>value</key>
-										<integer>0</integer>
+										<integer>1</integer>
 									</dict>
 									<dict>
 										<key>name</key>
@@ -1693,23 +1416,14 @@
 									</dict>
 									<dict>
 										<key>name</key>
-										<string>touchEnabled</string>
-										<key>platform</key>
-										<string>iOS</string>
+										<string>displayFrame</string>
 										<key>type</key>
-										<string>Check</string>
+										<string>SpriteFrame</string>
 										<key>value</key>
-										<true/>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>mouseEnabled</string>
-										<key>platform</key>
-										<string>Mac</string>
-										<key>type</key>
-										<string>Check</string>
-										<key>value</key>
-										<true/>
+										<array>
+											<string>res/main.plist</string>
+											<string>BUY.png</string>
+										</array>
 									</dict>
 								</array>
 							</dict>
@@ -2397,137 +2111,15 @@
 							</dict>
 							<dict>
 								<key>baseClass</key>
-								<string>CCMenu</string>
+								<string>CCSprite</string>
 								<key>children</key>
-								<array>
-									<dict>
-										<key>baseClass</key>
-										<string>CCMenuItemImage</string>
-										<key>children</key>
-										<array/>
-										<key>customClass</key>
-										<string></string>
-										<key>displayName</key>
-										<string>buy</string>
-										<key>memberVarAssignmentName</key>
-										<string>mButtonBuy</string>
-										<key>memberVarAssignmentType</key>
-										<integer>1</integer>
-										<key>properties</key>
-										<array>
-											<dict>
-												<key>name</key>
-												<string>position</string>
-												<key>type</key>
-												<string>Position</string>
-												<key>value</key>
-												<array>
-													<real>70</real>
-													<real>50</real>
-													<integer>4</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>anchorPoint</string>
-												<key>type</key>
-												<string>Point</string>
-												<key>value</key>
-												<array>
-													<real>0.5</real>
-													<real>0.5</real>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>scale</string>
-												<key>type</key>
-												<string>ScaleLock</string>
-												<key>value</key>
-												<array>
-													<real>1</real>
-													<real>1</real>
-													<true/>
-													<integer>0</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>tag</string>
-												<key>type</key>
-												<string>Integer</string>
-												<key>value</key>
-												<integer>2</integer>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>ignoreAnchorPointForPosition</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<false/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>block</string>
-												<key>type</key>
-												<string>Block</string>
-												<key>value</key>
-												<array>
-													<string>onBuy</string>
-													<integer>1</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>isEnabled</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<true/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>normalSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>selectedSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>disabledSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-										</array>
-									</dict>
-								</array>
+								<array/>
 								<key>customClass</key>
 								<string></string>
 								<key>displayName</key>
-								<string>CCMenu</string>
+								<string>buy</string>
 								<key>memberVarAssignmentName</key>
-								<string>mMenu</string>
+								<string>mButtonBuy</string>
 								<key>memberVarAssignmentType</key>
 								<integer>1</integer>
 								<key>properties</key>
@@ -2539,21 +2131,9 @@
 										<string>Position</string>
 										<key>value</key>
 										<array>
-											<real>0.0</real>
-											<real>4</real>
-											<integer>2</integer>
-										</array>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>contentSize</string>
-										<key>type</key>
-										<string>Size</string>
-										<key>value</key>
-										<array>
-											<real>200</real>
 											<real>60</real>
-											<integer>0</integer>
+											<real>34</real>
+											<integer>2</integer>
 										</array>
 									</dict>
 									<dict>
@@ -2563,8 +2143,8 @@
 										<string>Point</string>
 										<key>value</key>
 										<array>
-											<real>1</real>
-											<real>1</real>
+											<real>0.5</real>
+											<real>0.5</real>
 										</array>
 									</dict>
 									<dict>
@@ -2586,7 +2166,7 @@
 										<key>type</key>
 										<string>Integer</string>
 										<key>value</key>
-										<integer>0</integer>
+										<integer>2</integer>
 									</dict>
 									<dict>
 										<key>name</key>
@@ -2598,23 +2178,14 @@
 									</dict>
 									<dict>
 										<key>name</key>
-										<string>touchEnabled</string>
-										<key>platform</key>
-										<string>iOS</string>
+										<string>displayFrame</string>
 										<key>type</key>
-										<string>Check</string>
+										<string>SpriteFrame</string>
 										<key>value</key>
-										<true/>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>mouseEnabled</string>
-										<key>platform</key>
-										<string>Mac</string>
-										<key>type</key>
-										<string>Check</string>
-										<key>value</key>
-										<true/>
+										<array>
+											<string>res/main.plist</string>
+											<string>BUY.png</string>
+										</array>
 									</dict>
 								</array>
 							</dict>
@@ -3302,137 +2873,15 @@
 							</dict>
 							<dict>
 								<key>baseClass</key>
-								<string>CCMenu</string>
+								<string>CCSprite</string>
 								<key>children</key>
-								<array>
-									<dict>
-										<key>baseClass</key>
-										<string>CCMenuItemImage</string>
-										<key>children</key>
-										<array/>
-										<key>customClass</key>
-										<string></string>
-										<key>displayName</key>
-										<string>buy</string>
-										<key>memberVarAssignmentName</key>
-										<string>mButtonBuy</string>
-										<key>memberVarAssignmentType</key>
-										<integer>1</integer>
-										<key>properties</key>
-										<array>
-											<dict>
-												<key>name</key>
-												<string>position</string>
-												<key>type</key>
-												<string>Position</string>
-												<key>value</key>
-												<array>
-													<real>70</real>
-													<real>50</real>
-													<integer>4</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>anchorPoint</string>
-												<key>type</key>
-												<string>Point</string>
-												<key>value</key>
-												<array>
-													<real>0.5</real>
-													<real>0.5</real>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>scale</string>
-												<key>type</key>
-												<string>ScaleLock</string>
-												<key>value</key>
-												<array>
-													<real>1</real>
-													<real>1</real>
-													<true/>
-													<integer>0</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>tag</string>
-												<key>type</key>
-												<string>Integer</string>
-												<key>value</key>
-												<integer>3</integer>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>ignoreAnchorPointForPosition</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<false/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>block</string>
-												<key>type</key>
-												<string>Block</string>
-												<key>value</key>
-												<array>
-													<string>onBuy</string>
-													<integer>1</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>isEnabled</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<true/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>normalSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>selectedSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>disabledSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-										</array>
-									</dict>
-								</array>
+								<array/>
 								<key>customClass</key>
 								<string></string>
 								<key>displayName</key>
-								<string>CCMenu</string>
+								<string>buy</string>
 								<key>memberVarAssignmentName</key>
-								<string>mMenu</string>
+								<string>mButtonBuy</string>
 								<key>memberVarAssignmentType</key>
 								<integer>1</integer>
 								<key>properties</key>
@@ -3444,21 +2893,9 @@
 										<string>Position</string>
 										<key>value</key>
 										<array>
-											<real>0.0</real>
-											<real>4</real>
-											<integer>2</integer>
-										</array>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>contentSize</string>
-										<key>type</key>
-										<string>Size</string>
-										<key>value</key>
-										<array>
-											<real>200</real>
 											<real>60</real>
-											<integer>0</integer>
+											<real>34</real>
+											<integer>2</integer>
 										</array>
 									</dict>
 									<dict>
@@ -3468,8 +2905,8 @@
 										<string>Point</string>
 										<key>value</key>
 										<array>
-											<real>1</real>
-											<real>1</real>
+											<real>0.5</real>
+											<real>0.5</real>
 										</array>
 									</dict>
 									<dict>
@@ -3491,7 +2928,7 @@
 										<key>type</key>
 										<string>Integer</string>
 										<key>value</key>
-										<integer>0</integer>
+										<integer>3</integer>
 									</dict>
 									<dict>
 										<key>name</key>
@@ -3503,23 +2940,14 @@
 									</dict>
 									<dict>
 										<key>name</key>
-										<string>touchEnabled</string>
-										<key>platform</key>
-										<string>iOS</string>
+										<string>displayFrame</string>
 										<key>type</key>
-										<string>Check</string>
+										<string>SpriteFrame</string>
 										<key>value</key>
-										<true/>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>mouseEnabled</string>
-										<key>platform</key>
-										<string>Mac</string>
-										<key>type</key>
-										<string>Check</string>
-										<key>value</key>
-										<true/>
+										<array>
+											<string>res/main.plist</string>
+											<string>BUY.png</string>
+										</array>
 									</dict>
 								</array>
 							</dict>
@@ -4207,137 +3635,15 @@
 							</dict>
 							<dict>
 								<key>baseClass</key>
-								<string>CCMenu</string>
+								<string>CCSprite</string>
 								<key>children</key>
-								<array>
-									<dict>
-										<key>baseClass</key>
-										<string>CCMenuItemImage</string>
-										<key>children</key>
-										<array/>
-										<key>customClass</key>
-										<string></string>
-										<key>displayName</key>
-										<string>buy</string>
-										<key>memberVarAssignmentName</key>
-										<string>mButtonBuy</string>
-										<key>memberVarAssignmentType</key>
-										<integer>1</integer>
-										<key>properties</key>
-										<array>
-											<dict>
-												<key>name</key>
-												<string>position</string>
-												<key>type</key>
-												<string>Position</string>
-												<key>value</key>
-												<array>
-													<real>70</real>
-													<real>50</real>
-													<integer>4</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>anchorPoint</string>
-												<key>type</key>
-												<string>Point</string>
-												<key>value</key>
-												<array>
-													<real>0.5</real>
-													<real>0.5</real>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>scale</string>
-												<key>type</key>
-												<string>ScaleLock</string>
-												<key>value</key>
-												<array>
-													<real>1</real>
-													<real>1</real>
-													<true/>
-													<integer>0</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>tag</string>
-												<key>type</key>
-												<string>Integer</string>
-												<key>value</key>
-												<integer>4</integer>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>ignoreAnchorPointForPosition</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<false/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>block</string>
-												<key>type</key>
-												<string>Block</string>
-												<key>value</key>
-												<array>
-													<string>onBuy</string>
-													<integer>1</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>isEnabled</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<true/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>normalSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>selectedSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>disabledSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>BUY.png</string>
-												</array>
-											</dict>
-										</array>
-									</dict>
-								</array>
+								<array/>
 								<key>customClass</key>
 								<string></string>
 								<key>displayName</key>
-								<string>CCMenu</string>
+								<string>buy</string>
 								<key>memberVarAssignmentName</key>
-								<string>mMenu</string>
+								<string>mButtonBuy</string>
 								<key>memberVarAssignmentType</key>
 								<integer>1</integer>
 								<key>properties</key>
@@ -4349,21 +3655,9 @@
 										<string>Position</string>
 										<key>value</key>
 										<array>
-											<real>0.0</real>
-											<real>4</real>
-											<integer>2</integer>
-										</array>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>contentSize</string>
-										<key>type</key>
-										<string>Size</string>
-										<key>value</key>
-										<array>
-											<real>200</real>
 											<real>60</real>
-											<integer>0</integer>
+											<real>34</real>
+											<integer>2</integer>
 										</array>
 									</dict>
 									<dict>
@@ -4373,8 +3667,8 @@
 										<string>Point</string>
 										<key>value</key>
 										<array>
-											<real>1</real>
-											<real>1</real>
+											<real>0.5</real>
+											<real>0.5</real>
 										</array>
 									</dict>
 									<dict>
@@ -4396,7 +3690,7 @@
 										<key>type</key>
 										<string>Integer</string>
 										<key>value</key>
-										<integer>0</integer>
+										<integer>4</integer>
 									</dict>
 									<dict>
 										<key>name</key>
@@ -4408,23 +3702,14 @@
 									</dict>
 									<dict>
 										<key>name</key>
-										<string>touchEnabled</string>
-										<key>platform</key>
-										<string>iOS</string>
+										<string>displayFrame</string>
 										<key>type</key>
-										<string>Check</string>
+										<string>SpriteFrame</string>
 										<key>value</key>
-										<true/>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>mouseEnabled</string>
-										<key>platform</key>
-										<string>Mac</string>
-										<key>type</key>
-										<string>Check</string>
-										<key>value</key>
-										<true/>
+										<array>
+											<string>res/main.plist</string>
+											<string>BUY.png</string>
+										</array>
 									</dict>
 								</array>
 							</dict>
@@ -5373,131 +4658,17 @@
 						<array>
 							<dict>
 								<key>baseClass</key>
-								<string>CCMenu</string>
+								<string>CCSprite</string>
 								<key>children</key>
-								<array>
-									<dict>
-										<key>baseClass</key>
-										<string>CCMenuItemImage</string>
-										<key>children</key>
-										<array/>
-										<key>customClass</key>
-										<string></string>
-										<key>displayName</key>
-										<string>CCMenuItemImage</string>
-										<key>memberVarAssignmentName</key>
-										<string></string>
-										<key>memberVarAssignmentType</key>
-										<integer>0</integer>
-										<key>properties</key>
-										<array>
-											<dict>
-												<key>name</key>
-												<string>position</string>
-												<key>type</key>
-												<string>Position</string>
-												<key>value</key>
-												<array>
-													<real>220</real>
-													<real>0.0</real>
-													<integer>0</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>anchorPoint</string>
-												<key>type</key>
-												<string>Point</string>
-												<key>value</key>
-												<array>
-													<real>0.0</real>
-													<real>0.0</real>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>scale</string>
-												<key>type</key>
-												<string>ScaleLock</string>
-												<key>value</key>
-												<array>
-													<real>1</real>
-													<real>1</real>
-													<false/>
-													<integer>0</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>ignoreAnchorPointForPosition</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<false/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>block</string>
-												<key>type</key>
-												<string>Block</string>
-												<key>value</key>
-												<array>
-													<string>onBack</string>
-													<integer>1</integer>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>isEnabled</string>
-												<key>type</key>
-												<string>Check</string>
-												<key>value</key>
-												<true/>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>normalSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>back.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>selectedSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>back.png</string>
-												</array>
-											</dict>
-											<dict>
-												<key>name</key>
-												<string>disabledSpriteFrame</string>
-												<key>type</key>
-												<string>SpriteFrame</string>
-												<key>value</key>
-												<array>
-													<string>res/main.plist</string>
-													<string>back.png</string>
-												</array>
-											</dict>
-										</array>
-									</dict>
-								</array>
+								<array/>
 								<key>customClass</key>
 								<string></string>
 								<key>displayName</key>
-								<string>CCMenu</string>
+								<string>mButtonBack</string>
 								<key>memberVarAssignmentName</key>
-								<string></string>
+								<string>mButtonBack</string>
 								<key>memberVarAssignmentType</key>
-								<integer>0</integer>
+								<integer>1</integer>
 								<key>properties</key>
 								<array>
 									<dict>
@@ -5507,21 +4678,9 @@
 										<string>Position</string>
 										<key>value</key>
 										<array>
-											<real>0.0</real>
-											<real>0.0</real>
-											<integer>0</integer>
-										</array>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>contentSize</string>
-										<key>type</key>
-										<string>Size</string>
-										<key>value</key>
-										<array>
-											<real>640</real>
-											<real>120</real>
-											<integer>0</integer>
+											<real>50</real>
+											<real>50</real>
+											<integer>4</integer>
 										</array>
 									</dict>
 									<dict>
@@ -5554,29 +4713,22 @@
 										<key>type</key>
 										<string>Check</string>
 										<key>value</key>
-										<true/>
+										<false/>
 									</dict>
 									<dict>
 										<key>name</key>
-										<string>touchEnabled</string>
-										<key>platform</key>
-										<string>iOS</string>
+										<string>displayFrame</string>
 										<key>type</key>
-										<string>Check</string>
+										<string>SpriteFrame</string>
 										<key>value</key>
-										<true/>
-									</dict>
-									<dict>
-										<key>name</key>
-										<string>mouseEnabled</string>
-										<key>platform</key>
-										<string>Mac</string>
-										<key>type</key>
-										<string>Check</string>
-										<key>value</key>
-										<true/>
+										<array>
+											<string>res/main.plist</string>
+											<string>back.png</string>
+										</array>
 									</dict>
 								</array>
+								<key>selected</key>
+								<true/>
 							</dict>
 						</array>
 						<key>customClass</key>
