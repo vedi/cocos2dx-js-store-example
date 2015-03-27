@@ -26,9 +26,9 @@
 #include "platform/android/CCJavascriptJavaBridge.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include "platform/ios/JavaScriptObjCBridge.h"
-#include "jsb_soomla.h"
-
 #endif
+
+#include "jsb_soomla.h"
 
 USING_NS_CC;
 int js_module_register()

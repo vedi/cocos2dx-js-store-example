@@ -17,9 +17,13 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
 LOCAL_STATIC_LIBRARIES := cocos2d_js_static
 LOCAL_STATIC_LIBRARIES += cocos2d_simulator_static
+LOCAL_STATIC_LIBRARIES += cocos2dx_store_static
+LOCAL_STATIC_LIBRARIES += cocos2dx_soomla_common_static
 
 include $(BUILD_SHARED_LIBRARY)
 
 
 $(call import-module,scripting/js-bindings/proj.android/prebuilt-mk)
 $(call import-module,tools/simulator/libsimulator/proj.android/prebuilt-mk)
+$(call import-module,cocos2dx-store)
+$(call import-module,soomla-cocos2dx-core)
