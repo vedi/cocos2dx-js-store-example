@@ -55,8 +55,8 @@ cc.BuilderReader.registerController('StoreBScene', {
       onTouchesEnded: function (touches, event) {
         try {
           var touchPoint = touches[0].getLocation();
-          _this.onBack();
           if (isNodeAtPoint(_this.mButtonBack, touchPoint)) {
+        	  _this.onBack();
           } else {
             _.each(_this._mButtonBuyArray, function (mButtonBuy) {
               if (isNodeAtPoint(mButtonBuy, touchPoint)) {
