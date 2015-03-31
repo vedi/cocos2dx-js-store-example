@@ -18,7 +18,7 @@ This project contains examples for implementing all of SOOMLA's interfaces and u
     $ git clone --recursive https://github.com/soomla/cocos2dx-js-store-example.git
     ```
 
-4. Export this project to workspace of Cocos IDE.
+4. Import this project to workspace of Cocos IDE.
 
 #### Build instructions for Android
 
