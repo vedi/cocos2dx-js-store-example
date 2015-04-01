@@ -28,8 +28,6 @@
 #include "platform/ios/JavaScriptObjCBridge.h"
 #endif
 
-#include "jsb_soomla.h"
-
 USING_NS_CC;
 int js_module_register()
 {
