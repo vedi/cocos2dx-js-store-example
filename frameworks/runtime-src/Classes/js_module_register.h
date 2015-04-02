@@ -20,6 +20,7 @@
 #include "network/jsb_websocket.h"
 #include "network/jsb_socketio.h"
 #include "cocos2d_specifics.hpp"
+#include "Cocos2dxCore.h"
 #include "Cocos2dxStore.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -27,8 +28,6 @@
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include "platform/ios/JavaScriptObjCBridge.h"
 #endif
-
-#include "jsb_soomla.h"
 
 USING_NS_CC;
 int js_module_register()
