@@ -8,51 +8,39 @@ This project contains examples for implementing all of SOOMLA's interfaces and u
 
 ## Getting started
 
-1. Obtain the Cocos2d-x framework either from [git](https://github.com/cocos2d/cocos2d-x) or from the [Cocos2d-x website](http://www.cocos2d-x.org/download). Make sure to use the latest **stable** version (v2.2 as of Oct 25 2013).
+1. Obtain the Cocos2d-js framework either from [git](https://github.com/cocos2d/cocos2d-js) or from the [Cocos2d-x website](http://www.cocos2d-x.org/download). Make sure to use the latest **stable** version (v3.3 as of Mar 31 2015).
+
+2. Download and install Cocos IDE (http://www.cocos2d-x.org/download).
+
+
+3. Recursively clone this project to the workspace folder of Cocos IDE.
     ```
-    $ git clone git@github.com:cocos2d/cocos2d-x.git
+    $ git clone --recursive https://github.com/soomla/cocos2dx-js-store-example.git
     ```
 
-2. Recursively clone our [cocos2dx-store](https://github.com/soomla/cocos2dx-store) library into the `extensions` directory in the root of your Cocos2d-x framework.
-    ```
-    $ cd cocos2dx
-    $ git clone --recursive git@github.com:soomla/cocos2dx-store.git extensions/cocos2dx-store
-    ```
-
-3. Clone our [fork](https://github.com/soomla/jansson) of the jansson library into the `external` directory in the root of your Cocos2d-x framework.
-    ```
-    $ git clone git@github.com:soomla/jansson.git external/jansson
-    ```
-
-4. Clone cocos2dx-js-store-example into the `projects` directory at the root of the Cocos2d-x framework.
-    ```
-    $ git clone git@github.com:soomla/cocos2dx-js-store-example.git projects/cocos2dx-js-store-example
-    ```
+4. Import this project to workspace of Cocos IDE.
 
 #### Build instructions for Android
 
-1. Run the `build_native.sh` script located in projects/cocos2dx-js-store-example/proj.android. This step should take a while.
-    ```
-    $ cd projects/cocos2dx-js-store-example/proj.android
-    $ ./build_native.sh
-    ```
-
-2. Finally, open the `proj.android` directory located in `cocos2dx-store-example` in Android Studio (IntelliJ IDEA). `proj.android` is an Android Studio project.
-3. Build the project, run ExampleActivity, and you're ready to go! The application should launch in an emulator or on your device.
+1. Build Custom Sumulator for Android in Cocos IDE.
 
 Take a look around, and get a feel for all you can do with cocos2dx-store.
 
-
 #### Build instructions for iOS
 
-1. Open the XCode project under `proj.ios`.
-2. Build the project, run it, and you're ready to go! The application should launch in the simulator or on your device.
+1. In order to proceed we need to know, where your cocos2d-x is. Please, create a symlink with `cocos2d-x` at the path `frameworks/runtime-src` of the project, which looks at `cocos2d-x`. It can be something like that:
+
+```
+ln -s <your-cocos2d-js-path>/frameworks/js-bindings/cocos2d-x frameworks/runtime-src/cocos2d-x
+```
+
+2. Build Custom Sumulator for iOS in Cocos IDE.
 
 Take a look around, and get a feel for all you can do with cocos2dx-store.
 
 #### IStoreAssets
 
-A good example of how to define an economy model can be found in [MuffinRushAssets](https://github.com/vedi/cocos2dx-js-store-example/blob/master/Resources/src/MuffinRushAssets.js).
+A good example of how to define an economy model can be found in [MuffinRushAssets](https://github.com/soomla/cocos2dx-js-store-example/blob/master/Resources/src/MuffinRushAssets.js).
 
 Take a look at that file and see how you can define your specific game's economy.
 
@@ -82,5 +70,5 @@ IMPORTANT: If you would like to contribute, please follow our [Documentation Gui
 
 ## License
 
-Apache License. Copyright (c) 2012-2014 SOOMLA. http://soom.la
+Apache License. Copyright (c) 2012-2015 SOOMLA. http://soom.la
 + http://opensource.org/licenses/Apache-2.0
