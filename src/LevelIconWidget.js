@@ -45,17 +45,16 @@ var LevelIconWidget = cc.BuilderReader.registerController('LevelIconWidget', {
     if (progress >= 0 && progress <= 5) {
       this.mProgressLevel1.setScaleX(progress);
     } else {
-      cc.log("Sorry UI does not support such progress");
+      console.log("Sorry UI does not support such progress");
     }
   },
 
   setEquiped: function(equiped) {
-    console.log('equiped: ' + equiped);
     this.mEquipped.setVisible(equiped);
   },
 
   onBuy: function(pSender) {
-    cc.log("onBuy");
+    console.log("onBuy");
     try {
       Soomla.storeInventory.buyItem(this.mItemId);
     } catch(e) {
@@ -64,7 +63,7 @@ var LevelIconWidget = cc.BuilderReader.registerController('LevelIconWidget', {
   },
 
   onUpgrade: function(pSender) {
-    cc.log("onUpgrade");
+    console.log("onUpgrade");
     try {
       Soomla.storeInventory.upgradeGood(this.mItemId);
     } catch(e) {
@@ -73,7 +72,7 @@ var LevelIconWidget = cc.BuilderReader.registerController('LevelIconWidget', {
   },
 
   onEquipment: function(pSender) {
-    cc.log("onEquipment");
+    console.log("onEquipment");
     try {
       if (!this.mEquipped.isVisible()) {
         Soomla.storeInventory.equipVirtualGood(this.mItemId);
