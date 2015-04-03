@@ -68,18 +68,21 @@ cc.game.onStart = function () {
 function initSoomla() {
   console.log('try to init soomla');
   try {
-    Soomla.DEBUG = true;
-    Soomla.CoreBridge.createShared("ExampleCustomSecret");
 
-    // We initialize CCStoreController before we open the store.
+    // Turn on debug logging
+    Soomla.DEBUG = true;
+
+    Soomla.initialize("ExampleCustomSecret");
+
+    // We initialize SoomlaStore before we open the store.
     var assets = new MuffinRushAssets();
     var storeParams = {
       androidPublicKey: "ExamplePublicKey",
       testPurchases: true
     };
 
-    // This is the call to initialize CCStoreController
-    Soomla.SoomlaStore.createShared(assets, storeParams);
+    // This is the call to initialize SoomlaStore
+    Soomla.soomlaStore.initialize(assets, storeParams);
 
 
     /*
@@ -88,7 +91,7 @@ function initSoomla() {
      *
      * ** Of course, this is just for testing...           **
      */
-    var currencies = Soomla.storeInfo.getVirtualCurrencies();
+    var currencies = Soomla.storeInfo.getCurrencies();
     _.forEach(currencies, function (vc) {
       var balance = Soomla.storeInventory.getItemBalance(vc.itemId);
       if (balance < 1000) {

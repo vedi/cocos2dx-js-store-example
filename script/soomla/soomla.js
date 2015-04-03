@@ -1,18 +1,38 @@
 var PrevSoomla = Soomla;
 Soomla = new function () {
 
+  var platform = {
+    name: sys.os.toLowerCase(),
+    isNativeSupported: function isNativeSupported() {
+      return this.isAndroid() || this.isIos();
+    },
+    isAndroid: function isAndroid() {
+      return this.name === "android";
+    },
+    isIos: function isIos() {
+      return this.name === "ios";
+    }
+  };
+
   var Soomla = _.extend(PrevSoomla, {Models: {}}); // merge with binding instance
 
   Soomla.DEBUG = false;
 
   var declareClass = Soomla.declareClass = function (ClassName, fields, parentClass) {
+    // TODO: It's better if change it to standard constructor
     var Clazz = function () {
-      return _.extend(parentClass ? parentClass() : {}, fields ? fields : {}, {
+      var obj = _.extend(parentClass ? parentClass() : {}, fields ? fields : {}, {
         className: ClassName
       });
+
+      if (_.isFunction(obj.ctor)) {
+        obj.ctor.call(obj);
+      }
+      return obj;
     };
     Clazz.create = function (values) {
       var instance = _.defaults(values ? _.omit(values, "className") : {}, Clazz());
+      // TODO: Do not think it works
       if (typeof instance.onCreate == 'function') {
         instance.onCreate();
       }
@@ -582,23 +602,154 @@ Soomla = new function () {
 
   // ------- Core -------- //
   /**
-   * CoreBridge
+   * Soomla
    */
-  var CoreBridge = Soomla.CoreBridge = declareClass("CoreBridge", {
-    SOOMLA_ONLY_ONCE_DEFAULT: "SET ONLY ONCE",
-    init: function init(soomlaSecret) {
+  Soomla.DB_KEY_PRFIX = 'soomla.';
+  Soomla.initialize = function initialize(soomlaSecret) {
+    if (!soomlaSecret || soomlaSecret.length == 0) {
+      logError("Can't initialize SOOMLA without soomlaSecret");
+      return false;
+    }
 
-      if (soomlaSecret.length == 0) {
-        logError("SOOMLA/COCOS2DX MISSING customSecret!!! Stopping here !!");
-        return false;
+    Soomla.coreBridge = platform.isNativeSupported() ? NativeCoreBridge.create() : BridgelessCoreBridge.create();
+
+    callNative({
+      method: "CCSoomla::initialize",
+      soomlaSecret: soomlaSecret
+    });
+
+    return true;
+  };
+
+  /**
+   * NativeCoreBridge
+   */
+  var NativeCoreBridge = Soomla.NativeCoreBridge = declareClass("NativeCoreBridge", {
+    ctor: function () {
+      this.bindNative();
+    },
+    bindNative: function () {
+      logDebug('Binding to native platform bridge...');
+      if (platform.isAndroid()) {
+        jsb.reflection.callStaticMethod('com/soomla/cocos2dx/common/CoreBridgeBinder', "bind", "()V");
+      } else if (platform.isIos()) {
+        jsb.reflection.callStaticMethod('CoreBridge', 'initShared');
+      } else {
+        logError('Unsupported platform: ' + platform.name);
       }
+    }
+  });
 
-      callNative({
-        method: "CCSoomla::initialize",
-        soomlaSecret: soomlaSecret
+  /**
+   * BridgelessCoreBridge
+   */
+  var BridgelessCoreBridge = Soomla.BridgelessCoreBridge = declareClass("BridgelessCoreBridge", {
+  });
+
+
+  /**
+   * NativeKeyValueStorage
+   */
+  var NativeKeyValueStorage = Soomla.NativeKeyValueStorage = declareClass("NativeKeyValueStorage", {
+    getValue: function getValue(key) {
+      var result = callNative({
+        method: "CCNativeKeyValueStorage::getValue",
+        key: key
       });
+      return result.return;
+    },
+    setValue: function setValue(key, val) {
+      callNative({
+        method: "CCNativeKeyValueStorage::setValue",
+        key: key,
+        val: val
+      });
+    },
+    deleteKeyValue: function deleteKeyValue(key) {
+      callNative({
+        method: "CCNativeKeyValueStorage::deleteKeyValue",
+        key: key
+      });
+    },
+    purge: function purge() {
+      callNative({
+        method: "CCNativeKeyValueStorage::purge"
+      });
+    }
+  });
 
-      return true;
+  /**
+   * BridgelessKeyValueStorage
+   */
+  var BridgelessKeyValueStorage = Soomla.BridgelessKeyValueStorage = declareClass("BridgelessKeyValueStorage", {
+    KEY_VALUE_STORAGE_KEY: 'soomla.kvs.keys',
+    mStoredKeys: [],
+
+    ctor: function () {
+      this.loadStoredKeys();
+    },
+
+    getValue: function getValue(key) {
+      var defaultValue = "";
+      var result = cc.sys.localStorage.getItem(key);
+      return result || defaultValue;
+    },
+    setValue: function setValue(key, val) {
+      cc.sys.localStorage.setItem(key, val);
+
+      this.addStoredKeys(key);
+      this.saveStoredKeys();
+    },
+    deleteKeyValue: function deleteKeyValue(key) {
+      cc.sys.localStorage.removeItem(key);
+
+      this.removeStoredKeys(key);
+      this.saveStoredKeys();
+    },
+    purge: function purge() {
+      _.forEach(this.mStoredKeys, function (key) {
+        this.deleteKeyValue(key);
+      }, this);
+
+      cc.sys.localStorage.setItem(this.KEY_VALUE_STORAGE_KEY, "");
+    },
+
+    addStoredKeys: function (key) {
+      if (this.mStoredKeys.indexOf(key) < 0) {
+        this.mStoredKeys.push(key);
+      }
+    },
+    removeStoredKeys: function (key) {
+      var idx = this.mStoredKeys.indexOf(key);
+      if (idx >= 0) {
+        this.mStoredKeys.splice(idx, 1);
+      }
+    },
+    saveStoredKeys: function () {
+      cc.sys.localStorage.setItem(this.KEY_VALUE_STORAGE_KEY, JSON.stringify(this.mStoredKeys));
+    },
+    loadStoredKeys: function () {
+      var strKeys = cc.sys.localStorage.getItem(this.KEY_VALUE_STORAGE_KEY);
+      if (strKeys) {
+        this.mStoredKeys = JSON.parse(strKeys);
+      }
+    }
+  });
+
+  Soomla.keyValueStorage = platform.isNativeSupported() ? NativeKeyValueStorage.create() : BridgelessKeyValueStorage.create();
+
+  /**
+   * NativeRewardStorage
+   */
+  var NativeRewardStorage = Soomla.NativeRewardStorage = declareClass("NativeRewardStorage", {
+    setRewardStatus: function setRewardStatus(reward, give, notify) {
+      notify = notify || notify == undefined;
+      callNative({
+        method: "CCNativeRewardStorage::setRewardStatus",
+        reward: reward,
+        give: give,
+        notify: notify
+      });
     },
     getTimesGiven: function getTimesGiven(reward) {
       var result = callNative({
@@ -607,13 +758,8 @@ Soomla = new function () {
       });
       return result.return;
     },
-    setRewardStatus: function setRewardStatus(reward, give, notify) {
-      callNative({
-        method: "CCNativeRewardStorage::setRewardStatus",
-        reward: reward,
-        give: give,
-        notify: notify
-      });
+    isRewardGiven: function isRewardGiven(reward) {
+      return this.getTimesGiven(reward) > 0;
     },
     getLastSeqIdxGiven: function getLastSeqIdxGiven(sequenceReward) {
       var result = callNative({
@@ -628,98 +774,632 @@ Soomla = new function () {
         reward: sequenceReward,
         idx: idx
       });
-    },
-
-    kvStorageGetValue: function kvStorageGetValue(key) {
-      var result = callNative({
-        method: "CCNativeKeyValueStorage::getValue",
-        key: key
-      });
-      return result.return;
-    },
-    kvStorageSetValue: function kvStorageSetValue(key, val) {
-      callNative({
-        method: "CCNativeKeyValueStorage::setValue",
-        key: key,
-        val: val
-      });
-    },
-    kvStorageDeleteKeyValue: function kvStorageDeleteKeyValue(key) {
-      callNative({
-        method: "CCNativeKeyValueStorage::deleteKeyValue",
-        key: key
-      });
-    },
-    kvStoragePurge: function kvStoragePurge() {
-      callNative({
-        method: "CCNativeKeyValueStorage::purge"
-      });
     }
   });
-  CoreBridge.createShared = function(customSecret) {
-    var ret = new CoreBridge();
-    if (ret.init(customSecret)) {
-      Soomla.coreBridge = ret;
-    } else {
-      Soomla.coreBridge = null;
-    }
-  };
 
   /**
-   * KeyValueStorage
+   * BridgelessRewardStorage
    */
-  var KeyValueStorage = Soomla.KeyValueStorage = declareClass("KeyValueStorage", {
-    getValue: function getValue(key) {
-      return Soomla.coreBridge.kvStorageGetValue(key);
-    },
-    setValue: function setValue(key, val) {
-      Soomla.coreBridge.kvStorageSetValue(key, val);
-    },
-    deleteKeyValue: function deleteKeyValue(key) {
-      Soomla.coreBridge.kvStorageDeleteKeyValue(key);
-    },
-    purge: function purge() {
-      Soomla.coreBridge.kvStoragePurge();
-    }
-  });
-  Soomla.keyValueStorage = KeyValueStorage.create();
-
-  /**
-   * RewardStorage
-   */
-  var RewardStorage = Soomla.RewardStorage = declareClass("RewardStorage", {
+  var BridgelessRewardStorage = Soomla.BridgelessRewardStorage = declareClass("BridgelessRewardStorage", {
     setRewardStatus: function setRewardStatus(reward, give, notify) {
-      notify = notify || notify == undefined;
-      Soomla.coreBridge.setRewardStatus(reward, give, notify);
+      notify = notify || notify === undefined;
+      this.setTimesGiven(reward, give, notify);
     },
     getTimesGiven: function getTimesGiven(reward) {
-      return Soomla.coreBridge.getTimesGiven(reward);
+      var key = this.keyRewardTimesGiven(reward.getId());
+      var val = Soomla.keyValueStorage.getValue(key);
+      return (!_.isUndefined(val) && !_.isNull(val)) ? val : 0;
     },
     isRewardGiven: function isRewardGiven(reward) {
       return this.getTimesGiven(reward) > 0;
     },
     getLastSeqIdxGiven: function getLastSeqIdxGiven(sequenceReward) {
-      return Soomla.coreBridge.getLastSeqIdxGiven(sequenceReward);
+      var key = this.keyRewardIdxSeqGiven(sequenceReward.getId());
+      var val = Soomla.keyValueStorage.getValue(key);
+      return (!_.isUndefined(val) && !_.isNull(val)) ? val : -1;
     },
     setLastSeqIdxGiven: function setLastSeqIdxGiven(sequenceReward, idx) {
-      return Soomla.coreBridge.setLastSeqIdxGiven(sequenceReward, idx);
+      var key = this.keyRewardIdxSeqGiven(sequenceReward.getId());
+      Soomla.keyValueStorage.setValue(key, idx);
+    },
+
+
+    setTimesGiven: function setTimesGiven(reward, up, notify) {
+      var total = this.getTimesGiven(reward) + (up ? 1 : -1);
+      if (total < 0) {
+        total = 0;
+      }
+
+      var key = this.keyRewardTimesGiven(reward.getId());
+      Soomla.keyValueStorage.setValue(key, total);
+
+      if (up) {
+        key = this.keyRewardLastGiven(reward.getId());
+        Soomla.keyValueStorage.setValue(key, Date.now());
+      }
+
+      if (notify) {
+        if (up) {
+          Soomla.dispatchEvent('onRewardGivenEvent', reward);
+        } else {
+          Soomla.dispatchEvent('onRewardTakenEvent', reward);
+        }
+      }
+    },
+    keyRewards: function keyRewards(rewardId, postfix) {
+      return Soomla.DB_KEY_PRFIX + 'rewards.' + rewardId + '.' + postfix;
+    },
+    keyRewardIdxSeqGiven: function keyRewardIdxSeqGiven(rewardId) {
+      return this.keyRewards(rewardId, "seq.id");
+    },
+    keyRewardTimesGiven: function keyRewardTimesGiven(rewardId) {
+      return this.keyRewards(rewardId, "timesGiven");
+    },
+    keyRewardLastGiven: function keyRewardLastGiven(rewardId) {
+      return this.keyRewards(rewardId, "lastGiven");
     }
   });
-  Soomla.rewardStorage = RewardStorage.create();
+
+  Soomla.rewardStorage = platform.isNativeSupported() ? NativeRewardStorage.create() : BridgelessRewardStorage.create();
 
   // ------- Store -------- //
+  /**
+   * VirtualItemStorage
+   */
+  var VirtualItemStorage = Soomla.VirtualItemStorage = declareClass("VirtualItemStorage", {
+    getBalance: function getBalance(item) {
+      var itemId = item.getId();
+      var key = this.keyBalance(itemId);
+      var val = Soomla.keyValueStorage.getValue(key);
+
+      var balance = !_.isUndefined(val) ? balance : 0;
+
+      logDebug('the balance for ' + itemId + ' is ' + balance);
+  
+      return balance;
+    },
+
+    setBalance: function setBalance(item, balance, notify) {
+      var oldBalance = this.getBalance(item);
+      if (oldBalance === balance) {
+        return balance;
+      }
+
+      var itemId = item.getId();
+      var key = this.keyBalance(itemId);
+
+      Soomla.keyValueStorage.setValue(key, balance);
+
+      if (notify) {
+        this.postBalanceChangeEvent(item, balance, 0);
+      }
+
+      return balance;
+    },
+
+    add: function add(item, amount, notify) {
+      var itemId = item.getId();
+      var balance = this.getBalance(item);
+      if (balance < 0) { /* in case the user "adds" a negative value */
+        balance = 0;
+        amount = 0;
+      }
+
+      var newBalance = balance + amount;
+      var key = this.keyBalance(itemId);
+
+      Soomla.keyValueStorage.setValue(key, newBalance);
+
+      if (notify) {
+        this.postBalanceChangeEvent(item, newBalance, amount);
+      }
+
+      return newBalance;
+    },
+
+    remove: function remove(item, amount, notify) {
+      var itemId = item.getId().getCString();
+      var balance = this.getBalance(item) - amount;
+      if (balance < 0) {
+        balance = 0;
+        amount = 0;
+      }
+
+      var key = this.keyBalance(itemId);
+
+      Soomla.keyValueStorage.setValue(key, balance);
+
+      if (notify) {
+        this.postBalanceChangeEvent(item, balance, -1 * amount);
+      }
+
+      return balance;
+    },
+
+    keyBalance: function keyBalance(itemId) {
+      logError('OVERRIDE ME!')
+    },
+
+    postBalanceChangeEvent: function (item, balance, amountAdded) {
+      logError('OVERRIDE ME!')
+    }
+  });
+
+  /**
+   * VirtualCurrencyStorage
+   */
+  var VirtualCurrencyStorage = Soomla.VirtualCurrencyStorage = declareClass("VirtualCurrencyStorage", {
+    keyBalance: function keyBalance(itemId) {
+      return this.keyCurrencyBalance(itemId);
+    },
+    postBalanceChangeEvent: function postBalanceChangeEvent(item, balance, amountAdded) {
+      Soomla.dispatchEvent('onCurrencyBalanceChanged', item, balance, amountAdded);
+    },
+    keyCurrencyBalance: function keyCurrencyBalance(itemId) {
+      return 'currency.' + itemId + '.balance';
+    }
+  }, VirtualItemStorage);
+
+  /**
+   * NativeVirtualCurrencyStorage
+   */
+  var NativeVirtualCurrencyStorage = Soomla.NativeVirtualCurrencyStorage = declareClass("NativeVirtualCurrencyStorage", {
+
+    getBalance: function getBalance(item) {
+      var itemId = item.getId();
+  
+      logDebug('SOOMLA/COCOS2DX Calling getBalance with: ' + itemId);
+      var retParams = callNative({
+        method: 'CCNativeVirtualCurrencyStorage::getBalance',
+        itemId: itemId
+      });
+
+      return retParams['return'] || 0;
+    },
+
+    setBalance: function setBalance(item, balance, notify) {
+      var itemId = item.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling setBalance with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualCurrencyStorage::setBalance',
+        itemId: itemId,
+        balance: balance,
+        notify: notify
+      });
+
+      return retParams['return'] || 0;
+    },
+
+    add: function add(item, amount, notify) {
+      var itemId = item.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling add with: %s' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualCurrencyStorage::add',
+        itemId: itemId,
+        amount: amount,
+        notify: notify
+      });
+
+      return retParams['return'] || 0;
+    },
+
+    remove: function remove(item, amount, notify) {
+      var itemId = item.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling remove with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualCurrencyStorage::remove',
+        itemId: itemId,
+        amount: amount,
+        notify: notify
+      });
+
+      return retParams['return'] || 0;
+    }
+
+  }, VirtualCurrencyStorage);
+
+  Soomla.virtualCurrencyStorage = platform.isNativeSupported() ? NativeVirtualCurrencyStorage.create() : VirtualCurrencyStorage.create();
+
+  /**
+   * VirtualGoodsStorage
+   */
+  var VirtualGoodsStorage = Soomla.VirtualGoodsStorage = declareClass("VirtualGoodsStorage", {
+    /**
+     Removes any upgrade associated with the given `CCVirtualGood`.
+     @param good `CCVirtualGood` to remove upgrade from.
+     @param notify true will also post event.
+     */
+    removeUpgrades: function removeUpgrades(good, notify) {
+      notify = notify || _.isUndefined(notify);
+      var itemId = good.getId();
+      var key = this.keyGoodUpgrade(itemId);
+
+      Soomla.keyValueStorage.deleteKeyValue(key);
+
+      if (notify) {
+        Soomla.dispatchEvent('onGoodUpgrade', good);
+      }
+    },
+
+    /**
+     Assigns a specific upgrade to the given virtual good.
+     @param good `CCVirtualGood` to remove upgrade from.
+     @param upgradeVG the upgrade to assign.
+     @param notify true will also post event.
+     */
+    assignCurrentUpgrade: function assignCurrentUpgrade(good, upgradeVG, notify) {
+      notify = notify || _.isUndefined(notify);
+      var upgrade = this.getCurrentUpgrade(good);
+      if (upgrade && upgrade.getId() === upgradeVG.getId()) {
+        return;
+      }
+
+      var itemId = good.getId();
+      var key = this.keyGoodUpgrade(itemId);
+      var upItemId = upgradeVG.getId();
+
+      Soomla.keyValueStorage.setValue(key, upItemId);
+
+      if (notify) {
+        Soomla.dispatchEvent('onGoodUpgrade', good, upgradeVG);
+      }
+    },
+
+    /**
+     Retrieves the current upgrade for the given virtual good.
+     @param good the virtual good to retrieve upgrade for.
+     @return the current upgrade for the given virtual good, or NULL if one
+     does not exist
+     */
+    getCurrentUpgrade: function getCurrentUpgrade(good) {
+      var itemId = good.getId();
+      var key = this.keyGoodUpgrade(itemId);
+
+      var upItemId = Soomla.keyValueStorage.getValue(key);
+
+      if (!upItemId) {
+        logDebug('You tried to fetch the current upgrade of ' + itemId + ' but there\'s not upgrade to it.');
+        return null;
+      }
+
+      var item = Soomla.storeInfo.getItemByItemId(upItemId);
+
+      return item || null;
+    },
+
+    /**
+     Checks the equipping status of the given `CCEquippableVG`.
+     @param good The `CCEquippableVG` to check the status for.
+     @return boolean true if the good is equipped, false otherwise
+     */
+    isEquipped: function isEquipped(good) {
+      var itemId = good.getId();
+      var key = this.keyGoodEquipped(itemId);
+      var val = Soomla.keyValueStorage.getValue(key);
+
+      return !!val;
+    },
+
+    /**
+     Equips the given `CCEquippableVG`.
+     @param good The `CCEquippableVG` to equip.
+     @param notify true will also post event.
+     @param error Gets A `CCError` for error checking.
+     */
+    equip: function equip(good, notify) {
+      notify = notify || _.isUndefined(notify);
+      if (this.isEquipped(good)) {
+        return;
+      }
+
+      this.equipPriv(good, true, notify);
+    },
+
+    /**
+     UnEquips the given `CCEquippableVG`.
+     @param good The `CCEquippableVG` to unequip.
+     @param notify true will also post event.
+     @param error Gets A `CCError` for error checking.
+     */
+    unequip: function unequip(good, notify) {
+      notify = notify || _.isUndefined(notify);
+      if (this.isEquipped(good)) {
+        return;
+      }
+
+      this.equipPriv(good, false, notify);
+    },
+
+
+    keyBalance: function keyBalance(itemId) {
+      this.keyGoodBalance(itemId);
+    },
+
+    postBalanceChangeEvent: function postBalanceChangeEvent(item, balance, amountAdded) {
+      Soomla.dispatchEvent('onGoodBalanceChanged', item, balance, amountAdded);
+    },
+
+    equipPriv: function equipPriv(good, equip, notify) {
+      var itemId = good.getId();
+      var key = this.keyGoodEquipped(itemId);
+
+      if (equip) {
+        Soomla.keyValueStorage.setValue(key, 'yes');
+        if (notify) {
+          Soomla.dispatchEvent('onGoodEquipped', good);
+        }
+      } else {
+        Soomla.keyValueStorage.deleteKeyValue(key);
+        if (notify) {
+          Soomla.dispatchEvent('onGoodUnEquipped', good);
+        }
+      }
+    },
+
+    keyGoodBalance: function keyGoodBalance(itemId) {
+      return 'good.' + itemId + '.balance';
+    },
+
+    keyGoodEquipped: function keyGoodEquipped(itemId) {
+      return 'good.' + itemId + '.equipped';
+    },
+
+    keyGoodUpgrade: function keyGoodUpgrade(itemId) {
+      return 'good.' + itemId + '.currentUpgrade';
+    }
+
+  }, VirtualItemStorage);
+
+  /**
+   Implements the `CCVirtualGoodsStorage` using the bridge to talk
+   with the native implementation of VirtualGoodsStorage
+
+   See parent for all functions.
+   */
+  var NativeVirtualGoodsStorage = Soomla.NativeVirtualGoodsStorage = declareClass("NativeVirtualGoodsStorage", {
+
+    getBalance: function getBalance(item) {
+      var itemId = item.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling getBalance with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualGoodsStorage::getBalance',
+        itemId: itemId
+      });
+
+      return retParams['return'] || 0;
+    },
+
+    setBalance: function setBalance(item, balance, notify) {
+      var itemId = item.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling setBalance with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualGoodsStorage::setBalance',
+        itemId: itemId,
+        balance: balance,
+        notify: notify
+      });
+
+      return retParams['return'] || 0;
+    },
+
+    add: function add(item, amount, notify) {
+      var itemId = item.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling add with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualGoodsStorage::add',
+        itemId: itemId,
+        amount: amount,
+        notify: notify
+      });
+
+      return retParams['return'] || 0;
+    },
+
+    remove: function remove(item, amount, notify) {
+      var itemId = item.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling remove with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualGoodsStorage::remove',
+        itemId: itemId,
+        amount: amount,
+        notify: notify
+      });
+
+      return retParams['return'] || 0;
+    },
+
+    removeUpgrades: function removeUpgrades(good, notify) {
+      var itemId = good.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling removeUpgrades with: ' + itemId);
+
+      callNative({
+        method: 'CCNativeVirtualGoodsStorage::removeUpgrades',
+        itemId: itemId,
+        notify: notify
+      });
+    },
+
+    assignCurrentUpgrade: function assignCurrentUpgrade(good, upgradeVG, notify) {
+      var itemId = good.getId();
+      var upgradeItemId = upgradeVG.getId();
+
+
+      logDebug('SOOMLA/COCOS2DX Calling assignCurrentUpgrade with: ' + itemId);
+
+      callNative({
+        method: 'CCNativeVirtualGoodsStorage::assignCurrentUpgrade',
+        itemId: itemId,
+        upgradeItemId: upgradeItemId,
+        notify: notify
+      });
+    },
+
+    getCurrentUpgrade: function getCurrentUpgrade(good) {
+      var itemId = good.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling getCurrentUpgrade with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualGoodsStorage::getCurrentUpgrade',
+        itemId: itemId
+      });
+
+      var retItemId = retParams['return'];
+
+      return retItemId ? Soomla.storeInfo.getItemByItemId(retItemId) : null;
+    },
+
+    isEquipped: function isEquipped(good) {
+      var itemId = good.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling isEquipped with: ' + itemId);
+
+      var retParams = callNative({
+        method: 'CCNativeVirtualGoodsStorage::isEquipped',
+        itemId: itemId
+      });
+
+      return retParams['return'] || false;
+    },
+
+    equip: function equip(good, notify) {
+      var itemId = good.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling equip with: ' + itemId);
+
+      callNative({
+        method: 'CCNativeVirtualGoodsStorage::equip',
+        itemId: itemId,
+        notify: notify
+      });
+    },
+
+    unequip: function unequip(good, notify) {
+      var itemId = good.getId();
+
+      logDebug('SOOMLA/COCOS2DX Calling unequip with: ' + itemId);
+
+      callNative({
+        method: 'CCNativeVirtualGoodsStorage::unequip',
+        itemId: itemId,
+        notify: notify
+      });
+    }
+  }, VirtualGoodsStorage);
+
+  Soomla.virtualGoodsStorage = platform.isNativeSupported() ? NativeVirtualGoodsStorage.create() : VirtualGoodsStorage.create();
+
   /**
    * StoreInfo
    */
   var StoreInfo = Soomla.StoreInfo = declareClass("StoreInfo", {
+    KEY_META_STORE_INFO: "meta.storeinfo",
+
+    virtualItems: null,
+    purchasableItems: null,
+    goodsCategories: null,
+    goodsUpgrades: null,
+    currencies: null,
+    currencyPacks: null,
+    goods: null,
+    categories: null,
+
     init: function(storeAssets) {
-      callNative({
-        method: "CCStoreAssets::init",
-        version: storeAssets.version,
-        storeAssets: storeAssets
+
+      Soomla.logDebug('Setting store assets in SoomlaInfo');
+
+      if (!storeAssets){
+        Soomla.logDebug('The given store assets can\'t be null!');
+        return false;
+      }
+
+      var _this = this;
+      // support reflection call to initializeFromDB
+      Soomla.addEventHandler({
+        initializeFromDB: function () {
+          _this.initializeFromDB();
+        }
       });
+
+      this.setStoreAssets(storeAssets);
+
+      // At this point we have StoreInfo JSON saved at the local key-value storage. We can just
+      // continue by initializing from DB.
+
+      this.initializeFromDB();
+
       return true;
     },
+
+    setStoreAssets: function (storeAssets) {
+      var jsonString = JSON.stringify(storeAssets);
+      Soomla.keyValueStorage.setValue(this.KEY_META_STORE_INFO, jsonString);
+    },
+
+    initializeFromDB: function () {
+      var val = Soomla.keyValueStorage.getValue(this.KEY_META_STORE_INFO);
+
+      if (!val){
+        var message = 'store json is not in DB. Make sure you initialized SoomlaStore with your Store assets. The App will shut down now.';
+        logError(message);
+        throw message;
+      }
+
+      logDebug('the metadata-economy json (from DB) is ' + val);
+
+      this.currencies = val.currencies;
+      this.currencyPacks = val.currencyPacks;
+      if (val.goods) {
+        this.goods = _.union(
+          val.goods.singleUse,
+          val.goods.lifetime,
+          val.goods.equippable,
+          val.goods.goodPacks,
+          val.goods.goodUpgrades
+        );
+      } else {
+        this.goods = [];
+      }
+      this.categories = val.categories;
+
+
+      this.virtualItems = _.groupBy(_.union(this.currencies, this.currencyPacks, this.goods), 'itemId');
+
+      this.purchasableItems = _.groupBy(
+        _.filter(_.union(this.currencyPacks, this.goods),
+          function (vi) {
+            return vi.purchasableItem && vi.purchasableItem.marketItem;
+          }
+        ),
+        function (vi) {
+          return vi.purchasableItem.marketItem.productId;
+        }
+      );
+      this.goodsUpgrades = _.groupBy(_.filter(this.goods, {className: 'UpgradeVG'}), 'goodItemId');
+
+      var goodsCategories = this.goodsCategories = {};
+      _.each(this.categories, function (category) {
+        _.each(category.goods_itemIds, function (itemId) {
+          goodsCategories[itemId] = category;
+        });
+      });
+    },
+
     getItemByItemId: function(itemId) {
       var retParams = callNative({
         method: "CCStoreInfo::getItemByItemId",
@@ -763,40 +1443,157 @@ Soomla = new function () {
 
       return extractCollection(retParams);
     },
-    getVirtualCurrencies: function() {
-      var retParams = callNative({
-        method: "CCStoreInfo::getVirtualCurrencies"
-      });
-      return extractCollection(retParams);
+
+    getVirtualItems: function () {
+      return this.virtualItems;
     },
-    getVirtualGoods: function() {
-      var retParams = callNative({
-        method: "CCStoreInfo::getVirtualGoods"
-      });
-      return extractCollection(retParams);
+
+    getPurchasableItems: function () {
+      return this.purchasableItems;
     },
-    getVirtualCurrencyPacks: function() {
-      var retParams = callNative({
-        method: "CCStoreInfo::getVirtualCurrencyPacks"
-      });
-      return extractCollection(retParams);
+
+    getGoodsCategories: function () {
+      return this.goodsCategories;
     },
-    getVirtualCategories: function() {
-      var retParams = callNative({
-        method: "CCStoreInfo::getVirtualCategories"
-      });
-      return extractCollection(retParams);
+
+    getGoodsUpgrades: function () {
+      return this.goodsUpgrades;
     },
-    saveItem: function(virtualItem) {
-      callNative({
-        method: "CCStoreInfo::saveItem",
-        virtualItem: virtualItem
+
+    getCurrencies: function () {
+      return this.currencies;
+    },
+
+    getCurrencyPacks: function () {
+      return this.currencyPacks;
+    },
+
+    getGoods: function () {
+      return this.goods;
+    },
+
+    getCategories: function () {
+      return this.categories;
+    },
+
+    saveItem: function (virtualItem, saveToDB) {
+      this.replaceVirtualItem(virtualItem);
+      if (saveToDB) {
+        this.save();
+      }
+    },
+    saveItems: function(virtualItems, saveToDB) {
+      if (!virtualItems || virtualItems.length == 0) {
+        return;
+      }
+
+      _.each(virtualItems, function (vi) {
+        this.replaceVirtualItem(vi);
       });
+
+      if (saveToDB) {
+        this.save();
+      }
+    },
+    save: function () {
+      var assets = Soomla.IStoreAssets.create();
+      assets.currencies = this.currencies;
+      assets.currencyPacks = this.currencyPacks;
+
+      _.each(this.goods, function (vi) {
+        if (vi.className === 'SingleUseVG') {
+          assets.goods.singleUse.push(vi);
+        } else if (vi.className === 'EquippableVG') {
+          assets.goods.equippable.push(vi);
+        } else if (vi.className === 'UpgradeVG') {
+          assets.goods.goodUpgrades.push(vi);
+        } else if (vi.className === 'LifetimeVG') {
+          assets.goods.lifetime.push(vi);
+        } else if (vi.className === 'SingleUsePackVG') {
+          assets.goods.goodPacks.push(vi);
+        }
+      });
+      assets.categories = this.categories;
+
+      var jsonString = JSON.stringify(assets);
+      logDebug("saving StoreInfo to DB. json is: " + jsonString);
+      Soomla.keyValueStorage.setValue(this.KEY_META_STORE_INFO, jsonString);
+    },
+
+    replaceVirtualItem: function(virtualItem) {
+      var foundIdx;
+      this.virtualItems[virtualItem.itemId] = virtualItem;
+
+      if (virtualItem.className === 'VirtualCurrency') {
+        foundIdx = _.findIndex(this.currencies, {itemId: virtualItem.itemId});
+        if (foundIdx >= 0) {
+          _.slice(this.currencies, foundIdx);
+        }
+        this.currencies.push(virtualItem);
+      }
+
+      if (virtualItem.className === 'VirtualCurrencyPack') {
+        if (virtualItem.purchasableItem && virtualItem.purchasableItem.marketItem) {
+          this.purchasableItems[virtualItem.purchasableItem.marketItem.productId] = virtualItem;
+        }
+
+        foundIdx = _.findIndex(this.currencyPacks, {itemId: virtualItem.itemId});
+        if (foundIdx >= 0) {
+          _.slice(this.currencyPacks, foundIdx);
+        }
+        this.currencyPacks.push(virtualItem);
+      }
+
+      if (virtualItem.className === 'SingleUseVG' ||
+        virtualItem.className === 'EquippableVG' ||
+        virtualItem.className === 'UpgradeVG' ||
+        virtualItem.className === 'LifetimeVG' ||
+        virtualItem.className === 'SingleUsePackVG') {
+
+        if (virtualItem.className === 'UpgradeVG') {
+          foundIdx = _.findIndex(this.goodsUpgrades, {itemId: virtualItem.itemId});
+          if (foundIdx >= 0) {
+            _.slice(this.goodsUpgrades, foundIdx);
+          }
+          this.goodsUpgrades.push(virtualItem);
+        }
+
+        if (virtualItem.purchasableItem && virtualItem.purchasableItem.marketItem) {
+          this.purchasableItems[virtualItem.purchasableItem.marketItem.productId] = virtualItem;
+        }
+
+        foundIdx = _.findIndex(this.goods, {itemId: virtualItem.itemId});
+        if (foundIdx >= 0) {
+          _.slice(this.goods, foundIdx);
+        }
+        this.goods.push(virtualItem);
+      }
     }
   });
 
+  var NativeStoreInfo = Soomla.NativeStoreInfo = declareClass("NativeStoreInfo", {
+    setStoreAssets: function setStoreAssets(storeAssets) {
+      logDebug('pushing CCStoreAssets to StoreInfo on native side');
+
+      callNative({
+        method: "CCStoreAssets::init",
+        version: storeAssets.version,
+        storeAssets: storeAssets
+      });
+
+      logDebug('done! (pushing data to StoreAssets on native side)');
+    },
+    save: function save() {
+      StoreInfo.save.apply(this, arguments);
+
+      callNative({
+        method: "CCStoreInfo::loadFromDB"
+      });
+    }
+  }, StoreInfo);
+
   StoreInfo.createShared = function(storeAssets) {
-    var ret = new StoreInfo();
+    var ret = platform.isNativeSupported() ? NativeStoreInfo.create() : StoreInfo.create();
     if (ret.init(storeAssets)) {
       Soomla.storeInfo = ret;
     } else {
@@ -1211,6 +2008,26 @@ Soomla = new function () {
    * Root definitions
    */
   Soomla.eventHandlers = [];
+
+  /**
+   * Dispatch event. Goes through event handlers and calls
+   * @param eventName function to call in event handlers
+   * @param {...Mixed} params params to pass to the function of event handlers
+   */
+  Soomla.dispatchEvent = function (eventName) {
+    // TODO: Switch all dispatching to this function
+    if (arguments.length === 0) {
+      console.log('dispatchEvent: Wrong arguments number');
+      return;
+    }
+    var functionName = _.take(arguments);
+    _.forEach(Soomla.eventHandlers, function (eventHandler) {
+      if (_.isFunction(eventHandler[functionName])) {
+        eventHandler[functionName].apply(eventHandler, arguments);
+      }
+    });
+  };
+
   Soomla.addEventHandler = Soomla.on = function (eventHandler) {
     Soomla.eventHandlers.push(eventHandler);
   };
@@ -1643,6 +2460,11 @@ Soomla = new function () {
           }
         });
       }
+
+      else if (methodName == "Reflection::CCStoreInfo::initializeFromDB") {
+        Soomla.dispatchEvent('initializeFromDB');
+      }
+
       else if (methodName == "CCHighwayEventDispatcher::onStateConflict") {
         var remoteState = parameters.remoteState;
         var currentState = parameters.currentState;
@@ -1812,51 +2634,28 @@ Soomla = new function () {
     Soomla.ndkCallback.call(Soomla, params);
   };
 
-  /**
-   * SoomlaStore
-   */
-  var SoomlaStore = Soomla.SoomlaStore = declareClass("SoomlaStore", {
-    SOOMLA_AND_PUB_KEY_DEFAULT: "YOUR GOOGLE PLAY PUBLIC KEY",
-    init: function(storeAssets, storeParams) {
+  var StoreBridge = Soomla.StoreBridge = declareClass("StoreBridge", {
+    init: function () {
+      return true;
+    },
+    applyParams: function applyParams(storeParams) {
+    }
+  });
 
-      var platform = sys.os.toLowerCase();
-
-      // Redundancy checking. Most JS libraries don't do this. I hate it when they don't do this. Do this.
-      var fields = ["androidPublicKey", "SSV", "testPurchases"];
-      var wrongParams = _.omit(storeParams, fields);
-      if (wrongParams.length > 0) {
-        logDebug("WARNING!! Possible typo in member of storeParams: " + wrongParams);
-      }
-
-      storeParams = _.pick(storeParams, fields);
-      storeParams.androidPublicKey  = storeParams.androidPublicKey || "";
-      storeParams.SSV  = storeParams.SSV === true || false;
-      storeParams.testPurchases  = storeParams.testPurchases === true || false;
-
-      if (platform === "android" && storeParams.androidPublicKey.length == 0) {
-        logError("SOOMLA/COCOS2DX MISSING publickKey !!! Stopping here !!");
-        return false;
-      }
-
-      if (platform === "android" && storeParams.androidPublicKey == this.SOOMLA_AND_PUB_KEY_DEFAULT) {
-        logError("SOOMLA/COCOS2DX You have to change android publicKey !!! Stopping here !!");
-        return false;
-      }
-
-      if (platform === "ios") {
+  var NativeStoreBridge = Soomla.NativeStoreBridge = declareClass("NativeStoreBridge", {
+    init: function () {
+      this.bindNative();
+      return true;
+    },
+    applyParams: function applyParams(storeParams) {
+      if (platform.isIos()) {
         callNative({
           method: "CCSoomlaStore::setSSV",
           ssv: storeParams.SSV
         });
       }
 
-      StoreInfo.createShared(storeAssets);
-
-      callNative({
-        method: "CCStoreServiceJsb::init"
-      });
-
-      if (platform === "android") {
+      if (platform.isAndroid()) {
         callNative({
           method: "CCSoomlaStore::setAndroidPublicKey",
           androidPublicKey: storeParams.androidPublicKey
@@ -1866,9 +2665,107 @@ Soomla = new function () {
           testPurchases: storeParams.testPurchases
         });
       }
+    },
+
+    bindNative: function bindNative() {
+      logDebug('Binding to native platform Store bridge...');
+
+      if (platform.isAndroid()) {
+        jsb.reflection.callStaticMethod('com/soomla/cocos2dx/store/StoreBridgeBinder', "bind", "()V");
+      } else if (platform.isIos()) {
+        jsb.reflection.callStaticMethod('StoreBridge', 'initShared');
+      } else {
+        logError('Unsupported platform: ' + platform.name);
+      }
+    }
+  }, StoreBridge);
+
+  StoreBridge.initShared = function () {
+    var ret = platform.isNativeSupported() ? NativeStoreBridge.create() : StoreBridge.create();
+    if (ret.init()) {
+      Soomla.storeBridge = ret;
+    } else {
+      Soomla.storeBridge = null;
+    }
+  };
+
+  /**
+   * SoomlaStore
+   */
+  var SoomlaStore = Soomla.SoomlaStore = declareClass("SoomlaStore", {
+    SOOMLA_AND_PUB_KEY_DEFAULT: "YOUR GOOGLE PLAY PUBLIC KEY",
+    initialized: false,
+    initialize: function(storeAssets, storeParams) {
+
+      if (this.initialized) {
+        var err = "SoomlaStore is already initialized. You can't initialize it twice!";
+        Soomla.dispatchEvent('onUnexpectedErrorInStore', err, true);
+        logError(err);
+        return;
+      }
+
+      StoreBridge.initShared();
+
+      logDebug("CCSoomlaStore Initializing...");
+
+      this.loadBillingService();
+
+      StoreInfo.createShared(storeAssets);
+
+      Soomla.storeBridge.applyParams(storeParams);
+
+      if (platform.isIos()) {
+        this.refreshMarketItemsDetails();
+      } else if (platform.isAndroid()) {
+        this.refreshInventory();
+      }
+
+      this.initialized = true;
+      Soomla.dispatchEvent('onSoomlaStoreInitialized', true);
 
       return true;
     },
+    buyMarketItem: function(productId, payload) {
+      ////===========
+      var item = Soomla.storeInfo.getPurchasableItemWithProductId(productId);
+      if (!item) {
+        return;
+      }
+
+      // simulate onMarketPurchaseStarted event
+      Soomla.dispatchEvent('onMarketPurchaseStarted', item);
+
+      // in the editor we just give the item... no real market.
+      item.give(1);
+
+      // simulate onMarketPurchase event
+      Soomla.dispatchEvent('onMarketPurchase', item, 'fake_token_zyxw9876', payload);
+    },
+    restoreTransactions: function() {
+    },
+    refreshInventory: function() {
+    },
+    refreshMarketItemsDetails: function() {
+    },
+    // For iOS only
+    transactionsAlreadyRestored: function() {
+    },
+    // For Android only
+    startIabServiceInBg: function() {
+    },
+    // For Android only
+    stopIabServiceInBg: function() {
+    },
+
+    loadBillingService: function loadBillingService() {
+
+    }
+  });
+
+  /**
+   * NativeSoomlaStore
+   */
+  var NativeSoomlaStore = Soomla.NativeSoomlaStore = declareClass("NativeSoomlaStore", {
     buyMarketItem: function(productId, payload) {
       callNative({
         method: "CCSoomlaStore::buyMarketItem",
@@ -1886,40 +2783,39 @@ Soomla = new function () {
         method: "CCSoomlaStore::refreshInventory"
       });
     },
-    // TODO: For iOS only
+    refreshMarketItemsDetails: function() {
+      callNative({
+        method: "CCSoomlaStore::refreshMarketItemsDetails"
+      });
+    },
+    // For iOS only
     transactionsAlreadyRestored: function() {
       var retParams = callNative({
         method: "CCSoomlaStore::transactionsAlreadyRestored"
       });
       return retParams.return;
     },
-    refreshMarketItemsDetails: function() {
-      callNative({
-        method: "CCSoomlaStore::refreshMarketItemsDetails"
-      });
-    },
-    // TODO: For Android only
+    // For Android only
     startIabServiceInBg: function() {
       callNative({
         method: "CCSoomlaStore::startIabServiceInBg"
       });
     },
-    // TODO: For Android only
+    // For Android only
     stopIabServiceInBg: function() {
       callNative({
         method: "CCSoomlaStore::stopIabServiceInBg"
       });
-    }
-  });
+    },
 
-  SoomlaStore.createShared = function(storeAssets, storeParams) {
-    var ret = new SoomlaStore();
-    if (ret.init(storeAssets, storeParams)) {
-      Soomla.soomlaStore = ret;
-    } else {
-      Soomla.soomlaStore = null;
+    loadBillingService: function() {
+      callNative({
+        method: "CCSoomlaStore::loadBillingService"
+      });
     }
-  };
+  }, SoomlaStore);
+
+  Soomla.soomlaStore = platform.isNativeSupported() ? NativeSoomlaStore.create() : SoomlaStore.create();
 
   var StoreInventory = Soomla.StoreInventory = declareClass("StoreInventory", {
     buyItem: function(itemId, payload) {
