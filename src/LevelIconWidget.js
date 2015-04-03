@@ -11,11 +11,11 @@ var LevelIconWidget = cc.BuilderReader.registerController('LevelIconWidget', {
       onTouchesEnded: function (touches, event) {
         try {
           var touchPoint = touches[0].getLocation();
-          if (isNodeAtPoint(_this.mButtonBuy, touchPoint)) {
+          if (_this.mButtonBuy.isVisible() && isNodeAtPoint(_this.mButtonBuy, touchPoint)) {
             _this.onBuy();
-          } else if (isNodeAtPoint(_this.mButtonUpgrade, touchPoint)) {
+          } else if (_this.mButtonUpgrade.isVisible() && isNodeAtPoint(_this.mButtonUpgrade, touchPoint)) {
             _this.onUpgrade();
-          } else if (isNodeAtPoint(_this.mEquipment, touchPoint)) {
+          } else if (_this.mEquipment.isVisible() && isNodeAtPoint(_this.mEquipment, touchPoint)) {
             _this.onEquipment();
           }
         } catch (err) {

@@ -30,13 +30,15 @@ Take a look around, and get a feel for all you can do with cocos2dx-store.
 
 1. In order to proceed we need to know, where your cocos2d-x is. Please, create a symlink with `cocos2d-x` at the path `frameworks/runtime-src` of the project, which looks at `cocos2d-x`. It can be something like that:
 
-```
+  ```
 ln -s <your-cocos2d-js-path>/frameworks/js-bindings/cocos2d-x frameworks/runtime-src/cocos2d-x
-```
+  ```
 
 2. Build Custom Sumulator for iOS in Cocos IDE.
 
 Take a look around, and get a feel for all you can do with cocos2dx-store.
+
+> Please, get sure you selected `IOS Simulator` and set up path to just created runtime (`runtime/ios/cocos2dxJsStoreExample iOS.app`) in your "Debug Configuration".
 
 #### IStoreAssets
 
