@@ -46,10 +46,6 @@ void AppDelegate::initGLContextAttrs()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    // Bind native bridges
-    soomla::CCCoreBridge::getInstance();
-    soomla::CCStoreBridge::getInstance();
-
     // initialize director
     auto director = Director::getInstance();
 
