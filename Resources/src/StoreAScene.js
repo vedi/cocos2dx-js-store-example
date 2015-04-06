@@ -7,10 +7,8 @@ var StoreAScene = cc.Class.extend({
   _mListRows: [],
   _mListItems: [],
   mCacheListItems: [],
-  eventHandler: null,
 
   onDidLoadFromCCB: function () {
-    this.eventHandler = this.createEventHandler();
     applyScaleForNode(this.rootNode);
     fill(this.mBackgroundNode);
 //    putToCenterMiddleOf(this.mMainNode, this.mBackgroundNode);
@@ -94,15 +92,22 @@ var StoreAScene = cc.Class.extend({
 
     this.updateCurrencyBalance(balance);
 
+    var that = this;
+
     var superOnEnter = this.rootNode.onEnter;
     this.rootNode.onEnter = function() {
       superOnEnter();
-      Soomla.addEventHandler(this.controller.eventHandler);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_CURRENCY_BALANCE_CHANGED, that.onCurrencyBalanceChanged, that);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_BALANCE_CHANGED, that.updateGoodBalance, that);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_EQUIPPED, that.onGoodEquipped, that);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_UNEQUIPPED, that.onGoodUnEquipped, that);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_UPGRADE, that.onGoodUpgrade, that);
     }
+
     var superOnExit = this.rootNode.onExit;
     this.rootNode.onExit = function() {
       superOnExit();
-      Soomla.removeEventHandler(this.controller.eventHandler);
+      Soomla.removeEventHandlersWithTarget(that);
     }
   },
 
@@ -163,14 +168,20 @@ var StoreAScene = cc.Class.extend({
     }
   },
 
+  onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
+    Soomla.logDebug("CurrencyBalanceChanged: " + balance);
+    this.updateCurrencyBalance(balance);
+  },
+
   updateCurrencyBalance: function(balance) {
     this.mMuffinAmount.setString(balance);
   },
 
-  updateGoodBalance: function(virtualCurrency, balance) {
+  updateGoodBalance: function(virtualGood, balance, amountAdded) {
+    Soomla.logDebug("GoodBalanceChanged");
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
-      if (virtualCurrency.itemId == itemId) {
+      if (virtualGood.itemId == itemId) {
         this.mListItems[i].controller.setBalance(balance);
         break;
       }
@@ -178,6 +189,7 @@ var StoreAScene = cc.Class.extend({
   },
 
   onGoodEquipped: function(virtualGood) {
+    Soomla.logDebug("GoodEquipped");
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
       if (virtualGood.itemId == itemId) {
@@ -188,6 +200,7 @@ var StoreAScene = cc.Class.extend({
   },
 
   onGoodUnEquipped: function(virtualGood) {
+    Soomla.logDebug("GoodUnEquipped");
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
       if (virtualGood.itemId == itemId) {
@@ -197,7 +210,8 @@ var StoreAScene = cc.Class.extend({
     }
   },
 
-  onGoodUpgrade: function(virtualGood) {
+  onGoodUpgrade: function(virtualGood, upgradeVG) {
+    Soomla.logDebug("GoodUpgrade");
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
       if (virtualGood.itemId == itemId) {
@@ -241,34 +255,7 @@ var StoreAScene = cc.Class.extend({
       equipped = false;
     }
     pWidget.setEquiped(equipped);
-  },
-
-  createEventHandler: function () {
-    var that = this;
-    return {
-      onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
-        Soomla.logDebug("CurrencyBalanceChanged: " + balance);
-        that.updateCurrencyBalance(balance);
-      },
-      onGoodBalanceChanged: function(virtualGood, balance, amountAdded) {
-        Soomla.logDebug("GoodBalanceChanged");
-        that.updateGoodBalance(virtualGood, balance);
-      },
-      onGoodEquipped: function(equippableVG) {
-        Soomla.logDebug("GoodEquipped");
-        that.onGoodEquipped(equippableVG);
-      },
-      onGoodUnEquipped: function(equippableVG) {
-        Soomla.logDebug("GoodUnEquipped");
-        that.onGoodUnEquipped(equippableVG);
-      },
-      onGoodUpgrade: function(virtualGood, upgradeVG) {
-        Soomla.logDebug("GoodUpgrade");
-        that.onGoodUpgrade(virtualGood);
-      }
-    };
   }
-
 });
 
 Object.defineProperty(StoreAScene.prototype, "mListRows", {

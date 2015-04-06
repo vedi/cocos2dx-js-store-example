@@ -8,7 +8,6 @@ var StoreBScene = cc.Class.extend({
   _mPrices: [],
 
   onDidLoadFromCCB: function () {
-    this.eventHandler = this.createEventHandler();
     applyScaleForNode(this.rootNode);
     fill(this.mBackgroundNode);
     shiftToTop(this.mTopNode);
@@ -37,15 +36,17 @@ var StoreBScene = cc.Class.extend({
 
     this.updateCurrencyBalance(balance);
 
+    var that = this;
+
     var superOnEnter = this.rootNode.onEnter;
     this.rootNode.onEnter = function() {
       superOnEnter();
-      Soomla.addEventHandler(this.controller.eventHandler);
+      Soomla.addEventHandler(Soomla.Models.StoreConsts.EVENT_CURRENCY_BALANCE_CHANGED, that.onCurrencyBalanceChanged, that);
     }
     var superOnExit = this.rootNode.onExit;
     this.rootNode.onExit = function() {
       superOnExit();
-      Soomla.removeEventHandler(this.controller.eventHandler);
+      Soomla.removeEventHandler(Soomla.Models.StoreConsts.EVENT_CURRENCY_BALANCE_CHANGED, that.onCurrencyBalanceChanged);
     }
   },
 
@@ -78,19 +79,14 @@ var StoreBScene = cc.Class.extend({
     }
   },
 
+  onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
+    Soomla.logDebug("CurrencyBalanceChanged: " + balance);
+    this.updateCurrencyBalance(balance);
+  },
+
   updateCurrencyBalance: function (pBalance) {
     this.mMuffinAmount.setString(pBalance);
-  },
-  createEventHandler: function () {
-    var that = this;
-    return {
-      onCurrencyBalanceChanged: function(virtualCurrency, balance, amountAdded) {
-        Soomla.logDebug("CurrencyBalanceChanged: " + balance);
-        that.updateCurrencyBalance(balance);
-      }
-    };
   }
-
 });
 
 Object.defineProperty(StoreBScene.prototype, "mGoodTitles", {
