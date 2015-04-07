@@ -42,11 +42,11 @@ cc.BuilderReader.registerController('StoreBScene', {
     var superOnEnter = this.rootNode.onEnter;
     this.rootNode.onEnter = function () {
       Soomla.addEventHandler(this.controller.eventHandler);
-      superOnEnter();
+      superOnEnter.call(_this.rootNode);
     };
     var superOnExit = this.rootNode.onExit;
     this.rootNode.onExit = function () {
-      superOnExit();
+      superOnExit.call(_this.rootNode);
       Soomla.removeEventHandler(this.controller.eventHandler);
     };
 
@@ -73,7 +73,7 @@ cc.BuilderReader.registerController('StoreBScene', {
 
   onBack: function (pSender) {
     var scene = cc.BuilderReader.loadAsScene("ccb/StoreAScene");
-    cc.Director.getInstance().replaceScene(cc.TransitionMoveInL.create(0.8, scene));
+    cc.director.runScene(new cc.TransitionMoveInL(0.8, scene));
   },
 
   onBuy: function (pSender) {

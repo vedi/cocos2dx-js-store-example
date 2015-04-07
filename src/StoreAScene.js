@@ -40,13 +40,13 @@ cc.BuilderReader.registerController('StoreAScene', {
       Soomla.addEventHandler(_this.eventHandler);
       _this.initData();
       console.log('onEnter');
-      superOnEnter();
+      superOnEnter.call(_this.rootNode);
     };
     var superOnExit = this.rootNode.onExit;
     this.rootNode.onExit = function () {
       console.log('onExit');
       Soomla.removeEventHandler(this.controller.eventHandler);
-      superOnExit();
+      superOnExit.call(_this.rootNode);
     };
 
     cc.eventManager.addListener({
@@ -117,7 +117,7 @@ cc.BuilderReader.registerController('StoreAScene', {
           price = -1;
         }
 
-	    this.mListItems[i].controller.setData(itemId, name, info, price, balance);
+        this.mListItems[i].controller.setData(itemId, name, info, price, balance);
       }
     }
 
@@ -134,7 +134,7 @@ cc.BuilderReader.registerController('StoreAScene', {
   onMoreMuffins: function () {
     console.log('onMoreMuffins');
     var scene = cc.BuilderReader.loadAsScene("ccb/StoreBScene");
-    cc.director.replaceScene(cc.TransitionMoveInR(0.8, scene));
+    cc.director.runScene(new cc.TransitionMoveInR(0.8, scene));
   },
 
   onBack: function () {
@@ -145,7 +145,7 @@ cc.BuilderReader.registerController('StoreAScene', {
 //    #endif
 //
     var scene = cc.BuilderReader.loadAsScene("ccb/MainScreen");
-    cc.director.replaceScene(cc.TransitionMoveInL(0.8, scene));
+    cc.director.runScene(new cc.TransitionMoveInL(0.8, scene));
   },
 
   itemIdFromTag: function (tag) {

@@ -56,7 +56,7 @@ cc.game.onStart = function () {
   cc.LoaderScene.preload(g_resources, function () {
     // create a scene. it's an autorelease object
     try {
-      var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen", null, null);
+      var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen.ccbi", null, null);
       mainScene.retain();
       cc.director.runScene(mainScene);
     } catch (err) {
@@ -106,7 +106,7 @@ function initSoomla() {
 }
 
 function applyScaleForNode(node) {
-  var winSize = cc.Director.getInstance().getWinSize();
+  var winSize = cc.director.getWinSize();
   var scale = winSize.width / node.getContentSize().width < winSize.height / node.getContentSize().height ?
   winSize.width / node.getContentSize().width : winSize.height / node.getContentSize().height;
   node.setScale(scale);
@@ -124,7 +124,7 @@ function fill(targetNode) {
     targetNode.getParent().convertToWorldSpace(
       cc.p(targetNode.getPosition().x + contentPoint.x, targetNode.getPosition().y + contentPoint.y));
 
-  var winSize = cc.Director.getInstance().getWinSize();
+  var winSize = cc.director.getWinSize();
 
   var scaleX = winSize.width / (rightTop.x - leftBottom.x);
   var scaleY = winSize.height / (rightTop.y - leftBottom.y);
@@ -138,7 +138,7 @@ function shiftToLeftBottom(targetNode) {
 }
 
 function shiftToTop(targetNode) {
-  var winSize = cc.Director.getInstance().getWinSize();
+  var winSize = cc.director.getWinSize();
   var position =
     targetNode.getParent().convertToNodeSpace(cc.p(winSize.width, winSize.height));
   targetNode.setPositionY(position.y);
@@ -157,7 +157,7 @@ function fillWidth(targetNode) {
     targetNode.getParent().convertToWorldSpace(
       cc.p(targetNode.getPosition().x + contentPoint.x, targetNode.getPosition().y + contentPoint.y));
 
-  var winSize = cc.Director.getInstance().getWinSize();
+  var winSize = cc.director.getWinSize();
 
   targetNode.setScale(winSize.width / (rightTop.x - leftBottom.x));
 }

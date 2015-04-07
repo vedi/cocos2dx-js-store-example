@@ -1,12 +1,14 @@
 var res = {
-  HelloWorld_png: "res/HelloWorld.png",
-  MainScene_json: "res/MainScene.json",
-  StoreAScene_json: "res/StoreAScene.json",
-  target_json: "res/main/right_bg.png",
-  background_json: "res/main/img_direct.jpg",
-  target_json: "res/main/right_bg_hover.png",
-  logo_json: "res/main/soomla_logo_new.png"
+  MainScene_ccbi: 'ccb/MainScreen.ccbi',
+  StoreAScene_ccbi: 'ccb/StoreAScene.ccbi',
+  StoreBScene_ccbi: 'ccb/StoreBScene.ccbi',
+  main_atlas_png: 'res/main.png',
+  main_atlas_plist: 'res/main.plist'
 };
+
+for (var i = 0; i <= 13; i++) {
+  res['ListItemWidget' + i + '_ccbi'] = 'ccb/ListItemWidget' + i + '.ccbi';
+}
 
 var g_resources = [];
 for (var i in res) {

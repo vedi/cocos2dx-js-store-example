@@ -1,7 +1,7 @@
 //MainScene class
 cc.BuilderReader.registerController('MainScreen', {
   onDidLoadFromCCB: function () {
-    sys.garbageCollect();
+    cc.sys.garbageCollect();
 
     var rootNode = this.rootNode;
     this.mUnlocker.retain();
@@ -26,12 +26,12 @@ cc.BuilderReader.registerController('MainScreen', {
 
         if (cc.rectIntersectsRect(rect1, rect2)) {
           try {
-            var scene = cc.Scene();
+            var scene = new cc.Scene();
             var node = cc.BuilderReader.load("ccb/StoreAScene", scene);
             if (node != null) {
               scene.addChild(node);
             }
-            cc.director.replaceScene(cc.TransitionMoveInR(0.8, scene));
+            cc.director.runScene(new cc.TransitionMoveInR(0.8, scene));
           } catch (err) {
             console.log(err);
           }
