@@ -1,8 +1,13 @@
+if (_.isUndefined(window.Soomla)) {
+  window.Soomla = {
+  };
+}
+
 var PrevSoomla = Soomla;
 Soomla = new function () {
 
   var platform = {
-    name: sys.os.toLowerCase(),
+    name: cc.sys.os.toLowerCase(),
     isNativeSupported: function isNativeSupported() {
       return this.isAndroid() || this.isIos();
     },
@@ -18,26 +23,66 @@ Soomla = new function () {
 
   Soomla.DEBUG = false;
 
+  Soomla.factory = {
+    classFactories: {},
+    create: function(data) {
+      data.className = data.className ||
+      (data.purchaseType === 'market' && 'PurchaseWithMarket') ||
+      (data.purchaseType === 'virtualItem' && 'PurchaseWithVirtualItem');
+      logDebug('Creating: ' + data.className);
+      this.checkForClass(data);
+      var classFactory = this.classFactories[data.className];
+      if (classFactory) {
+        return classFactory.call(this, data);
+      } else {
+        logError('Cannot find factory for className: ' + data.className);
+        return null;
+      }
+    },
+    checkForClass: function (data) {
+      _.forEach(data, function (value, key) {
+        if (_.isPlainObject(value)) {
+          value.className = value.className ||
+          (value.purchaseType === 'market' && 'PurchaseWithMarket') ||
+          (value.purchaseType === 'virtualItem' && 'PurchaseWithVirtualItem');
+
+          logDebug('Class ' + data.className + ' has object field: ' + key);
+          if (!value.className) {
+            this.checkForClass(value);
+          } else {
+            data[key] = this.create(value);
+          }
+        }
+      }, this);
+    }
+  };
+
   var declareClass = Soomla.declareClass = function (ClassName, fields, parentClass) {
     // TODO: It's better if change it to standard constructor
     var Clazz = function () {
-      var obj = _.extend(parentClass ? parentClass() : {}, fields ? fields : {}, {
+      var parent = parentClass ? parentClass() : {};
+      var __super__ = _.pick(parent, _.methods(parent));
+      var obj = _.extend(parent, fields ? fields : {}, {
         className: ClassName
       });
+
+      obj.__super__ = __super__;
 
       if (_.isFunction(obj.ctor)) {
         obj.ctor.call(obj);
       }
+
       return obj;
     };
     Clazz.create = function (values) {
       var instance = _.defaults(values ? _.omit(values, "className") : {}, Clazz());
-      // TODO: Do not think it works
-      if (typeof instance.onCreate == 'function') {
-        instance.onCreate();
+      if (_.isFunction(instance.onCreate)) {
+        instance.onCreate.call(instance);
       }
       return instance;
     };
+
+    Soomla.factory.classFactories[ClassName] = Clazz.create;
 
     return Clazz;
   };
@@ -360,6 +405,61 @@ Soomla = new function () {
    * VirtualItem
    */
   var VirtualItem = Soomla.Models.VirtualItem = declareClass("VirtualItem", {
+    /**
+     Gives your user the given amount of the specific virtual item.
+     For example, when your users play your game for the first time you
+     GIVE them 1000 gems.
+
+     NOTE: This action is different than `PurchasableVirtualItem<`'s `buy()`:
+     You use `give(int amount)`to give your user something for free.
+     You use `buy()` to give your user something and get something in return.
+
+     @param amount the amount of the specific item to be given.
+     @param notify Notify of change in user's balance of current virtual item
+     @return The balance after the giving process.
+     */
+    give: function (amount, notify) {
+      logError('IMPLEMENT ME!');
+    },
+
+    /**
+     Takes from your user the given amount of the specific virtual item.
+     For example, when you want to downgrade a virtual good, you take the upgrade.
+
+     @param amount The amount of the specific item to be taken.
+     @param notify Notify of change in user's balance of current virtual item
+     @return The balance after the taking process.
+     */
+    take: function take(amount, notify) {
+      logError('IMPLEMENT ME!');
+    },
+
+    /**
+     Resets this Virtual Item's balance to the given balance.
+
+     @param balance The balance of the current virtual item.
+     @param notify Notify of change in user's balance of current virtual item.
+     @return The balance after the reset process.
+     */
+    resetBalance: function resetBalance(balance, notify) {
+      logError('IMPLEMENT ME!');
+    },
+
+    /**
+     Will fetch the balance for the current VirtualItem according to its type.
+
+     @return The balance.
+     */
+    getBalance: function getBalance() {
+      logError('IMPLEMENT ME!');
+    },
+
+    /**
+     Save this instance with changes that were made to it.
+     The saving is done in the metadata in StoreInfo and being persisted to the local DB.
+
+     @param saveToDB should the save persist to the local DB.
+     */
     save: function () {
       Soomla.storeInfo.saveItem(this);
     }
@@ -378,13 +478,25 @@ Soomla = new function () {
    */
   var MarketItem = Soomla.Models.MarketItem = declareClass("MarketItem", {
     productId: null,
+    androidId: null,
+    iosId: null,
     consumable: null,
     price: null,
     marketPrice: null,
     marketTitle: null,
     marketDesc: null,
     marketCurrencyCode: null,
-    marketPriceMicros: 0
+    marketPriceMicros: 0,
+
+    onCreate: function () {
+      if (!this.productId) {
+        if (platform.isAndroid()) {
+          this.productId = this.androidId;
+        } else if (platform.isIos()) {
+          this.productId = this.iosId;
+        }
+      }
+    }
   }, Domain);
   MarketItem.Consumable = {
     NONCONSUMABLE: 0,
@@ -401,13 +513,82 @@ Soomla = new function () {
    * PurchasableVirtualItem
    */
   var PurchasableVirtualItem = Soomla.Models.PurchasableVirtualItem = declareClass("PurchasableVirtualItem", {
-    purchasableItem: null
+    purchasableItem: null,
+
+    onCreate: function () {
+      this.purchasableItem.associatedItemId = this.itemId;
+    },
+
+    /**
+     Checks if there is enough funds to afford the `CCPurchasableVirtualItem`.
+     This action uses the associated `CCPurchaseType` to perform the check.
+     @return True if there are enough funds to afford the virtual item
+     with the given item id
+     */
+    canAfford: function canAfford() {
+      this.purchasableItem.canAfford();
+    },
+
+    /**
+     Buys the `CCPurchasableVirtualItem`, after checking if the user is in a state that
+     allows him/her to buy. This action uses the associated `CCPurchaseType` to perform
+     the purchase.
+
+     @param payload a string you want to be assigned to the purchase.
+     This string is saved in a static variable and will be given bacl to you
+     when the purchase is completed..
+     */
+    buy: function buy(payload) {
+      if (!this.canBuy()) {
+        return;
+      }
+
+      if (!payload) {
+        payload = "";
+      }
+
+      this.purchasableItem.buy(payload);
+    },
+
+    /**
+     Determines if user is in a state that allows him/her to buy a specific
+     `CCVirtualItem`.
+     */
+    canBuy: function canBuy() {
+      return false;
+    }
   }, VirtualItem);
 
   /**
    * VirtualCurrency
    */
   var VirtualCurrency = Soomla.Models.VirtualCurrency = declareClass("VirtualCurrency", {
+    /**
+     See parent
+     */
+    give: function give(amount, notify) {
+      return Soomla.virtualCurrencyStorage.add(this, amount, notify);
+    },
+    /**
+     See parent
+     */
+    take: function take(amount, notify) {
+      return Soomla.virtualCurrencyStorage.remove(this, amount, notify);
+    },
+
+    /**
+     See parent
+     */
+    resetBalance: function (balance, notify) {
+      return Soomla.virtualCurrencyStorage.setBalance(this, balance, notify);
+    },
+
+    /**
+     See parent
+     */
+    getBalance: function getBalance() {
+      return Soomla.virtualCurrencyStorage.getBalance(this);
+    }
   }, VirtualItem);
 
   /**
@@ -415,26 +596,198 @@ Soomla = new function () {
    */
   var VirtualCurrencyPack = Soomla.Models.VirtualCurrencyPack = declareClass("VirtualCurrencyPack", {
     currency_amount: 0,
-    currency_itemId: null
+    currency_itemId: null,
+
+    /**
+     See parent
+     */
+    canBuy: function canBuy() {
+      return true;
+    },
+
+    /**
+     See parent
+     */
+    give: function (amount, notify) {
+      var currencyId = this.currency_itemId;
+      var currency = Soomla.storeInfo.getItemByItemId(currencyId);
+
+      if (!currency) {
+        logError('VirtualCurrency with itemId: ' + currencyId + ' doesn\'t exist! Can\'t give this pack.');
+        return 0;
+      }
+
+      return Soomla.virtualCurrencyStorage.add(currency, this.currency_amount * amount, notify);
+    },
+
+    /**
+     See parent
+     */
+    take: function take(amount, notify) {
+      var currencyId = this.currency_itemId;
+      var currency = Soomla.storeInfo.getItemByItemId(currencyId);
+
+      if (!currency) {
+        logError('VirtualCurrency with itemId: ' + currencyId + ' doesn\'t exist! Can\'t take this pack.');
+        return 0;
+      }
+
+      return Soomla.virtualCurrencyStorage.remove(currency, this.currency_amount * amount, notify);
+    },
+
+    /**
+     See parent
+     */
+    resetBalance: function resetBalance(balance, notify) {
+      // Not supported for VirtualCurrencyPacks !
+      logError('Someone tried to reset balance of CurrencyPack. That\'s not right.');
+      return 0;
+    },
+
+    /**
+     See parent
+     */
+    getBalance: function getBalance() {
+      // Not supported for VirtualCurrencyPacks !
+      logError("Someone tried to check balance of CurrencyPack. That's not right.");
+      return 0;
+    }
+
   }, PurchasableVirtualItem);
 
   /**
    * VirtualGood
    */
   var VirtualGood = Soomla.Models.VirtualGood = declareClass("VirtualGood", {
+    /**
+     See parent
+     */
+    resetBalance: function resetBalance(balance, notify) {
+      return Soomla.virtualGoodsStorage.setBalance(this, balance, notify);
+    },
+    /**
+     See parent
+     */
+    getBalance: function getBalance() {
+      return Soomla.virtualGoodsStorage.getBalance(this);
+
+    }
   }, PurchasableVirtualItem);
 
   /**
    * LifetimeVG
    */
   var LifetimeVG = Soomla.Models.LifetimeVG = declareClass("LifetimeVG", {
+    /**
+     See parent
+     */
+    canBuy: function () {
+      var balance = Soomla.virtualGoodsStorage.getBalance(this);
+
+      return balance < 1;
+    },
+
+    /**
+     See parent
+     */
+    give: function (amount, notify) {
+      if (amount > 1) {
+        logDebug('You tried to give more than one LifetimeVG. \
+                                    Will try to give one anyway.');
+        amount = 1;
+      }
+
+      var balance = Soomla.virtualGoodsStorage.getBalance(this);
+
+      if (balance < 1) {
+        return Soomla.virtualGoodsStorage.add(this, amount, notify);
+      }
+      return 1;
+    },
+
+    /**
+     See parent
+     */
+    take: function (amount, notify) {
+      if (amount > 1) {
+        amount = 1;
+      }
+
+      var balance = Soomla.virtualGoodsStorage.getBalance(this);
+
+      if (balance > 0) {
+        return Soomla.virtualGoodsStorage.remove(this, amount, notify);
+      }
+      return 0;
+    }
   }, VirtualGood);
 
   /**
    * EquippableVG
    */
   var EquippableVG = Soomla.Models.EquippableVG = declareClass("EquippableVG", {
-    equipping: null
+    equipping: null,
+
+    /**
+     Equips the current `CCEquippableVG`.
+     The equipping is done according to the equipping model ('GLOBAL', 'CATEGORY', or 'LOCAL').
+     @param notify if true, the relevant event will be posted when equipped.
+     be returned here
+     */
+    equip: function (notify) {
+      notify = notify || _.isUndefined(notify);
+
+      // only if the user has bought this EquippableVG, the EquippableVG is equipped.
+      if (Soomla.virtualGoodsStorage.getBalance(this) > 0) {
+        var equippingModel = this.equipping;
+        if (equippingModel === EquippableVG.EquippingModel.CATEGORY) {
+          var itemId = this.itemId;
+          var category = Soomla.storeInfo.getCategoryForVirtualGood(itemId);
+          if (!category) {
+            logError('Tried to unequip all other category VirtualGoods but there was no associated category. \
+                  virtual good itemId: ' + itemId);
+            return;
+          }
+
+          var goodItemIds = category.goods_itemIds;
+          _.forEach(goodItemIds, function (goodItemId) {
+            var equippableVG = Soomla.storeInfo.getItemByItemId(goodItemId);
+            if (!equippableVG) {
+              logError("On equip, couldn't find one of the itemIds in the category. " +
+              "Continuing to the next one. itemId: " + goodItemId);
+            }
+            else if (equippableVG !== this) {
+              equippableVG.unequip(notify);
+            }
+          }, this);
+
+        } else if (equippingModel == EquippableVG.EquippingModel.GLOBAL) {
+          var virtualGoods = Soomla.storeInfo.getGoods();
+          _.forEach(virtualGoods, function (virtualGood) {
+            if ((virtualGood != this) && (virtualGood.className === "EquippableVG")) {
+              virtualGood.unequip(notify);
+            }
+          }, this);
+        }
+
+        Soomla.virtualGoodsStorage.equip(this, notify);
+      }
+      else {
+        logError('You tried to equip virtual good with itemId: ' + this.itemId + ' but you don\'t have any of it.');
+      }
+    },
+
+    /**
+     Unequips the current `CCEquippableVG`
+     @param notify if true, the relevant event will be posted when equipped.
+     @param error If an error was generated during the execution it will
+     be returned here
+     */
+    unequip: function (notify) {
+      notify = notify || _.isUndefined(notify);
+      Soomla.virtualGoodsStorage.unequip(this, notify);
+    }
+
   }, LifetimeVG);
   EquippableVG.EquippingModel = {
     LOCAL: "local",
@@ -446,6 +799,29 @@ Soomla = new function () {
    * SingleUseVG
    */
   var SingleUseVG = Soomla.Models.SingleUseVG = declareClass("SingleUseVG", {
+
+    /**
+     See parent
+     */
+    canBuy: function () {
+      return true;
+    },
+
+    /**
+     See parent
+     */
+    give: function (amount, notify) {
+      return Soomla.virtualGoodsStorage.add(this, amount, notify);
+
+    },
+
+    /**
+     See parent
+     */
+    take: function (amount, notify) {
+      return Soomla.virtualGoodsStorage.remove(this, amount, notify);
+    }
+
   }, VirtualGood);
 
   /**
@@ -453,7 +829,62 @@ Soomla = new function () {
    */
   var SingleUsePackVG = Soomla.Models.SingleUsePackVG = declareClass("SingleUsePackVG", {
     good_itemId: null,
-    good_amount: null
+    good_amount: null,
+
+    /**
+     See parent
+     */
+    canBuy: function () {
+      return true;
+    },
+
+    /**
+     See parent
+     */
+    give: function (amount, notify) {
+      var goodItemId = this.good_itemId;
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+
+      if (!good) {
+        logError('SingleUseVG with itemId: ' + goodItemId + ' doesn\'t exist! Can\'t give this pack.');
+        return 0;
+      }
+
+      return Soomla.virtualGoodsStorage.add(good, this.good_amount * amount, notify);
+    },
+
+    /**
+     See parent
+     */
+    take: function (amount, notify) {
+      var goodItemId = this.good_itemId;
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+
+      if (!good) {
+        logError('SingleUseVG with itemId: ' + goodItemId + ' doesn\'t exist! Can\'t give this pack.');
+        return 0;
+      }
+
+      return Soomla.virtualGoodsStorage.remove(good, this.good_amount * amount, notify);
+    },
+
+    /**
+     See parent
+     */
+    resetBalance: function (balance, notify) {
+      // Not supported for SingleUsePackVGs !
+      logError('Someone tried to reset balance of GoodPack. That\'s not right.');
+      return 0;
+    },
+
+    /**
+     See parent
+     */
+    getBalance: function () {
+      // Not supported for SingleUsePackVGs !
+      logError('Someone tried to check balance of GoodPack. That\'s not right.');
+      return 0;
+    }
   }, VirtualGood);
 
   /**
@@ -462,14 +893,120 @@ Soomla = new function () {
   var UpgradeVG = Soomla.Models.UpgradeVG = declareClass("UpgradeVG", {
     good_itemId: null,
     prev_itemId: null,
-    next_itemId: null
-  }, VirtualGood);
+    next_itemId: null,
+
+    /**
+     See parent
+     */
+    canBuy: function () {
+      var goodItemId = this.good_itemId;
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+      if (!good) {
+        logError('VirtualGood with itemId: ' + goodItemId + ' doesn\'t exist! Returning false (can\'t buy).');
+        return false;
+      }
+
+      var upgradeVG = Soomla.virtualGoodsStorage.getCurrentUpgrade(good);
+
+      return ((!upgradeVG && (_.isNull(this.prev_itemId) || _.isEmpty(this.prev_itemId))) ||
+        (upgradeVG && (upgradeVG.next_itemId === this.itemId) || upgradeVG.prev_itemId === this.itemId))
+        && this.__super__.canBuy.apply(this, arguments);
+    },
+
+    /**
+     See parent
+     */
+    give: function (amount, notify) {
+      var goodItemId = this.good_itemId;
+      logDebug('Assigning ' + this.name + ' to: ' + this.itemId);
+
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+      if (!good) {
+        logError('VirtualGood with itemId: ' + goodItemId + ' doesn\'t exist! Can\'t upgrade.');
+        return 0;
+      }
+
+      Soomla.virtualGoodsStorage.assignCurrentUpgrade(good, this, notify);
+
+      return this.__super__.give.apply(this, arguments);
+    },
+
+    /**
+     See parent
+     */
+    take: function (amount, notify) {
+      var goodItemId = this.good_itemId;
+
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+      if (!good) {
+        logError('VirtualGood with itemId: ' + goodItemId + ' doesn\'t exist! Can\'t downgrade.');
+        return 0;
+      }
+
+      var upgradeVG = Soomla.virtualGoodsStorage.getCurrentUpgrade(good, error);
+
+      // Case: Upgrade is not assigned to this Virtual Good
+      if (upgradeVG !== this) {
+        logError('You can\'t take an upgrade that\'s not currently assigned. The UpgradeVG ' + this.name +
+        ' is not assigned to the VirtualGood: ' + good.name);
+        return 0;
+      }
+
+      if (!(_.isNull(this.prev_itemId) || _.isEmpty(this.prev_itemId))) {
+        var prevItemId = this.prev_itemId;
+        var prevUpgradeVG = Soomla.storeInfo.getItemByItemId(prevItemId);
+
+        // Case: downgrade is not possible because previous upgrade does not exist
+        if (!prevUpgradeVG) {
+          logError('Previous UpgradeVG with itemId: ' + prevItemId + ' doesn\'t exist! Can\'t downgrade.');
+          return 0;
+        }
+
+        // Case: downgrade is successful!
+        logDebug('Downgrading ' + good.name + ' to: ' + prevUpgradeVG.name);
+
+        Soomla.virtualGoodsStorage.assignCurrentUpgrade(good, prevUpgradeVG, notify);
+      }
+
+      // Case: first Upgrade in the series - so we downgrade to NO upgrade.
+      else {
+        logError('Downgrading ' + good.name + ' to NO-UPGRADE');
+        Soomla.virtualGoodsStorage.removeUpgrades(good, notify, error);
+      }
+
+      return this.__super__.take.apply(this, arguments);
+    }
+  }, LifetimeVG);
 
   /**
    * PurchaseType
    */
   var PurchaseType = Soomla.Models.PurchaseType = declareClass("PurchaseType", {
-    purchaseType: null
+    purchaseType: null,
+    associatedItemId : null,
+
+    /**
+     Buys the purchasable virtual item.
+     Implementation in subclasses will be according to specific type of
+     purchase.
+
+     @param payload string you want to be assigned to the purchase. This
+     string is saved in a static variable and will be given bacl to you when
+     the purchase is completed.
+     */
+    buy: function (payload) {
+      logError('IMPLEMENT ME!');
+    },
+
+    /**
+     Checks if there is enough funds to afford the `CCPurchasableVirtualItem`.
+     Implementation in subclasses will be according to specific type of purchase.
+     @return True if there are enough funds to afford the virtual item
+     with the given item id
+     */
+    canAfford: function () {
+      logError('IMPLEMENT ME!');
+    }
   });
 
   /**
@@ -477,7 +1014,30 @@ Soomla = new function () {
    */
   var PurchaseWithMarket = Soomla.Models.PurchaseWithMarket = declareClass("PurchaseWithMarket", {
     purchaseType: PURCHASE_TYPE.MARKET,
-    marketItem: null
+    marketItem: null,
+
+    /**
+     See parent
+     */
+    buy: function (payload) {
+      logDebug('Starting in-app purchase for productId: ' + this.marketItem.productId);
+
+      if (_.isNull(payload)) {
+        payload = "";
+      }
+
+      var pvi = Soomla.storeInfo.getItemByItemId(this.associatedItemId);
+      Soomla.dispatchEvent('onItemPurchaseStarted', pvi, true);
+      Soomla.soomlaStore.buyMarketItem(this.marketItem.productId, payload);
+    },
+
+    /**
+     See parent
+     */
+    canAfford: function () {
+      return true;
+    }
+
   }, PurchaseType);
 
   PurchaseWithMarket.createWithMarketItem = function(productId, price) {
@@ -495,7 +1055,75 @@ Soomla = new function () {
   var PurchaseWithVirtualItem = Soomla.Models.PurchaseWithVirtualItem = declareClass("PurchaseWithVirtualItem", {
     purchaseType: PURCHASE_TYPE.VI,
     pvi_itemId: null,
-    pvi_amount: null
+    pvi_amount: null,
+
+    /**
+     See parent
+     */
+    buy: function (payload) {
+      var associatedItemId = this.associatedItemId;
+      if (!payload) {
+        payload = "";
+      }
+      var associatedItem = Soomla.storeInfo.getItemByItemId(associatedItemId);
+      if (!associatedItem) {
+        logError('Trying to buy an non-existing associated item: ' + associatedItemId);
+        return;
+      }
+
+      var targetItemId = this.pvi_itemId;
+      var amount = this.pvi_amount;
+      logDebug('Trying to buy a ' + associatedItem.name +' with ' + amount + ' pieces of ' + targetItemId);
+
+      var item = Soomla.storeInfo.getItemByItemId(targetItemId);
+      if (!item) {
+        logError('Target virtual item ' + targetItemId + ' doesn\'t exist !');
+        return;
+      }
+
+      Soomla.dispatchEvent('onItemPurchaseStarted', associatedItem, true);
+
+      var balance = item.getBalance();
+
+      if (balance < amount){
+        logError('You tried to buy with itemId: ' + item.itemId + ' but you don\'t have enough funds to buy it.');
+        return;
+      }
+
+      item.take(amount);
+
+      associatedItem.give(1);
+
+      Soomla.dispatchEvent('onItemPurchased', associatedItem, payload, true);
+    },
+
+    /**
+     See parent
+     */
+    canAfford: function () {
+      var associatedItemId = this.associatedItemId || this.pvi_itemId;
+
+      var associatedItem = Soomla.storeInfo.getItemByItemId(associatedItemId);
+      if (!associatedItem) {
+        logError('Trying to buy an non-existing associated item: ' + associatedItemId);
+        return;
+      }
+
+      var targetItemId = this.pvi_itemId;
+      var amount = this.pvi_amount;
+      logDebug('Checking affordability of ' + associatedItem.name + ' with ' + amount + ' pieces of ' + targetItemId);
+
+      var item = Soomla.storeInfo.getItemByItemId(targetItemId);
+      if (!item) {
+        logError('Target virtual item ' + targetItemId + ' doesn\'t exist !');
+        return false;
+      }
+
+      var balance = item.getBalance();
+
+      return balance >= amount;
+    }
+
   }, PurchaseType);
 
   /**
@@ -743,7 +1371,7 @@ Soomla = new function () {
    */
   var NativeRewardStorage = Soomla.NativeRewardStorage = declareClass("NativeRewardStorage", {
     setRewardStatus: function setRewardStatus(reward, give, notify) {
-      notify = notify || notify == undefined;
+      notify = notify || _.isUndefined(notify);
       callNative({
         method: "CCNativeRewardStorage::setRewardStatus",
         reward: reward,
@@ -782,7 +1410,7 @@ Soomla = new function () {
    */
   var BridgelessRewardStorage = Soomla.BridgelessRewardStorage = declareClass("BridgelessRewardStorage", {
     setRewardStatus: function setRewardStatus(reward, give, notify) {
-      notify = notify || notify === undefined;
+      notify = notify || _.isUndefined(notify);
       this.setTimesGiven(reward, give, notify);
     },
     getTimesGiven: function getTimesGiven(reward) {
@@ -805,6 +1433,7 @@ Soomla = new function () {
 
 
     setTimesGiven: function setTimesGiven(reward, up, notify) {
+      notify = notify || _.isUndefined(notify);
       var total = this.getTimesGiven(reward) + (up ? 1 : -1);
       if (total < 0) {
         total = 0;
@@ -848,24 +1477,25 @@ Soomla = new function () {
    */
   var VirtualItemStorage = Soomla.VirtualItemStorage = declareClass("VirtualItemStorage", {
     getBalance: function getBalance(item) {
-      var itemId = item.getId();
+      var itemId = item.itemId;
       var key = this.keyBalance(itemId);
       var val = Soomla.keyValueStorage.getValue(key);
 
-      var balance = !_.isUndefined(val) ? balance : 0;
+      var balance = (!_.isUndefined(val) && !_.isEmpty(val)) ? val : 0;
 
       logDebug('the balance for ' + itemId + ' is ' + balance);
-  
+
       return balance;
     },
 
     setBalance: function setBalance(item, balance, notify) {
+      notify = notify || _.isUndefined(notify);
       var oldBalance = this.getBalance(item);
       if (oldBalance === balance) {
         return balance;
       }
 
-      var itemId = item.getId();
+      var itemId = item.itemId;
       var key = this.keyBalance(itemId);
 
       Soomla.keyValueStorage.setValue(key, balance);
@@ -878,7 +1508,8 @@ Soomla = new function () {
     },
 
     add: function add(item, amount, notify) {
-      var itemId = item.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
       var balance = this.getBalance(item);
       if (balance < 0) { /* in case the user "adds" a negative value */
         balance = 0;
@@ -898,7 +1529,8 @@ Soomla = new function () {
     },
 
     remove: function remove(item, amount, notify) {
-      var itemId = item.getId().getCString();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
       var balance = this.getBalance(item) - amount;
       if (balance < 0) {
         balance = 0;
@@ -946,8 +1578,8 @@ Soomla = new function () {
   var NativeVirtualCurrencyStorage = Soomla.NativeVirtualCurrencyStorage = declareClass("NativeVirtualCurrencyStorage", {
 
     getBalance: function getBalance(item) {
-      var itemId = item.getId();
-  
+      var itemId = item.itemId;
+
       logDebug('SOOMLA/COCOS2DX Calling getBalance with: ' + itemId);
       var retParams = callNative({
         method: 'CCNativeVirtualCurrencyStorage::getBalance',
@@ -958,7 +1590,8 @@ Soomla = new function () {
     },
 
     setBalance: function setBalance(item, balance, notify) {
-      var itemId = item.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling setBalance with: ' + itemId);
 
@@ -973,9 +1606,10 @@ Soomla = new function () {
     },
 
     add: function add(item, amount, notify) {
-      var itemId = item.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
 
-      logDebug('SOOMLA/COCOS2DX Calling add with: %s' + itemId);
+      logDebug('SOOMLA/COCOS2DX Calling add with: ' + itemId);
 
       var retParams = callNative({
         method: 'CCNativeVirtualCurrencyStorage::add',
@@ -988,7 +1622,8 @@ Soomla = new function () {
     },
 
     remove: function remove(item, amount, notify) {
-      var itemId = item.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling remove with: ' + itemId);
 
@@ -1017,7 +1652,7 @@ Soomla = new function () {
      */
     removeUpgrades: function removeUpgrades(good, notify) {
       notify = notify || _.isUndefined(notify);
-      var itemId = good.getId();
+      var itemId = good.itemId;
       var key = this.keyGoodUpgrade(itemId);
 
       Soomla.keyValueStorage.deleteKeyValue(key);
@@ -1036,13 +1671,13 @@ Soomla = new function () {
     assignCurrentUpgrade: function assignCurrentUpgrade(good, upgradeVG, notify) {
       notify = notify || _.isUndefined(notify);
       var upgrade = this.getCurrentUpgrade(good);
-      if (upgrade && upgrade.getId() === upgradeVG.getId()) {
+      if (upgrade && upgrade.itemId === upgradeVG.itemId) {
         return;
       }
 
-      var itemId = good.getId();
+      var itemId = good.itemId;
       var key = this.keyGoodUpgrade(itemId);
-      var upItemId = upgradeVG.getId();
+      var upItemId = upgradeVG.itemId;
 
       Soomla.keyValueStorage.setValue(key, upItemId);
 
@@ -1058,7 +1693,7 @@ Soomla = new function () {
      does not exist
      */
     getCurrentUpgrade: function getCurrentUpgrade(good) {
-      var itemId = good.getId();
+      var itemId = good.itemId;
       var key = this.keyGoodUpgrade(itemId);
 
       var upItemId = Soomla.keyValueStorage.getValue(key);
@@ -1079,7 +1714,7 @@ Soomla = new function () {
      @return boolean true if the good is equipped, false otherwise
      */
     isEquipped: function isEquipped(good) {
-      var itemId = good.getId();
+      var itemId = good.itemId;
       var key = this.keyGoodEquipped(itemId);
       var val = Soomla.keyValueStorage.getValue(key);
 
@@ -1126,7 +1761,7 @@ Soomla = new function () {
     },
 
     equipPriv: function equipPriv(good, equip, notify) {
-      var itemId = good.getId();
+      var itemId = good.itemId;
       var key = this.keyGoodEquipped(itemId);
 
       if (equip) {
@@ -1165,7 +1800,7 @@ Soomla = new function () {
   var NativeVirtualGoodsStorage = Soomla.NativeVirtualGoodsStorage = declareClass("NativeVirtualGoodsStorage", {
 
     getBalance: function getBalance(item) {
-      var itemId = item.getId();
+      var itemId = item.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling getBalance with: ' + itemId);
 
@@ -1178,7 +1813,8 @@ Soomla = new function () {
     },
 
     setBalance: function setBalance(item, balance, notify) {
-      var itemId = item.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling setBalance with: ' + itemId);
 
@@ -1193,7 +1829,8 @@ Soomla = new function () {
     },
 
     add: function add(item, amount, notify) {
-      var itemId = item.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling add with: ' + itemId);
 
@@ -1208,7 +1845,8 @@ Soomla = new function () {
     },
 
     remove: function remove(item, amount, notify) {
-      var itemId = item.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = item.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling remove with: ' + itemId);
 
@@ -1223,7 +1861,8 @@ Soomla = new function () {
     },
 
     removeUpgrades: function removeUpgrades(good, notify) {
-      var itemId = good.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = good.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling removeUpgrades with: ' + itemId);
 
@@ -1235,8 +1874,9 @@ Soomla = new function () {
     },
 
     assignCurrentUpgrade: function assignCurrentUpgrade(good, upgradeVG, notify) {
-      var itemId = good.getId();
-      var upgradeItemId = upgradeVG.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = good.itemId;
+      var upgradeItemId = upgradeVG.itemId;
 
 
       logDebug('SOOMLA/COCOS2DX Calling assignCurrentUpgrade with: ' + itemId);
@@ -1250,7 +1890,7 @@ Soomla = new function () {
     },
 
     getCurrentUpgrade: function getCurrentUpgrade(good) {
-      var itemId = good.getId();
+      var itemId = good.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling getCurrentUpgrade with: ' + itemId);
 
@@ -1265,7 +1905,7 @@ Soomla = new function () {
     },
 
     isEquipped: function isEquipped(good) {
-      var itemId = good.getId();
+      var itemId = good.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling isEquipped with: ' + itemId);
 
@@ -1278,7 +1918,8 @@ Soomla = new function () {
     },
 
     equip: function equip(good, notify) {
-      var itemId = good.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = good.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling equip with: ' + itemId);
 
@@ -1290,7 +1931,8 @@ Soomla = new function () {
     },
 
     unequip: function unequip(good, notify) {
-      var itemId = good.getId();
+      notify = notify || _.isUndefined(notify);
+      var itemId = good.itemId;
 
       logDebug('SOOMLA/COCOS2DX Calling unequip with: ' + itemId);
 
@@ -1362,35 +2004,58 @@ Soomla = new function () {
 
       logDebug('the metadata-economy json (from DB) is ' + val);
 
-      this.currencies = val.currencies;
-      this.currencyPacks = val.currencyPacks;
-      if (val.goods) {
-        this.goods = _.union(
-          val.goods.singleUse,
-          val.goods.lifetime,
-          val.goods.equippable,
-          val.goods.goodPacks,
-          val.goods.goodUpgrades
-        );
+      var storeAssets = JSON.parse(val);
+
+      this.currencies = _.collect(storeAssets.currencies, function (currency) {
+        return Soomla.factory.create(currency);
+      });
+      this.currencyPacks = _.collect(storeAssets.currencyPacks, function (currencyPack) {
+        return Soomla.factory.create(currencyPack);
+      });
+      if (storeAssets.goods) {
+        this.goods = _.collect(_.union(
+          storeAssets.goods.singleUse,
+          storeAssets.goods.lifetime,
+          storeAssets.goods.equippable,
+          storeAssets.goods.goodPacks,
+          storeAssets.goods.goodUpgrades
+        ), function (good) {
+          return Soomla.factory.create(good);
+        });
       } else {
         this.goods = [];
       }
-      this.categories = val.categories;
+      this.categories = _.collect(storeAssets.categories, function (category) {
+        return Soomla.factory.create(category);
+      });
 
 
-      this.virtualItems = _.groupBy(_.union(this.currencies, this.currencyPacks, this.goods), 'itemId');
-
-      this.purchasableItems = _.groupBy(
-        _.filter(_.union(this.currencyPacks, this.goods),
-          function (vi) {
-            return vi.purchasableItem && vi.purchasableItem.marketItem;
-          }
-        ),
-        function (vi) {
-          return vi.purchasableItem.marketItem.productId;
+      this.virtualItems = _.transform(
+        _.groupBy(
+          _.union(this.currencies, this.currencyPacks, this.goods),
+          'itemId'),
+        function (result, value, key) {
+          result[key] = value[0];
         }
       );
-      this.goodsUpgrades = _.groupBy(_.filter(this.goods, {className: 'UpgradeVG'}), 'goodItemId');
+
+      this.purchasableItems = _.transform(
+        _.groupBy(
+          _.filter(_.union(this.currencyPacks, this.goods),
+            function (vi) {
+              return vi.purchasableItem && vi.purchasableItem.marketItem;
+            }
+          ),
+          function (vi) {
+            return vi.purchasableItem.marketItem.productId;
+          }
+        ),
+        function (result, value, key) {
+          result[key] = value[0];
+        }
+      );
+
+      this.goodsUpgrades = _.groupBy(_.filter(this.goods, {className: 'UpgradeVG'}), 'good_itemId');
 
       var goodsCategories = this.goodsCategories = {};
       _.each(this.categories, function (category) {
@@ -1401,47 +2066,64 @@ Soomla = new function () {
     },
 
     getItemByItemId: function(itemId) {
-      var retParams = callNative({
-        method: "CCStoreInfo::getItemByItemId",
-        itemId: itemId
-      });
-      return extractModel(retParams);
+      logDebug('Trying to fetch an item with itemId: ' + itemId);
+
+      var item = this.virtualItems[itemId];
+      if (!item) {
+        logError('Virtual item was not found when searching with itemId=' + itemId);
+      }
+      return item;
     },
     getPurchasableItemWithProductId: function(productId) {
-      var retParams = callNative({
-        method: "CCStoreInfo::getPurchasableItemWithProductId",
-        productId: productId
-      });
-      return extractModel(retParams);
+      logDebug('Trying to fetch a purchasable item with productId: ' + productId);
+
+      var item = this.purchasableItems[productId];
+      if (!item) {
+        logError('Virtual item was not found when searching with productId=' + itemId);
+      }
+      return item;
     },
     getCategoryForVirtualGood: function(goodItemId) {
-      var retParams = callNative({
-        method: "CCStoreInfo::getCategoryForVirtualGood",
-        goodItemId: goodItemId
-      });
-      return extractModel(retParams);
+      logDebug('Trying to fetch a category for a good with itemId: ' + goodItemId);
+
+      var category = this.goodsCategories[goodItemId];
+      if (!category) {
+        logError('Virtual item was not found when searching with goodItemId of category=' + goodItemId);
+      }
+      return category;
     },
     getFirstUpgradeForVirtualGood: function(goodItemId) {
-      var retParams = callNative({
-        method: "CCStoreInfo::getFirstUpgradeForVirtualGood",
-        goodItemId: goodItemId
+      logDebug('Trying to fetch first upgrade of a good with itemId: ' + goodItemId);
+
+      var upgrades = this.goodsUpgrades[goodItemId];
+      if (!upgrades) {
+        return null;
+      }
+
+      return _.find(upgrades, function (upgradeVG) {
+        return _.isUndefined(upgradeVG.prev_itemId) ||
+          _.isNull(upgradeVG.prev_itemId) ||
+          _.isEmpty(upgradeVG.prev_itemId);
       });
-      return extractModel(retParams);
     },
     getLastUpgradeForVirtualGood: function(goodItemId) {
-      var retParams = callNative({
-        method: "CCStoreInfo::getLastUpgradeForVirtualGood",
-        goodItemId: goodItemId
+      logDebug('Trying to fetch last upgrade of a good with itemId: ' + goodItemId);
+
+      var upgrades = this.goodsUpgrades[goodItemId];
+      if (!upgrades) {
+        return null;
+      }
+
+      return _.find(upgrades, function (upgradeVG) {
+        return _.isUndefined(upgradeVG.next_itemId) ||
+          _.isNull(upgradeVG.next_itemId) ||
+          _.isEmpty(upgradeVG.next_itemId);
       });
-      return extractModel(retParams);
     },
     getUpgradesForVirtualGood: function(goodItemId) {
-      var retParams = callNative({
-        method: "CCStoreInfo::getUpgradesForVirtualGood",
-        goodItemId: goodItemId
-      });
+      logDebug('Trying to fetch upgrades of a good with itemId: ' + goodItemId);
 
-      return extractCollection(retParams);
+      return this.goodsUpgrades[goodItemId];
     },
 
     getVirtualItems: function () {
@@ -2086,6 +2768,9 @@ Soomla = new function () {
       }
       else if (methodName == "CCStoreEventHandler::onCurrencyBalanceChanged") {
         var virtualCurrency = Soomla.storeInfo.getItemByItemId(parameters.itemId);
+
+        Soomla.storeInventory.refreshOnCurrencyBalanceChanged(virtualCurrency, parameters.balance, parameters.amountAdded);
+
         _.forEach(Soomla.eventHandlers, function (eventHandler) {
           if (eventHandler.onCurrencyBalanceChanged) {
             eventHandler.onCurrencyBalanceChanged(virtualCurrency, parameters.balance, parameters.amountAdded);
@@ -2094,6 +2779,9 @@ Soomla = new function () {
       }
       else if (methodName == "CCStoreEventHandler::onGoodBalanceChanged") {
         var virtualGood = Soomla.storeInfo.getItemByItemId(parameters.itemId);
+
+        Soomla.storeInventory.refreshOnGoodBalanceChanged(virtualGood, parameters.balance, parameters.amountAdded);
+
         _.forEach(Soomla.eventHandlers, function (eventHandler) {
           if (eventHandler.onGoodBalanceChanged) {
             eventHandler.onGoodBalanceChanged(virtualGood, parameters.balance, parameters.amountAdded);
@@ -2102,6 +2790,7 @@ Soomla = new function () {
       }
       else if (methodName == "CCStoreEventHandler::onGoodEquipped") {
         var equippableVG = Soomla.storeInfo.getItemByItemId(parameters.itemId);
+        Soomla.storeInventory.refreshOnGoodEquipped(equippableVG);
         _.forEach(Soomla.eventHandlers, function (eventHandler) {
           if (eventHandler.onGoodEquipped) {
             eventHandler.onGoodEquipped(equippableVG);
@@ -2110,6 +2799,7 @@ Soomla = new function () {
       }
       else if (methodName == "CCStoreEventHandler::onGoodUnEquipped") {
         var equippableVG = Soomla.storeInfo.getItemByItemId(parameters.itemId);
+        Soomla.storeInventory.refreshOnGoodUnEquipped(equippableVG);
         _.forEach(Soomla.eventHandlers, function (eventHandler) {
           if (eventHandler.onGoodUnEquipped) {
             eventHandler.onGoodUnEquipped(equippableVG);
@@ -2119,6 +2809,9 @@ Soomla = new function () {
       else if (methodName == "CCStoreEventHandler::onGoodUpgrade") {
         var virtualGood = Soomla.storeInfo.getItemByItemId(parameters.itemId);
         var upgradeVG = Soomla.storeInfo.getItemByItemId(parameters.vguItemId);
+
+        Soomla.storeInventory.refreshOnGoodUpgrade(virtualGood, upgradeVG);
+
         _.forEach(Soomla.eventHandlers, function (eventHandler) {
           if (eventHandler.onGoodUpgrade) {
             eventHandler.onGoodUpgrade(virtualGood, upgradeVG);
@@ -2463,6 +3156,10 @@ Soomla = new function () {
 
       else if (methodName == "Reflection::CCStoreInfo::initializeFromDB") {
         Soomla.dispatchEvent('initializeFromDB');
+      }
+
+      else if (methodName == "Reflection::CCStoreInventory::refreshLocalInventory") {
+        Soomla.dispatchEvent('refreshLocalInventory');
       }
 
       else if (methodName == "CCHighwayEventDispatcher::onStateConflict") {
@@ -2818,82 +3515,240 @@ Soomla = new function () {
   Soomla.soomlaStore = platform.isNativeSupported() ? NativeSoomlaStore.create() : SoomlaStore.create();
 
   var StoreInventory = Soomla.StoreInventory = declareClass("StoreInventory", {
-    buyItem: function(itemId, payload) {
-      callNative({
-        method: "CCStoreInventory::buyItem",
-        payload: payload,
-        itemId: itemId
+    mLocalItemBalances: {},
+    mLocalUpgrades: {},
+    mLocalEquippedGoods: [],
+    init: function () {
+      var _this = this;
+      Soomla.addEventHandler({
+        // support reflection call to refreshLocalInventory
+        refreshLocalInventory: function () {
+          _this.refreshLocalInventory();
+        }
       });
+      return true;
+    },
+    canAfford: function(itemId) {
+      logDebug('Checking can afford: ' + itemId);
+
+      var pvi = Soomla.storeInfo.getItemByItemId(itemId);
+      if (pvi) {
+        pvi.canAfford(payload);
+      } else {
+        return false;
+      }
+    },
+    buyItem: function(itemId, payload) {
+      logDebug('Buying: ' + itemId);
+
+      var pvi = Soomla.storeInfo.getItemByItemId(itemId);
+      if (pvi) {
+        pvi.buy(payload);
+      }
     },
     getItemBalance: function(itemId) {
-      var retParams = callNative({
-        method: "CCStoreInventory::getItemBalance",
-        itemId: itemId
-      });
-      return retParams.return;
+      var amount = this.mLocalItemBalances[itemId];
+      if (!_.isUndefined(amount) && !_.isNull(amount)) {
+        return amount;
+      }
+
+      var item = Soomla.storeInfo.getItemByItemId(itemId);
+      if (!item) {
+        return 0;
+      }
+      return item.getBalance();
     },
     giveItem: function(itemId, amount) {
-      callNative({
-        method: "CCStoreInventory::giveItem",
-        itemId: itemId,
-        amount: amount
-      });
+      logDebug('Giving: ' + amount + ' pieces of: ' + itemId);
+
+      var item = Soomla.storeInfo.getItemByItemId(itemId);
+      if (item) {
+        item.give(amount);
+      }
     },
     takeItem: function(itemId, amount) {
-      callNative({
-        method: "CCStoreInventory::takeItem",
-        itemId: itemId,
-        amount: amount
-      });
+      logDebug('Taking: ' + amount + ' pieces of: ' + itemId);
+
+      var item = Soomla.storeInfo.getItemByItemId(itemId);
+      if (item) {
+        item.take(amount);
+      }
     },
     equipVirtualGood: function(itemId) {
-      callNative({
-        method: "CCStoreInventory::equipVirtualGood",
-        itemId: itemId
-      });
+      logDebug('Equipping: ' + itemId);
+
+      var item = Soomla.storeInfo.getItemByItemId(itemId);
+      if (item) {
+        item.equip();
+      }
     },
     unEquipVirtualGood: function(itemId) {
-      callNative({
-        method: "CCStoreInventory::unEquipVirtualGood",
-        itemId: itemId
-      });
+      logDebug('UnEquipping: ' + itemId);
+
+      var item = Soomla.storeInfo.getItemByItemId(itemId);
+      if (item) {
+        item.unequip();
+      }
     },
     isVirtualGoodEquipped: function(itemId) {
-      var retParams = callNative({
-        method: "CCStoreInventory::isVirtualGoodEquipped",
-        itemId: itemId
-      });
-      return retParams.return;
+      logDebug('UnEquipping: ' + itemId);
+
+      var item = Soomla.storeInfo.getItemByItemId(itemId);
+      if (item) {
+        return Soomla.virtualGoodsStorage.isEquipped(item);
+      } else {
+        return false;
+      }
     },
     getGoodUpgradeLevel: function(goodItemId) {
-      var retParams = callNative({
-        method: "CCStoreInventory::getGoodUpgradeLevel",
-        goodItemId: goodItemId
-      });
-      return retParams.return;
+      logDebug('Checking ' + goodItemId + ' upgrade level');
+
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+      if (!good) {
+        logError('You tried to get the level of a non-existant virtual good.');
+        return 0;
+      }
+      var upgradeVG = Soomla.virtualGoodsStorage.getCurrentUpgrade(good);
+      if (!upgradeVG) {
+        return 0; //no upgrade
+      }
+
+      var first = Soomla.storeInfo.getFirstUpgradeForVirtualGood(goodItemId);
+      var level = 1;
+      while (first.itemId !== upgradeVG.itemId) {
+        first = Soomla.storeInfo.getItemByItemId(first.next_itemId);
+        level++;
+      }
+
+      return level;
     },
     getGoodCurrentUpgrade: function(goodItemId) {
-      var retParams = callNative({
-        method: "CCStoreInventory::getGoodCurrentUpgrade",
-        goodItemId: goodItemId
-      });
-      return retParams.return;
+      logDebug('Checking ' + goodItemId + ' current upgrade');
+
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+      if (!good) {
+        return "";
+      }
+
+      var upgradeVG = Soomla.virtualGoodsStorage.getCurrentUpgrade(good);
+      if (!upgradeVG) {
+        return "";
+      }
+      return upgradeVG.itemId;
     },
     upgradeGood: function(goodItemId) {
-      callNative({
-        method: "CCStoreInventory::upgradeGood",
-        goodItemId: goodItemId
-      });
+      logDebug('Upgrading Good with: ' + goodItemId);
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+      if (!good) {
+        return;
+      }
+
+      var upgradeVG = Soomla.virtualGoodsStorage.getCurrentUpgrade(good);
+
+      if (upgradeVG) {
+        var nextItemId = upgradeVG.next_itemId;
+        if (_.isUndefined(nextItemId) || _.isNull(nextItemId)) {
+          return;
+        }
+        var vgu = Soomla.storeInfo.getItemByItemId(nextItemId);
+        if (vgu) {
+          vgu.buy("");
+        }
+      }
+      else {
+        var first = Soomla.storeInfo.getFirstUpgradeForVirtualGood(goodItemId);
+        if (first) {
+          first.buy("");
+        }
+      }
     },
     removeGoodUpgrades: function(goodItemId) {
-      callNative({
-        method: "CCStoreInventory::removeGoodUpgrades",
-        goodItemId: goodItemId
+      logDebug('Removing Good Upgrades for: ' + goodItemId);
+
+      var upgrades = Soomla.storeInfo.getUpgradesForVirtualGood(goodItemId);
+      _.forEach(upgrades, function (upgrade) {
+        Soomla.virtualGoodsStorage.remove(upgrade, 1, true);
       });
+
+      var good = Soomla.storeInfo.getItemByItemId(goodItemId);
+      Soomla.virtualGoodsStorage.removeUpgrades(good);
+    },
+
+    refreshLocalInventory: function refreshLocalInventory() {
+      this.mLocalItemBalances = {};
+      this.mLocalUpgrades = {};
+      this.mLocalEquippedGoods = [];
+
+      _.forEach(Soomla.storeInfo.getCurrencies(), function (item) {
+        this.mLocalItemBalances[item.itemId] = Soomla.virtualCurrencyStorage.getBalance(item);
+      }, this);
+
+      _.forEach(Soomla.storeInfo.getGoods(), function (item) {
+        var balance = Soomla.virtualGoodsStorage.getBalance(item);
+        this.mLocalItemBalances[item.itemId] = balance;
+
+        var upgrade = Soomla.virtualGoodsStorage.getCurrentUpgrade(item);
+        if (upgrade) {
+          var upgradeLevel = this.getGoodUpgradeLevel(item.itemId);
+
+          var localUpgrade = {
+            itemId: upgrade.itemId,
+            level: upgradeLevel
+          };
+          this.mLocalUpgrades[item.itemId] = localUpgrade;
+        }
+
+        if (item.className === 'EquippableVG') {
+          if (Soomla.virtualGoodsStorage.isEquipped(item)) {
+            this.mLocalEquippedGoods.push(item);
+          }
+        }
+
+      }, this);
+    },
+
+    refreshOnGoodUpgrade: function refreshOnGoodUpgrade(vg, uvg) {
+      if (!uvg) {
+        delete this.mLocalUpgrades[vg.itemId];
+      } else {
+        var upgradeLevel = this.getGoodUpgradeLevel(vg.itemId);
+        var upgrade = this.mLocalUpgrades[vg.itemId];
+        if (upgrade) {
+          upgrade.item = uvg.itemId;
+          upgrade.level = upgradeLevel;
+        } else {
+          var localUpgrade = {itemId: uvg.itemId, level: upgradeLevel};
+          this.mLocalUpgrades[vg.itemId] = localUpgrade;
+        }
+      }
+    },
+    refreshOnGoodEquipped: function refreshOnGoodEquipped(equippable) {
+      this.mLocalEquippedGoods.push(equippable.itemId);
+    },
+    refreshOnGoodUnEquipped: function (equippable) {
+      _.pull(this.mLocalEquippedGoods, equippable.itemId);
+    },
+    refreshOnCurrencyBalanceChanged: function refreshOnCurrencyBalanceChanged(virtualCurrency, balance, amountAdded) {
+      this.updateLocalBalance(virtualCurrency.itemId, balance);
+    },
+    refreshOnGoodBalanceChanged: function refreshOnGoodBalanceChanged(good, balance, amountAdded) {
+      this.updateLocalBalance(good.itemId, balance);
+    },
+    updateLocalBalance: function updateLocalBalance(itemId, balance) {
+      this.mLocalItemBalances[itemId] = balance;
     }
   });
 
-  Soomla.storeInventory = StoreInventory.create();
+  StoreInventory.createShared = function() {
+    var ret = StoreInventory.create();
+    if (ret.init()) {
+      return ret;
+    } else {
+      return null;
+    }
+  };
+
+  Soomla.storeInventory = StoreInventory.createShared();
 
   function SoomlaException(code, message) {
     this.name = "SoomlaException";
@@ -3142,14 +3997,19 @@ Soomla = new function () {
   var callNative = function (params, clean) {
     var jsonString = null;
 
-    if (typeof(clean) === "undefined") {
-      jsonString = Soomla.CCSoomlaNdkBridge.callNative(JSON.stringify(params));
-    }
-    else {
-      jsonString = Soomla.CCSoomlaNdkBridge.callNative(JSON.stringify(params, removeNulls));
-    }
+    var result;
 
-    var result = JSON.parse(jsonString);
+    if (platform.isNativeSupported()) {
+      if (typeof(clean) === 'undefined') {
+        jsonString = Soomla.CCSoomlaNdkBridge.callNative(JSON.stringify(params));
+      }
+      else {
+        jsonString = Soomla.CCSoomlaNdkBridge.callNative(JSON.stringify(params, removeNulls));
+      }
+      result = JSON.parse(jsonString);
+    } else {
+      result = {success: true, 'return': {}};
+    }
 
     if (!result.success) {
       throw new SoomlaException(result.code, result.info);
@@ -3177,6 +4037,10 @@ Soomla = new function () {
 
   var dumpError = Soomla.dumpError = function (e) {
     return e + " : " + JSON.stringify(e);
+  };
+
+  var dump = Soomla.dump = function (obj) {
+    return 'dump : ' + JSON.stringify(obj);
   };
 
   return Soomla
