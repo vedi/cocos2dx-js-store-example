@@ -9,10 +9,8 @@ cc.BuilderReader.registerController('StoreAScene', {
   _mListRows: [],
   _mListItems: [],
   mCacheListItems: [],
-  eventHandler: null,
 
   onDidLoadFromCCB: function () {
-    this.eventHandler = this.createEventHandler();
     applyScaleForNode(this.rootNode);
     fill(this.mBackgroundNode);
 //    putToCenterMiddleOf(this.mMainNode, this.mBackgroundNode);
@@ -37,7 +35,11 @@ cc.BuilderReader.registerController('StoreAScene', {
     var _this = this;
     var superOnEnter = this.rootNode.onEnter;
     this.rootNode.onEnter = function () {
-      Soomla.addEventHandler(_this.eventHandler);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_CURRENCY_BALANCE_CHANGED, _this.onCurrencyBalanceChanged, _this);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_BALANCE_CHANGED, _this.updateGoodBalance, _this);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_EQUIPPED, _this.onGoodEquipped, _this);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_UNEQUIPPED, _this.onGoodUnEquipped, _this);
+      Soomla.on(Soomla.Models.StoreConsts.EVENT_GOOD_UPGRADE, _this.onGoodUpgrade, _this);
       _this.initData();
       console.log('onEnter');
       superOnEnter.call(_this.rootNode);
@@ -45,7 +47,7 @@ cc.BuilderReader.registerController('StoreAScene', {
     var superOnExit = this.rootNode.onExit;
     this.rootNode.onExit = function () {
       console.log('onExit');
-      Soomla.removeEventHandler(this.controller.eventHandler);
+      Soomla.removeEventHandlersWithTarget(_this)
       superOnExit.call(_this.rootNode);
     };
 
@@ -204,7 +206,18 @@ cc.BuilderReader.registerController('StoreAScene', {
     }
   },
 
+  onCurrencyBalanceChanged: function (virtualCurrency, balance, amountAdded) {
+    Soomla.logDebug("CurrencyBalanceChanged: " + balance);
+    this.updateCurrencyBalance(balance);
+  },
+
+  onGoodBalanceChanged: function (virtualGood, balance, amountAdded) {
+    Soomla.logDebug("GoodBalanceChanged");
+    this.updateGoodBalance(virtualGood, balance);
+  },
+
   onGoodEquipped: function(virtualGood) {
+    Soomla.logDebug("GoodEquipped");
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
       if (virtualGood.itemId == itemId) {
@@ -215,6 +228,7 @@ cc.BuilderReader.registerController('StoreAScene', {
   },
 
   onGoodUnEquipped: function(virtualGood) {
+    Soomla.logDebug("GoodUnEquipped");
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
       if (virtualGood.itemId == itemId) {
@@ -225,6 +239,7 @@ cc.BuilderReader.registerController('StoreAScene', {
   },
 
   onGoodUpgrade: function(virtualGood) {
+    Soomla.logDebug("GoodUpgrade");
     for (var i = 0; i < this.NUMBER_OF_ROWS; i++) {
       var itemId = this.itemIdFromTag(i);
       if (virtualGood.itemId == itemId) {
@@ -268,32 +283,6 @@ cc.BuilderReader.registerController('StoreAScene', {
       equipped = false;
     }
     pWidget.setEquiped(equipped);
-  },
-
-  createEventHandler: function () {
-    var that = this;
-    return {
-      onCurrencyBalanceChanged: function (virtualCurrency, balance, amountAdded) {
-        Soomla.logDebug("CurrencyBalanceChanged: " + balance);
-        that.updateCurrencyBalance(balance);
-      },
-      onGoodBalanceChanged: function (virtualGood, balance, amountAdded) {
-        Soomla.logDebug("GoodBalanceChanged");
-        that.updateGoodBalance(virtualGood, balance);
-      },
-      onGoodEquipped: function (equippableVG) {
-        Soomla.logDebug("GoodEquipped");
-        that.onGoodEquipped(equippableVG);
-      },
-      onGoodUnEquipped: function (equippableVG) {
-        Soomla.logDebug("GoodUnEquipped");
-        that.onGoodUnEquipped(equippableVG);
-      },
-      onGoodUpgrade: function (virtualGood, upgradeVG) {
-        Soomla.logDebug("GoodUpgrade");
-        that.onGoodUpgrade(virtualGood);
-      }
-    };
   }
 
 });

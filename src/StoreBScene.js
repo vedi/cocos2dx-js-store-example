@@ -9,7 +9,6 @@ cc.BuilderReader.registerController('StoreBScene', {
   _mPrices: [],
 
   onDidLoadFromCCB: function () {
-    this.eventHandler = this.createEventHandler();
     applyScaleForNode(this.rootNode);
     fill(this.mBackgroundNode);
     shiftToTop(this.mTopNode);
@@ -41,13 +40,13 @@ cc.BuilderReader.registerController('StoreBScene', {
     var _this = this;
     var superOnEnter = this.rootNode.onEnter;
     this.rootNode.onEnter = function () {
-      Soomla.addEventHandler(this.controller.eventHandler);
+      Soomla.addEventHandler(Soomla.Models.StoreConsts.EVENT_CURRENCY_BALANCE_CHANGED, _this.onCurrencyBalanceChanged, _this);
       superOnEnter.call(_this.rootNode);
     };
     var superOnExit = this.rootNode.onExit;
     this.rootNode.onExit = function () {
       superOnExit.call(_this.rootNode);
-      Soomla.removeEventHandler(this.controller.eventHandler);
+      Soomla.removeEventHandler(Soomla.Models.StoreConsts.EVENT_CURRENCY_BALANCE_CHANGED, _this.onCurrencyBalanceChanged);
     };
 
     cc.eventManager.addListener({
@@ -109,14 +108,10 @@ cc.BuilderReader.registerController('StoreBScene', {
   updateCurrencyBalance: function (pBalance) {
     this.mMuffinAmount.setString(pBalance);
   },
-  createEventHandler: function () {
-    var that = this;
-    return {
-      onCurrencyBalanceChanged: function (virtualCurrency, balance, amountAdded) {
-        Soomla.logDebug("CurrencyBalanceChanged: " + balance);
-        that.updateCurrencyBalance(balance);
-      }
-    };
+
+  onCurrencyBalanceChanged: function (virtualCurrency, balance, amountAdded) {
+    Soomla.logDebug("CurrencyBalanceChanged: " + balance);
+    this.updateCurrencyBalance(balance);
   }
 });
 
