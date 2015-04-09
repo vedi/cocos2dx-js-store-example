@@ -34,7 +34,6 @@
 		372B7B8D61F041E8E6E6EB84 /* utf.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B72FBD6C5C3965C39F592 /* utf.c */; };
 		372B7BCA5E77BF6E64CE34C8 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B7CD1DD91F4E86FDA3337 /* value.c */; };
 		372B7C056753C862A9D54B1A /* load.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B7F11AF112F1D1CB09C89 /* load.c */; };
-		372B7C97EB9488AE02D9BF33 /* underscore.js in Sources */ = {isa = PBXBuildFile; fileRef = 372B7B036CF35CD0578369D4 /* underscore.js */; };
 		372B7CA0992DBBDB0B4C257F /* strconv.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B7418286E15755C81329D /* strconv.c */; };
 		372B7D5A42F2809150029E80 /* utf.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B72FBD6C5C3965C39F592 /* utf.c */; };
 		372B7E079E79B85F87FF3C8A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 372B7D7862D5F8C0BD142FF2 /* README.md */; };
@@ -78,6 +77,7 @@
 		6FC545F8A683F57F1A68A837 /* libjscocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5324188A5C77E96F13F0C73 /* libjscocos2d iOS.a */; };
 		9D00C09F1AC963170058EFB1 /* libCocos2dxCoreFromSourcesWithJsb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00C0861AC9593E0058EFB1 /* libCocos2dxCoreFromSourcesWithJsb.a */; };
 		9D00C0A01AC963170058EFB1 /* libCocos2dxStoreFromSourcesWithJsb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00C0941AC95C290058EFB1 /* libCocos2dxStoreFromSourcesWithJsb.a */; };
+		9D7654091AD68DBC00EB1698 /* lodash.js in Resources */ = {isa = PBXBuildFile; fileRef = 9D7654081AD68DBC00EB1698 /* lodash.js */; };
 		9D7EF5C41AB982D6002D39F3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D7EF5C31AB982D6002D39F3 /* MediaPlayer.framework */; };
 		9D7EF5CA1AB982DE002D39F3 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D7EF5C91AB982DE002D39F3 /* GameController.framework */; };
 		9D831E6E1AB846D700A234A5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D831E6D1AB846D700A234A5 /* StoreKit.framework */; };
@@ -196,7 +196,6 @@
 		372B769E1880F53CD3EF2BC8 /* hashtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hashtable.c; sourceTree = "<group>"; };
 		372B79006FE8DF18D87A5904 /* ccb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = ccb; path = ../../../ccb; sourceTree = "<group>"; };
 		372B7A391EB09BB6690C2BC3 /* strbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strbuffer.h; sourceTree = "<group>"; };
-		372B7B036CF35CD0578369D4 /* underscore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = underscore.js; sourceTree = "<group>"; };
 		372B7B8847D032D6E6B8E887 /* jansson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jansson.h; sourceTree = "<group>"; };
 		372B7CD1DD91F4E86FDA3337 /* value.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = value.c; sourceTree = "<group>"; };
 		372B7D7862D5F8C0BD142FF2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = file.md; path = README.md; sourceTree = "<group>"; };
@@ -241,6 +240,7 @@
 		509D4AEA17EBB82600697056 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9D00C0791AC9593E0058EFB1 /* Cocos2dxCoreFromSources.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cocos2dxCoreFromSources.xcodeproj; path = "../Classes/soomla-cocos2dx-core/development/Cocos2dxCoreFromSources.xcodeproj"; sourceTree = "<group>"; };
 		9D00C0891AC95C290058EFB1 /* Cocos2dxStoreFromSources.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cocos2dxStoreFromSources.xcodeproj; path = "../Classes/cocos2dx-store/development/Cocos2dxStoreFromSources.xcodeproj"; sourceTree = "<group>"; };
+		9D7654081AD68DBC00EB1698 /* lodash.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lodash.js; sourceTree = "<group>"; };
 		9D7EF5C31AB982D6002D39F3 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		9D7EF5C91AB982DE002D39F3 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		9D831E6D1AB846D700A234A5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -404,8 +404,8 @@
 		372B7E7D68FE15F8B74AD34F /* js */ = {
 			isa = PBXGroup;
 			children = (
+				9D7654081AD68DBC00EB1698 /* lodash.js */,
 				372B7E62B3227FEE04845D2F /* soomla.js */,
-				372B7B036CF35CD0578369D4 /* underscore.js */,
 			);
 			name = js;
 			path = "../Classes/cocos2dx-store/js";
@@ -783,6 +783,7 @@
 				509D4AC517EBB2AB00697056 /* Icon-144.png in Resources */,
 				509D4AC317EBB2AB00697056 /* Icon-114.png in Resources */,
 				509D4ABD17EBB2AB00697056 /* Default-568h@2x.png in Resources */,
+				9D7654091AD68DBC00EB1698 /* lodash.js in Resources */,
 				509D4ABF17EBB2AB00697056 /* Default@2x.png in Resources */,
 				509D4AC217EBB2AB00697056 /* Icon-76.png in Resources */,
 				5091731B17ECDF7A00D62437 /* Icon-40.png in Resources */,
@@ -866,7 +867,6 @@
 				372B7ACD59A154E12EA7A3E6 /* strbuffer.c in Sources */,
 				372B764B9DE4C9E5777F42F7 /* pack_unpack.c in Sources */,
 				372B7F178DFA8396A4404999 /* soomla.js in Sources */,
-				372B7C97EB9488AE02D9BF33 /* underscore.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
