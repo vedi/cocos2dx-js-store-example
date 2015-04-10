@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-require("underscore.js");
+require("lodash.js");
 require("soomla.js");
 require("src/MuffinRushAssets.js");
 require("src/MainScreen.js");
@@ -33,37 +33,7 @@ require("src/StoreBScene.js");
 require("src/LevelIconWidget.js");
 
 function startApplication(director) {
-  try {
-    Soomla.CoreBridge.createShared("ExampleCustomSecret");
-
-    // We initialize CCStoreController before we open the store.
-    var assets = new MuffinRushAssets();
-    var storeParams = {
-      androidPublicKey: "ExamplePublicKey",
-      testPurchases: true
-    };
-
-    // This is the call to initialize CCStoreController
-    Soomla.SoomlaStore.createShared(assets, storeParams);
-
-    /*
-     * ** Set the amount of each currency to 10,000 if the **
-     * ** balance drops under 1,000                        **
-     *
-     * ** Of course, this is just for testing...           **
-     */
-    var currencies = Soomla.storeInfo.getVirtualCurrencies();
-    _.forEach(currencies, function (vc) {
-      var balance = Soomla.storeInventory.getItemBalance(vc.itemId);
-      if (balance < 1000) {
-        Soomla.storeInventory.giveItem(vc.itemId, 10000 - balance);
-      }
-    });
-
-  } catch (e) {
-    Soomla.logError(Soomla.dumpError(e));
-  }
-
+  initSoomla();
   // create a scene. it's an autorelease object
   //  var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScene");
   var mainScene = cc.BuilderReader.loadAsScene("ccb/MainScreen", null, null);
@@ -72,6 +42,47 @@ function startApplication(director) {
   // run
   director.runWithScene(mainScene);
 }
+
+function initSoomla() {
+  console.log('try to init soomla');
+  try {
+
+    // Turn on debug logging
+    Soomla.DEBUG = true;
+
+    Soomla.initialize("ExampleCustomSecret");
+
+    // We initialize SoomlaStore before we open the store.
+    var assets = new MuffinRushAssets();
+    var storeParams = {
+      androidPublicKey: "ExamplePublicKey",
+      testPurchases: true
+    };
+
+    // This is the call to initialize SoomlaStore
+    Soomla.soomlaStore.initialize(assets, storeParams);
+
+
+    /*
+     * ** Set the amount of each currency to 10,000 if the **
+     * ** balance drops under 1,000                        **
+     *
+     * ** Of course, this is just for testing...           **
+     */
+    var currencies = Soomla.storeInfo.getCurrencies();
+    _.forEach(currencies, function (vc) {
+      var balance = Soomla.storeInventory.getItemBalance(vc.itemId);
+      if (balance < 1000) {
+        Soomla.storeInventory.giveItem(vc.itemId, 10000 - balance);
+      }
+    });
+    console.log('soomla inited');
+  } catch (e) {
+    console.log('cannot init soomla: ' + e);
+    Soomla.logError(Soomla.dumpError(e));
+  }
+}
+
 
 function applyScaleForNode(node) {
   var winSize = cc.Director.getInstance().getWinSize();

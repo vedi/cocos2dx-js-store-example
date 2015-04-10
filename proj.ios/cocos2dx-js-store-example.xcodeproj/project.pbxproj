@@ -239,6 +239,7 @@
 		1AE4B40516D1FECD003C6D1C /* src in Resources */ = {isa = PBXBuildFile; fileRef = 1AE4B40216D1FECD003C6D1C /* src */; };
 		372B72492DD4EA0CEFFB9593 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B729D39E69F6BCCA8B1B8 /* error.c */; };
 		372B72EBEC578379B2E535C7 /* dump.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B7CF4E91806BFFF65C602 /* dump.c */; };
+		372B72F41B62EE220B526FB8 /* lodash.js in Sources */ = {isa = PBXBuildFile; fileRef = 372B78AB550771F2D624976B /* lodash.js */; };
 		372B7406DDF981A3C495ADAE /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B7A21C0ACF58B753D130D /* value.c */; };
 		372B793193E0133612ACAEA6 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 372B737512B1498458D59072 /* memory.c */; };
 		372B7A2EF0DD80427CAB07AD /* ccb in Resources */ = {isa = PBXBuildFile; fileRef = 372B764506767CD7436C422F /* ccb */; };
@@ -255,6 +256,7 @@
 		3EC20B8618331D7400F2C4D6 /* jsb_cocos2d_studio.js in Resources */ = {isa = PBXBuildFile; fileRef = 3EC20B7C18331CA200F2C4D6 /* jsb_cocos2d_studio.js */; };
 		46513EB8187C034200B5ABE1 /* cocos2d-jsb.js in Sources */ = {isa = PBXBuildFile; fileRef = 46513EB7187C034200B5ABE1 /* cocos2d-jsb.js */; };
 		46513EB9187C03D300B5ABE1 /* cocos2d-jsb.js in Resources */ = {isa = PBXBuildFile; fileRef = 46513EB7187C034200B5ABE1 /* cocos2d-jsb.js */; };
+		9D06AAE31AD68F6400E82F9C /* lodash.js in Resources */ = {isa = PBXBuildFile; fileRef = 372B78AB550771F2D624976B /* lodash.js */; };
 		9D52643A19DBE02F00BDA0F5 /* libCocos2dXCoreWithJsb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D52643719DBDFF800BDA0F5 /* libCocos2dXCoreWithJsb.a */; };
 		9D52648819DBE08400BDA0F5 /* libCocos2dXStoreWithJsb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D52648719DBE07E00BDA0F5 /* libCocos2dXStoreWithJsb.a */; };
 		9DE3E33A19D93A0000D1D38E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DE3E33919D93A0000D1D38E /* Security.framework */; };
@@ -278,7 +280,6 @@
 		D454520C156E22BD00887EB5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D454520B156E22BD00887EB5 /* libz.dylib */; };
 		D4545227156E28EF00887EB5 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4545215156E28EF00887EB5 /* AppDelegate.cpp */; };
 		F83C74151A2E09BD001E23BC /* soomla.js in Resources */ = {isa = PBXBuildFile; fileRef = F83C74091A2E09BD001E23BC /* soomla.js */; };
-		F83C74171A2E09BD001E23BC /* underscore.js in Resources */ = {isa = PBXBuildFile; fileRef = F83C740B1A2E09BD001E23BC /* underscore.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -826,6 +827,7 @@
 		372B77EA6929E436D476F8E7 /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hashtable.h; sourceTree = "<group>"; };
 		372B787BC1AC182CE9736C8F /* strbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strbuffer.c; sourceTree = "<group>"; };
 		372B787DE0F0CB7D59E787B4 /* utf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf.h; sourceTree = "<group>"; };
+		372B78AB550771F2D624976B /* lodash.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lodash.js; sourceTree = "<group>"; };
 		372B799FA9E355D3A8F30C27 /* jansson_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jansson_private.h; sourceTree = "<group>"; };
 		372B7A21C0ACF58B753D130D /* value.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = value.c; sourceTree = "<group>"; };
 		372B7B4AD0A4DA24740DB7AE /* jansson_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jansson_config.h; sourceTree = "<group>"; };
@@ -867,7 +869,6 @@
 		D4545215156E28EF00887EB5 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		D4545216156E28EF00887EB5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F83C74091A2E09BD001E23BC /* soomla.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = soomla.js; sourceTree = "<group>"; };
-		F83C740B1A2E09BD001E23BC /* underscore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = underscore.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2009,7 +2010,7 @@
 			isa = PBXGroup;
 			children = (
 				F83C74091A2E09BD001E23BC /* soomla.js */,
-				F83C740B1A2E09BD001E23BC /* underscore.js */,
+				372B78AB550771F2D624976B /* lodash.js */,
 			);
 			name = js;
 			path = "../../../extensions/cocos2dx-store/js";
@@ -2138,6 +2139,7 @@
 				1A5E740017F0870800B9ACAE /* jsb_deprecated.js in Resources */,
 				1AA51AEB16F71C3D000FDF05 /* jsb_chipmunk_constants.js in Resources */,
 				1AA51AEC16F71C3D000FDF05 /* jsb_cocos2d_constants.js in Resources */,
+				9D06AAE31AD68F6400E82F9C /* lodash.js in Resources */,
 				F83C74151A2E09BD001E23BC /* soomla.js in Resources */,
 				1AA51AED16F71C3D000FDF05 /* jsb_opengl_constants.js in Resources */,
 				1A4B645416EE24A80025FE93 /* jsb_cocos2d_extension.js in Resources */,
@@ -2153,7 +2155,6 @@
 				D446FDA316102D7D000ADA7B /* Default.png in Resources */,
 				D446FDA516102D82000ADA7B /* Default@2x.png in Resources */,
 				D446FDA716102D86000ADA7B /* Default-568h@2x.png in Resources */,
-				F83C74171A2E09BD001E23BC /* underscore.js in Resources */,
 				15A3D3231682F0A0002FB0C5 /* README in Resources */,
 				15A3D38D1682F0B6002FB0C5 /* CMakeLists.txt in Resources */,
 				1AE4B40416D1FECD003C6D1C /* res in Resources */,
@@ -2397,6 +2398,7 @@
 				372B7CF1EFC2F7283C76400F /* hashtable.c in Sources */,
 				372B7B22BE0E2E7BEF8D00A5 /* strbuffer.c in Sources */,
 				372B7AD4854D7302F5B3D3AF /* pack_unpack.c in Sources */,
+				372B72F41B62EE220B526FB8 /* lodash.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
