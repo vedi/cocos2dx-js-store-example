@@ -26,6 +26,8 @@ This project contains examples for implementing all of SOOMLA's interfaces and u
 
 Take a look around, and get a feel for all you can do with cocos2dx-store.
 
+> Please, get sure you selected `Android ADB Mode` and set up path to just created runtime (`runtime/android/cocos2dxJsStoreExample-debug.apk`) in your "Debug Configuration".
+
 #### Build instructions for iOS
 
 1. In order to proceed we need to know, where your cocos2d-x is. Please, create a symlink with `cocos2d-x` at the path `frameworks/runtime-src` of the project, which looks at `cocos2d-x`. It can be something like that:
